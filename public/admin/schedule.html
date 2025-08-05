@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Employee Break Tracker</title>
+    <link rel="stylesheet" href="../css/schedule.css" />
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="/dashboard">RECORD</a></li>
+            <li class="dropdown">
+                <a href="#" class="active">USER ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/users">Users</a></li>
+                    <li><a href="/schedule">Schedule</a></li>
+                </ul>
+            </li>
+            <li><a href="/archive">ARCHIVE</a></li>
+        </ul>
+        <div class="logout">
+            <a href="/index">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="record">
+        <div class="header-actions">
+            <h2>Break-In / Break-Out Schedules</h2>
+            <div id="date"></div>
+
+            <div class="header-row">
+                <input type="text" id="search" placeholder="Search...">
+            </div>
+        </div>
+        <table id="breakTable">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Campaign</th>
+                    <th>15 Minutes Break From - To</th>
+                    <th>One(1) Hour Break From - To</th>
+                    <th>10 Minutes Break From - To</th>
+                    <th>Over Break</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Break Time Modal -->
+        <div id="breakTimeModal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <h2>Set Break Times</h2>
+                <div id="messageBox4"></div>
+                <input type="hidden" id="UserId" />
+                <!-- First 15-Min Break -->
+                <label>First 15-Min Break</label><br />
+                <label>From:</label>
+                <input type="time" id="FffBreak" name="FffBreak" />
+                <label>To:</label>
+                <input type="time" id="FftBreak" name="FftBreak" /><br />
+
+                <!-- 1-Hour Break -->
+                <label>1-Hour Break</label><br />
+                <label>From:</label>
+                <input type="time" id="FoneHour" name="FoneHour" />
+                <label>To:</label>
+                <input type="time" id="ToneHour" name="ToneHour" /><br />
+
+                <!-- Second 15-Min Break -->
+                <label>Second 15-Min Break</label><br />
+                <label>From:</label>
+                <input type="time" id="SffBreak" name="SffBreak" />
+                <label>To:</label>
+                <input type="time" id="SftBreak" name="SftBreak" /><br /><br />
+
+                <button type="button" onclick="UpdateUser()">Update</button>
+                <button type="button" id="cancelEdit">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="../javascript/config.js"></script>
+    <script src="../javascript/schedule.js"></script>
+</body>
+
+</html>

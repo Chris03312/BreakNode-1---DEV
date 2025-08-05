@@ -1,0 +1,277 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+    margin-left: 200px;
+    padding: 30px;
+    background-color: #f0f2f5;
+    width: calc(100% - 200px);
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+    /* Important: ensures left & right same height */
+}
+
+
+
+.left-container,
+.right-container {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.1);
+}
+
+.left-container {
+    flex: 1;
+    border: 2px solid #007bff;
+    margin-top: 60px;
+}
+
+.right-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.left-container h3,
+.right-container h3 {
+    margin-top: 0;
+    color: #007bff;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.left-container form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.left-container form input,
+.left-container form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.left-container form button,
+.modal-content button,
+.button-group button,
+button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: white;
+}
+
+.left-container form button,
+.modal-content button {
+    background-color: #007bff;
+}
+
+.left-container form button:hover,
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+#breakOutBtn {
+    background-color: #28a745;
+}
+
+#breakInBtn {
+    background-color: #dc3545;
+}
+
+/* === TABLE === */
+.table-wrapper {
+    flex-grow: 1;
+    /* Grow to fill vertical space */
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+
+
+.table-wrapper::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 123, 255, 0.4);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    table-layout: fixed;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    z-index: 10;
+}
+
+tbody {
+    display: block;
+    overflow-y: auto;
+    height: 670px;
+    /* Make tbody fill the space */
+}
+
+
+th,
+td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s;
+}
+
+.late {
+    color: red;
+}
+
+.early {
+    color: green;
+}
+
+/* === ACTIONS === */
+.actionButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.editBtn:hover {
+    background-color: #0056b3;
+}
+
+.deleteBtn:hover {
+    background-color: #c82333;
+}
+
+/* === SEARCH === */
+#search {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* === MODAL === */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-content {
+    background-color: #fff;
+    width: 400px;
+    max-width: 90%;
+    margin: 10% auto;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: left;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="password"],
+.modal-content select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-content .close:hover {
+    color: #333;
+}
+
+#editModal .modal-content {
+    margin-top: 50px;
+}

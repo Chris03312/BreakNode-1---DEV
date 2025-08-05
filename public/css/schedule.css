@@ -1,0 +1,336 @@
+   * {
+       box-sizing: border-box;
+   }
+
+   body {
+       margin: 0;
+       font-family: Arial, sans-serif;
+       display: flex;
+   }
+
+   .header-actions {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 10px;
+   }
+
+   .button-group button {
+       padding: 8px 16px;
+       margin-left: 10px;
+       border: none;
+       color: white;
+       font-weight: bold;
+       cursor: pointer;
+       border-radius: 4px;
+   }
+
+   #breakOutBtn {
+       background-color: #28a745;
+       /* Green - going on break */
+       color: white;
+   }
+
+   #breakInBtn {
+       background-color: #dc3545;
+       /* Red - returning to work */
+       color: white;
+   }
+
+   /* Sidebar container */
+   .sidebar {
+       width: 200px;
+       background-color: #2f3e46;
+       color: white;
+       height: 100vh;
+       padding-top: 20px;
+       position: fixed;
+       font-family: 'Segoe UI', sans-serif;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       /* Push logout to bottom */
+   }
+
+   /* Sidebar content (top section) */
+   .sidebar-content {
+       flex: 1;
+   }
+
+   /* Dashboard title */
+   .sidebar h2 {
+       text-align: center;
+       margin-bottom: 30px;
+       font-size: 22px;
+       color: #ffffff;
+   }
+
+   /* List reset */
+   .sidebar ul {
+       list-style-type: none;
+       padding: 0;
+       margin: 0;
+   }
+
+   /* List items */
+   .sidebar li {
+       padding: 0;
+   }
+
+   /* Styled links inside sidebar */
+   .sidebar li a,
+   .logout a {
+       display: block;
+       padding: 15px 20px;
+       color: white;
+       text-decoration: none;
+       font-weight: 500;
+       transition: background-color 0.2s ease-in-out;
+   }
+
+   /* Hover effect */
+   .sidebar li a:hover,
+   .logout a:hover {
+       background-color: #354f52;
+   }
+
+   /* Optional: Active state */
+   .sidebar li a.active {
+       background-color: #52796f;
+   }
+
+   /* Dropdown container */
+   .sidebar li.dropdown {
+       position: relative;
+   }
+
+   /* Hidden dropdown menu */
+   .sidebar li .dropdown-menu {
+       display: none;
+       flex-direction: column;
+       background-color: #3a4b50;
+       position: absolute;
+       top: 100%;
+       left: 0;
+       width: 100%;
+       z-index: 99;
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+   }
+
+   /* Dropdown links */
+   .sidebar li .dropdown-menu li a {
+       padding: 12px 20px;
+       background-color: #3a4b50;
+       font-size: 14px;
+       border-left: 3px solid transparent;
+   }
+
+   /* Show dropdown on hover */
+   .sidebar li.dropdown:hover .dropdown-menu {
+       display: flex;
+   }
+
+   /* Hover and active inside dropdown */
+   .sidebar li .dropdown-menu li a:hover {
+       background-color: #446064;
+       border-left: 3px solid #84a98c;
+   }
+
+
+   /* Main content area */
+   .main-content {
+       margin-left: 200px;
+       padding: 20px;
+       width: calc(100% - 200px);
+   }
+
+   table {
+       width: 100%;
+       border-collapse: separate;
+       border-spacing: 0;
+       margin-top: 15px;
+       background-color: #ffffff;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+       border-radius: 12px;
+       overflow: hidden;
+   }
+
+   thead th {
+       position: sticky;
+       top: 0;
+       background-color: #007bff;
+       color: white;
+       font-weight: 600;
+       text-transform: uppercase;
+       font-size: 14px;
+       z-index: 10;
+       /* Make sure it stays above table rows */
+   }
+
+   tbody {
+       display: block;
+       max-height: 750px;
+       /* adjust height as needed */
+       overflow-y: auto;
+   }
+
+   tbody tr {
+       display: table;
+       width: 100%;
+       table-layout: fixed;
+   }
+
+   thead,
+   tbody tr {
+       display: table;
+       width: 100%;
+       table-layout: fixed;
+   }
+
+   th,
+   td {
+       border: 1px solid #e0e0e0;
+       padding: 12px;
+       text-align: center;
+   }
+
+   /* Your existing row styling */
+   tr:nth-child(even) {
+       background-color: #f9f9f9;
+   }
+
+   tr:hover {
+       background-color: #f1f1f1;
+       transition: background-color 0.3s;
+   }
+
+   .late {
+       color: red;
+   }
+
+   .early {
+       color: green;
+   }
+
+   .modal {
+       display: none;
+       position: absolute;
+       z-index: 999;
+       left: 0;
+       top: 0;
+       width: 100%;
+       height: 100%;
+       background-color: rgba(0, 0, 0, 0.5);
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   }
+
+   .modal-content {
+       background-color: #fff;
+       width: 400px;
+       max-width: 90%;
+       margin: 2% auto;
+       padding: 10px 20px;
+       border-radius: 12px;
+       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+       position: relative;
+       text-align: left;
+   }
+
+   .modal-content h3 {
+       margin-top: 0;
+       font-size: 10px;
+       color: #333;
+   }
+
+   .modal-content label {
+       display: flex;
+       font-weight: 600;
+       font-size: 14px;
+       color: #555;
+   }
+
+   .modal-content input[type="time"] {
+       width: 100%;
+       padding: 5px;
+       border: 1px solid #ccc;
+       border-radius: 6px;
+       font-size: 15px;
+       box-sizing: border-box;
+   }
+
+   .modal-content input[type="time"]:hover {
+       cursor: pointer;
+   }
+
+   .modal-content button {
+       background-color: #007bff;
+       color: white;
+       border: none;
+       padding: 10px 16px;
+       font-size: 14px;
+       border-radius: 6px;
+       cursor: pointer;
+       transition: background 0.2s;
+   }
+
+   .modal-content button:hover {
+       background-color: #0056b3;
+   }
+
+   .modal-content .close {
+       position: absolute;
+       top: 12px;
+       right: 16px;
+       font-size: 22px;
+       font-weight: bold;
+       cursor: pointer;
+       color: #999;
+   }
+
+   .modal-content .close:hover {
+       color: #333;
+   }
+
+   #editModal .modal-content {
+       margin-top: 0px;
+       /* Try 20px or 0 if you want higher */
+   }
+
+   a.active {
+       font-weight: bold;
+       color: #007bff;
+       /* or any color for active state */
+   }
+
+   #search {
+       padding: 6px 10px;
+       font-size: 14px;
+       border: 1px solid #ccc;
+       border-radius: 4px;
+   }
+
+   .actionButtons {
+       display: flex;
+       gap: 8px;
+       justify-content: center;
+       align-items: center;
+   }
+
+   .actionForm {
+       margin: 0;
+   }
+
+   button {
+       padding: 8px 16px;
+       border: none;
+       border-radius: 5px;
+       font-size: 14px;
+       cursor: pointer;
+       font-weight: bold;
+       transition: all 0.3s ease-in-out;
+   }
+
+   .updateBtn:hover {
+       background-color: #0056b3;
+       /* Darker blue when hovered */
+   }

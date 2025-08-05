@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="../css/users.css" />
+  <link rel="stylesheet" href="../css/sidebar.css" />
+</head>
+
+<body>
+  <div class="main-wrapper">
+    <!-- Sidebar (already styled externally) -->
+    <div class="sidebar">
+      <h2>Dashboard</h2>
+      <ul>
+        <li><a href="/dashboard">RECORD</a></li>
+        <li class="dropdown">
+          <a href="#" class="active">USER ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="/users">Users</a></li>
+            <li><a href="/schedule">Schedule</a></li>
+          </ul>
+        </li>
+        <li><a href="/schedule">ARCHIVE</a></li>
+      </ul>
+      <div class="logout">
+        <a href="/index">Logout</a>
+      </div>
+    </div>
+
+    <!-- Main Content (2 Containers) -->
+    <div class="main-content">
+      <!-- Left Container: Input Form -->
+      <div class="left-container">
+        <h3>Insert User Info</h3>
+        <div id="messageBox"></div>
+        <form id="inserUserData">
+          <label for="userId">User ID</label>
+          <input type="text" id="userId" name="userId" />
+
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" />
+
+          <label for="campaign">Campaign</label>
+          <select id="campaign" name="campaign">
+            <option value="">-- Select Campaign --</option>
+            <option value="MEC 1 - 30">MEC 1 - 30</option>
+            <option value="MEC 61 AND UP">MEC 61 AND UP</option>
+            <option value="MEC 121 AND UP">MEC 121 AND UP</option>
+            <option value="MPL 1 - 30">MPL 1 - 30</option>
+            <option value="MPL 91 AND UP">MPL 91 AND UP</option>
+            <option value="MPL COHORT">MPL COHORT</option>
+            <option value="Sms Blasters">Sms Blasters</option>
+            <option value="QA Recordings">QA Recordings</option>
+          </select>
+
+          <label for="campaign">Password</label>
+          <input type="password" id="password" name="password" />
+
+          <button type="button" id="toggleBreaks">+ Break Times</button>
+
+          <!-- Hidden initially -->
+          <div id="breakSection" style="display: none; margin-top: 1em;">
+            <hr />
+            <label>15-Min Break</label>
+            <label>From:</label>
+            <input type="time" id="FffBreak" name="FffBreak" />
+            <label>To:</label>
+            <input type="time" id="FftBreak" name="FftBreak" />
+
+            <!-- 1-Hour Break -->
+            <label>1-Hour Break</label>
+            <label>From:</label>
+            <input type="time" id="FoneHour" name="FoneHour" />
+            <label>To:</label>
+            <input type="time" id="ToneHour" name="ToneHour" />
+
+            <!-- Second 15-Min Break -->
+            <label>10-Min Break</label>
+            <label>From:</label>
+            <input type="time" id="SffBreak" name="SffBreak" />
+            <label>To:</label>
+            <input type="time" id="SftBreak" name="SftBreak" />
+          </div>
+
+          <button type="button" onclick="InsertUser()">Submit</button>
+        </form>
+      </div>
+
+      <div class="right-container">
+        <div class="header-row">
+          <h3>User Records</h3>
+          <input type="text" id="search" placeholder="Search...">
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Name</th>
+              <th>Campaign</th>
+              <th>Over Break</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </table>
+
+        <div class="table-wrapper">
+          <table>
+            <tbody>
+              <!-- Rows will be injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <div id="messageBox4"></div>
+          <form id="editForm">
+            <label for="userIdIn">USER ID</label>
+            <input type="text" id="idInput" readonly />
+
+            <label for="userIdIn">Name</label>
+            <input type="text" id="nameInput" />
+
+            <label for="userIdIn">Campaign</label>
+            <select id="campaignInput">
+              <option value="">-- Select Campaign --</option>
+              <option value="MEC 1 - 30">MEC 1 - 30</option>
+              <option value="MEC 61 AND UP">MEC 61 and UP</option>
+              <option value="MEC 121 AND UP">MEC 121 and UP</option>
+              <option value="MPL 1 - 30">MPL 1 - 30</option>
+              <option value="MPL 91 AND UP">MPL 91 and UP</option>
+              <option value="MPL COHORT">MPL COHORT</option>
+            </select>
+
+            <label for="userIdIn">Password</label>
+            <input type="password" id="passwordInput" />
+            <label><input type="checkbox" id="showPassCheck" /> Show Password</label>
+
+            <button type="button" onclick="UpdateUser()">Confirm</button>
+            <button type="button" onclick="closeEditModal()">Cancel</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal for delete confirmation -->
+      <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div id="messageBox3"></div> <!-- Message Box to display success/failure message -->
+          <form id="deleteForm">
+            <p>Are you sure you want to Delete this user?</p>
+            <input type="hidden" id="UserId" />
+            <button type="button" onclick="deleteUsers()">Confirm</button>
+            <button type="button" onclick="closeDeleteModal()">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../javascript/config.js"></script>
+  <script src="../javascript/users.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Employee Break Tracker</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="/dashboard" class="active">RECORD</a></li>
+            <li class="dropdown">
+                <a href="#">USER ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/users">Users</a></li>
+                    <li><a href="/schedule">Schedule</a></li>
+                </ul>
+            </li>
+            <li><a href="/archive">ARCHIVE</a></li>
+        </ul>
+        <div class="logout">
+            <a href="/index">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="record">
+        <div class="header-actions">
+            <h2>Break-In / Break-Out Records</h2>
+            <div id="date"></div>
+            <div class="button-group">
+                <button id="breakOutBtn">BREAK OUT</button>
+                <button id="breakInBtn">BREAK IN</button>
+            </div>
+        </div>
+        <table id="breakTable">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Campaign</th>
+                    <th>break Type</th>
+                    <th>Break Out</th>
+                    <th>Break In</th>
+                    <th>Time Difference</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BREAK OUT Modal -->
+    <div id="breakOutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeOutBtn">&times;</span>
+            <h3>BREAK OUT</h3>
+            <div id="messagBox"></div>
+
+            <form id="breakoutForm">
+                <label for="userIdOut">USER ID</label>
+                <input type="text" name="UserIdOut" id="userIdOut" />
+
+                <label for="breakTypeOut">BREAK TYPE</label>
+                <select name="BreakTypeOut" id="breakTypeOut" required>
+                    <option value="" disabled selected>Select break type</option>
+                    <option value="15 Minutes Break">15 Minutes Break</option>
+                    <option value="1 Hour Break">1-Hour Break</option>
+                    <option value="10 Minutes Break">10 Minutes Break</option>
+                </select>
+
+                <button type="button" onclick="BreakOut()">Confirm</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- BREAK IN Modal -->
+    <div id="breakInModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeInBtn">&times;</span>
+            <h3>BREAK IN</h3>
+            <div id="messagBox2"></div>
+
+            <form id="breakInForm">
+                <label for="userIdIn">USER ID</label>
+                <input type="text" name="userId" id="userIdIn" />
+
+                <label for="breakTypeIn">BREAK TYPE</label>
+                <select name="breakType" id="breakTypeIn">
+                    <option value="" disabled selected>Select break type</option>
+                    <option value="15 Minutes Break">15 Minutes Break</option>
+                    <option value="1 Hour Break">1-Hour Break</option>
+                    <option value="10 Minutes Break">10 Minutes Break</option>
+                </select>
+
+                <label for="">Reason</label>
+                <select name="reasonForlateBreak" id="reasonForlateBreak">
+                    <option value="" disabled selected>Select Reason </option>
+                    <option value="Still In Call">Still In Call</option>
+                    <option value="System Issue">System Issue</option>
+                    <option value="Break Adjustment">Break Adjustment</option>
+                </select>
+
+                <button type="button" onclick="BreakIn()">Confirm</button>
+            </form>
+        </div>
+    </div>
+    <script src="../javascript/config.js"></script>
+    <script src="../javascript/dashboard.js"></script>
+</body>
+
+</html>

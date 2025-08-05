@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archive Dashboard</title>
+  <link rel="stylesheet" href="../css/sidebar.css" />
+  <link rel="stylesheet" href="../css/archive.css" />
+
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <ul>
+      <li><a href="/dashboard">RECORD</a></li>
+      <li class="dropdown">
+        <a href="#">USER ▾</a>
+        <ul class="dropdown-menu">
+          <li><a href="/users">Users</a></li>
+          <li><a href="/schedule">Schedule</a></li>
+        </ul>
+      </li>
+      <li><a href="/archive" class="active">ARCHIVE</a></li>
+    </ul>
+    <div class="logout">
+      <a href="/login">Logout</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>📂 Archived Dates</h2>
+    <div id="archiveList">
+      <!-- Archive folders will be injected here via JavaScript -->
+    </div>
+  </div>
+
+  <!-- Modal Wrapper -->
+  <!-- Archive Records Modal -->
+  <div id="archiveModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeArchiveModal()"
+        style="float:right; font-size:20px; cursor:pointer;">&times;</span>
+      <h3 id="selectedDateTitle"></h3>
+      <table id="recordTable" class="table table-striped table-bordered">
+        <thead id="recordHead"></thead>
+        <tbody id="recordBody"></tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="../javascript/config.js"></script>
+  <script src="../javascript/archives.js"></script>
+</body>
+
+</html>

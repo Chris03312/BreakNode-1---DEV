@@ -1,0 +1,98 @@
+   /* Sidebar container */
+   .sidebar {
+       width: 200px;
+       background-color: #2f3e46;
+       color: white;
+       height: 100vh;
+       padding-top: 20px;
+       position: fixed;
+       font-family: 'Segoe UI', sans-serif;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       /* Push logout to bottom */
+   }
+
+   /* Sidebar content (top section) */
+   .sidebar-content {
+       flex: 1;
+   }
+
+   /* Dashboard title */
+   .sidebar h2 {
+       text-align: center;
+       margin-bottom: 30px;
+       font-size: 22px;
+       color: #ffffff;
+   }
+
+   /* List reset */
+   .sidebar ul {
+       list-style-type: none;
+       padding: 0;
+       margin: 0;
+   }
+
+   /* List items */
+   .sidebar li {
+       padding: 0;
+   }
+
+   /* Styled links inside sidebar */
+   .sidebar li a,
+   .logout a {
+       display: block;
+       padding: 15px 20px;
+       color: white;
+       text-decoration: none;
+       font-weight: 500;
+       transition: background-color 0.2s ease-in-out;
+   }
+
+   /* Hover effect */
+   .sidebar li a:hover,
+   .logout a:hover {
+       background-color: #354f52;
+   }
+
+   /* Optional: Active state */
+   .sidebar li a.active {
+       background-color: #52796f;
+   }
+
+   /* Dropdown container */
+   .sidebar li.dropdown {
+       position: relative;
+   }
+
+   /* Hidden dropdown menu */
+   .sidebar li .dropdown-menu {
+       display: none;
+       flex-direction: column;
+       background-color: #3a4b50;
+       position: absolute;
+       top: 100%;
+       left: 0;
+       width: 100%;
+       z-index: 99;
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+   }
+
+   /* Dropdown links */
+   .sidebar li .dropdown-menu li a {
+       padding: 12px 20px;
+       background-color: #3a4b50;
+       font-size: 14px;
+       border-left: 3px solid transparent;
+   }
+
+   /* Show dropdown on hover */
+   .sidebar li.dropdown:hover .dropdown-menu {
+       display: flex;
+   }
+
+   /* Hover and active inside dropdown */
+   .sidebar li .dropdown-menu li a:hover {
+       background-color: #446064;
+       border-left: 3px solid #84a98c;
+   }
