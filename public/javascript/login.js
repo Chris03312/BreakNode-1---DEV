@@ -141,7 +141,7 @@ async function adminLogin() {
 async function getSchedule() {
     try {
         // Fetch both datasets
-        const activeRes = await fetch(`http://${Config.HOST}:${Config.PORT}/User/remarks`, {
+        const activeRes = await fetch(`http://${Config.HOST}:${Config.PORT}/Break/remarks`, {
             method: 'GET'
         });
 
@@ -172,10 +172,11 @@ async function getSchedule() {
         const getStyle = (userId, breakType) => {
             const remark = activeRemarksMap.get(`${userId}-${breakType}`);
             switch (remark) {
-                case 'Active': return 'background-color: yellow; color: white;';
-                case 'Late': return 'background-color: orange; color: white;';
-                case 'Over Break': return 'background-color: red; color: white;';
-                case 'Early': return 'background-color: green; color: white;';
+                case 'Active': return 'background-color: yellow; color: black;';
+                case 'Late': return 'background-color: orange; color: black;';
+                case 'Over Break': return 'background-color: red; color: black;';
+                case 'Early': return 'background-color: green; color: black;';
+                case '': return '';
                 default: return '';
             }
         };

@@ -43,7 +43,7 @@ app.use('/Authentication', AutheticationRoutes);
 // app.use('/dashboard', DashboardRoutes);
 app.use('/Break', BreaksRoutes);
 app.use('/Archive', ArchivesRoutes);
-app.use('/Users', UsersRoutes);
+app.use('/User', UsersRoutes);
 app.use('/Agent', AgentBreaksRoutes);
 
 const Config = {

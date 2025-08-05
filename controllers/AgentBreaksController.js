@@ -76,9 +76,9 @@ const BreaksController = {
 
             // Determine allowed break duration in minutes
             let allowedMinutes = 60;
-            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 10;
-            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 15;
-            else if (BreakTypeIn === '1 hour Break') allowedMinutes = 60;
+            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
+            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 17;
+            else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
 
             // Determine remarks
             let remarks = '';

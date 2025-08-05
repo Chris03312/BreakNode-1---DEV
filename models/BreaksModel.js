@@ -68,8 +68,8 @@ const BreaksModel = {
         return await connection.all(sql, [UserIdIn, BreakTypeIn]);
     },
     RemarksAndTimeDifference: async (UserIdIn, BreakTypeIn, TimeDifference, Remarks, reason) => {
-        const sql = `UPDATE records SET timeDifference = ?, remarks = ? WHERE userId = ? AND breakType = ? AND reason = ? AND DATE(date) = DATE('now') ORDER BY id DESC LIMIT 1`;
-        return await connection.run(sql, [TimeDifference, Remarks, UserIdIn, BreakTypeIn, reason]);
+        const sql = `UPDATE records SET timeDifference = ?, remarks = ?, dispositions = ? WHERE userId = ? AND breakType = ? AND DATE(date) = DATE('now') ORDER BY id DESC LIMIT 1`;
+        return await connection.run(sql, [TimeDifference, Remarks, reason, UserIdIn, BreakTypeIn]);
     },
     IncrementOverBreak: async (UserIdIn) => {
         const sql = 'UPDATE users SET overBreak = overBreak + 1 WHERE id = ?';

@@ -80,16 +80,18 @@ const BreaksController = {
             const TimeDifferenceText = `${hours}h ${minutes}m`;
 
             let allowedMinutes = 60;
-            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 11;
-            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 16;
-            else if (BreakTypeIn === '1 hour Break') allowedMinutes = 61;
+            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
+            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 18;
+            else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
 
-            let remarks = '';
-            if (reason && reason.trim() !== '') {
+            let remarks = NULL;
+
+            if (reason && reason.trim() !== 'NU') {
                 remarks = 'Disposition';
             } else {
                 if (diffMin < allowedMinutes) {
                     remarks = 'Early';
+
                 } else if (diffMin <= allowedMinutes + 1) {
                     remarks = 'Late';
                 } else {
