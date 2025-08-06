@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const UsersController = require('../controllers/UsersController');
-const { UsersDataValidation } = require('../middlewares/UsersMiddleware');
+const UsersController = require('../../controllers/break/UsersController');
+const { UsersDataValidation } = require('../../middlewares/UsersMiddleware');
 
 router.get('/userDatas', UsersController.UsersData);
 router.post('/insertUser', UsersDataValidation, UsersController.InsertUser);

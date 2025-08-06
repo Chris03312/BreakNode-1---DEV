@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const ArchivesController = require('../controllers/ArchivesController');
+const ArchivesController = require('../../controllers/break/ArchivesController');
 // const AuthenticationMiddleware = require('../middlewares/AuthenticationMiddleware');
 
 router.get('/archiveDatas', ArchivesController.ArchivesData);

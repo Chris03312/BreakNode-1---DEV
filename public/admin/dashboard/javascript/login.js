@@ -190,7 +190,7 @@ async function getSchedule() {
                         <td>${user.id}</td>
                         <td>${user.name}</td>
                         <td style="${getStyle(user.id, '15 Minutes Break')}">${formatTimeRange(user.FffBreak, user.FftBreak)}</td>
-                        <td style="${getStyle(user.id, '1 hour Break')}">${formatTimeRange(user.FoneHour, user.ToneHour)}</td>
+                        <td style="${getStyle(user.id, '1 Hour Break')}">${formatTimeRange(user.FoneHour, user.ToneHour)}</td>
                         <td style="${getStyle(user.id, '10 Minutes Break')}">${formatTimeRange(user.SffBreak, user.SftBreak)}</td>
                         <td>${user.overBreak || 0} times</td>
                     `;
@@ -208,7 +208,7 @@ async function getSchedule() {
                         <td>${user.id}</td>
                         <td>${user.name}</td>
                         <td style="${getStyle(user.id, '15 Minutes Break')}">${formatTimeRange(user.FffBreak, user.FftBreak)}</td>
-                        <td style="${getStyle(user.id, '1 hour Break')}">${formatTimeRange(user.FoneHour, user.ToneHour)}</td>
+                        <td style="${getStyle(user.id, '1 Hour Break')}">${formatTimeRange(user.FoneHour, user.ToneHour)}</td>
                         <td style="${getStyle(user.id, '10 Minutes Break')}">${formatTimeRange(user.SffBreak, user.SftBreak)}</td>
                         <td>${user.overBreak || 0} times</td>
                     `;

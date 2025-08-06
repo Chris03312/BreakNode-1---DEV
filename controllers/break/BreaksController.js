@@ -1,49 +1,56 @@
-const BreaksModel = require('../models/BreaksModel');
+const BreaksModel = require('../../models/BreaksModel');
 
 const BreaksController = {
+    Records: async (req, res) => {
+        try {
+            const records = await BreaksModel.Records();
+            if (records && records.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    data: records
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during fetching User Records.'
+            });
+        }
+    },
+
     BreakOut: async (req, res) => {
         const { UserIdOut, BreakTypeOut } = req.body;
 
         try {
+
             const BreakOutDetails = await BreaksModel.BreakDetails(UserIdOut);
 
-            if (!BreakOutDetails || BreakOutDetails.length === 0) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'User not found.'
-                });
-            }
-
             const { name, campaign } = BreakOutDetails[0];
+
             const BreakOut = await BreaksModel.BreakOut(UserIdOut, name, campaign, BreakTypeOut);
 
-            if (!BreakOut || BreakOut.changes === 0) {
-                return res.status(500).json({
-                    success: false,
-                    message: 'Break Out not recorded. No rows affected.'
+            if (BreakOut && BreakOut.changes > 0) {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Break Out Successfully Recorded.'
                 });
             }
-
-            return res.status(200).json({
-                success: true,
-                message: 'Break Out Successfully Recorded.'
-            });
-
         } catch (error) {
-            console.error('BreakOut Error:', error);
-            return res.status(500).json({
+            console.error(error);
+            return res.status(400).json({
                 success: false,
-                message: 'Server error during Agent Break Out process.'
+                message: 'Server error during Break Out User Records.'
             });
         }
     },
 
     BreakIn: async (req, res) => {
-        const { UserIdIn, BreakTypeIn } = req.body;
+        const { UserIdIn, BreakTypeIn, reason } = req.body;
 
         try {
-            const BreakIn = await BreaksModel.BreakIn(UserIdIn, BreakTypeIn);
-            if (!BreakIn) {
+            const breakInResult = await BreaksModel.BreakIn(UserIdIn, BreakTypeIn);
+            if (!breakInResult) {
                 return res.status(400).json({ success: false, message: 'Failed to process Break IN' });
             }
 
@@ -57,7 +64,6 @@ const BreaksController = {
                 return res.status(400).json({ success: false, message: 'Incomplete break data' });
             }
 
-            // Parse HH:mm:ss into total minutes
             const [outH, outM, outS] = breakOut.split(':').map(Number);
             const [inH, inM, inS] = breakIn.split(':').map(Number);
 
@@ -69,28 +75,30 @@ const BreaksController = {
                 return res.status(400).json({ success: false, message: 'Break In time is earlier than Break Out time' });
             }
 
-            // Convert diffMin to 0h 0m format
             const hours = Math.floor(diffMin / 60);
             const minutes = Math.floor(diffMin % 60);
             const TimeDifferenceText = `${hours}h ${minutes}m`;
 
-            // Determine allowed break duration in minutes
             let allowedMinutes = 60;
             if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
-            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 17;
+            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 18;
             else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
 
-            // Determine remarks
-            let remarks = '';
-            if (diffMin < allowedMinutes) {
-                remarks = 'Early';
-            } else if (diffMin <= allowedMinutes + 1) {
-                remarks = 'Late';
+            let remarks = NULL;
+
+            if (reason && reason.trim() !== 'NU') {
+                remarks = 'Disposition';
             } else {
-                remarks = 'Over Break';
+                if (diffMin < allowedMinutes) {
+                    remarks = 'Early';
+                } else if (diffMin <= allowedMinutes + 1) {
+                    remarks = 'Late';
+                } else {
+                    remarks = 'Over Break';
+                }
             }
 
-            const remarksSaved = await BreaksModel.RemarksAndTimeDifference(UserIdIn, BreakTypeIn, TimeDifferenceText, remarks);
+            const remarksSaved = await BreaksModel.RemarksAndTimeDifference(UserIdIn, BreakTypeIn, TimeDifferenceText, remarks, reason);
             if (!remarksSaved) {
                 return res.status(400).json({ success: false, message: 'Failed to save remarks' });
             }
@@ -114,14 +122,38 @@ const BreaksController = {
 
             return res.status(200).json({
                 success: true,
-                message: 'Break In Successfully Recorded!'
+                message: 'Break In Successfully Recorded!',
+                status: remarks
             });
 
         } catch (error) {
             console.error(error);
-            return res.status(400).json({
+            return res.status(500).json({
                 success: false,
                 message: 'Server error during Break In User Records.'
+            });
+        }
+    },
+
+    ActiveBreaks: async (req, res) => {
+        try {
+            const active = await BreaksModel.CheckBreakActive();
+
+            if (active && active.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    break: active,
+                });
+            } else {
+                return res.status(200).json({
+                    success: false,
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(200).json({
+                success: false,
+                message: 'Server error during Active Break Color.'
             });
         }
     }

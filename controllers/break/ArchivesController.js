@@ -1,4 +1,4 @@
-const ArchivesModel = require('../models/ArchivesModel');
+const ArchivesModel = require('../../models/ArchivesModel');
 const path = require('path');
 const fs = require('fs');
 

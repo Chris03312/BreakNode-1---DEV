@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const BreaksController = require('../controllers/BreaksController');
+const BreaksController = require('../../controllers/break/BreaksController');
 
-const { BreaksInValidation, BreaksOutValidation } = require('../middlewares/BreaksMiddleware');
+const { BreaksInValidation, BreaksOutValidation } = require('../../middlewares/BreaksMiddleware');
 
 router.get('/records', BreaksController.Records);
 router.get('/remarks', BreaksController.ActiveBreaks);
