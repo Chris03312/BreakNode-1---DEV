@@ -1,6 +1,6 @@
 const AuthenticationController = {
-    Login: (req, res) => {
-        const user = req.user; // Assigned by middleware
+    AgentLogin: (req, res) => {
+        const user = req.user;
 
         if (!user) {
             return res.status(401).json({
@@ -12,7 +12,8 @@ const AuthenticationController = {
         return res.json({
             success: true,
             message: 'Login Successful',
-            redirect: '/break/dashboard'
+            redirect: '/agent/dashboard',
+            data: user
         });
     },
 

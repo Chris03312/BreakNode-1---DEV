@@ -1,4 +1,4 @@
-const BreaksModel = require('../models/BreaksModel');
+const BreaksModel = require('../../models/break/BreaksModel');
 
 async function AgentBreakOutScheduleValidation(req, res, next) {
     const { UserIdOut, BreakTypeOut, Password } = req.body;

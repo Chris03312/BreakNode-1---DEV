@@ -1,4 +1,4 @@
-const connection = require('../configurations/database');
+const connection = require('../../configurations/database');
 
 const BreaksModel = {
     // BREAKS MIDDLEWARE BREAK IN

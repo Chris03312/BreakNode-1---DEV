@@ -1,4 +1,4 @@
-const connection = require('../configurations/database');
+const connection = require('../../configurations/database');
 
 const UsersModel = {
     UsersData: async () => {
@@ -20,7 +20,7 @@ const UsersModel = {
     },
     UpdateUser: async (UserId, Name, Campaign, Password) => {
         const sql = 'UPDATE users SET name = ?, campaign = ?, password = ? WHERE id = ?';
-        return await connection.run(sql,[Name, Campaign, Password, UserId]);
+        return await connection.run(sql, [Name, Campaign, Password, UserId]);
     },
     UpdateSchedule: async (UserId, FffBreak, FftBreak, FoneHour, ToneHour, SffBreak, SftBreak) => {
         const sql = 'UPDATE users SET FffBreak = ?, FftBreak = ?, FoneHour = ?, ToneHour = ?, SffBreak = ?, SftBreak = ? WHERE id = ?';

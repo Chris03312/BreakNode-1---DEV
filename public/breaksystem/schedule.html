@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>Employee Break Tracker</title>
-    <link rel="stylesheet" href="../css/schedule.css" />
+    <link rel="stylesheet" href="/breaksystem/css/schedule.css" />
+    <link rel="stylesheet" href="/breaksystem/css/sidebar.css">
 </head>
 
 <body>
@@ -12,18 +13,18 @@
     <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
-            <li><a href="/dashboard">RECORD</a></li>
+            <li><a href="/break/dashboard">RECORD</a></li>
             <li class="dropdown">
                 <a href="#" class="active">USER ▾</a>
                 <ul class="dropdown-menu">
-                    <li><a href="/users">Users</a></li>
-                    <li><a href="/schedule">Schedule</a></li>
+                    <li><a href="/break/users">Users</a></li>
+                    <li><a href="/break/schedule">Schedule</a></li>
                 </ul>
             </li>
-            <li><a href="/archive">ARCHIVE</a></li>
+            <li><a href="/break/archive">ARCHIVE</a></li>
         </ul>
         <div class="logout">
-            <a href="/index">Logout</a>
+            <a href="/">Logout</a>
         </div>
     </div>
 
@@ -86,8 +87,8 @@
         </div>
 
     </div>
-    <script src="../javascript/config.js"></script>
-    <script src="../javascript/schedule.js"></script>
+    <script src="/breaksystem/javascript/config.js"></script>
+    <script src="/breaksystem/javascript/schedule.js"></script>
 </body>
 
 </html>

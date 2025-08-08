@@ -1,5 +1,5 @@
 // models/AuthenticationModel.js
-const connection = require('../configurations/database');
+const connection = require('../../configurations/database');
 
 const AuthenticationModel = {
     AccessAdminUser: async (UserId) => {

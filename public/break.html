@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SRMC BREAK</title>
+    <link rel="stylesheet" href="css/break.css">
+</head>
+
+<body>
+    <div id="LiveClock"></div>
+
+    <div class="main-layout">
+        <!-- Left Panel -->
+        <div class="left-side">
+            <div class="side-container">
+                <h3>MEC BREAK SCHEDULE</h3>
+                <div class="data-box" id="mecData">
+                    <table class="styled-table" id="breakTable">
+                        <thead>
+                            <tr>
+                                <th>USER ID</th>
+                                <th>NAME</th>
+                                <th>15 Minutes Break From - To</th>
+                                <th>1 Hour Break From - To</th>
+                                <th>10 Minutes Break From - To</th>
+                                <th>Over Break</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="side-container">
+                <h3>MPL BREAK SCHEDULE</h3>
+                <div class="data-box" id="mplData">
+                    <table class="styled-table" id="breakTable1">
+                        <thead>
+                            <tr>
+                                <th>USER ID</th>
+                                <th>NAME</th>
+                                <th>15 Minutes Break From - To</th>
+                                <th>1 Hour Break From - To</th>
+                                <th>10 Minutes Break From - To</th>
+                                <th>Over Break</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Login Form -->
+        <div class="login-container">
+            <h2>SRMC</h2>
+            <h2>Break | Login</h2>
+            <div id="messageBox" style="margin-top: 10px;"></div>
+
+            <label for="role">Choose Role</label>
+            <select id="role" onchange="toggleForm()">
+                <option value="">-- Select Role --</option>
+                <option value="agent">Agent</option>
+                <option value="admin">Administrator</option>
+            </select>
+
+            <!-- Agent Form -->
+            <div id="agentForm" class="form-section">
+                <label for="agentId">User ID</label>
+                <input type="text" id="agentId" placeholder="Enter User ID">
+
+                <label for="agentPass">Password</label>
+                <input type="password" id="agentPass" placeholder="Enter Password">
+
+                <label for="breakType">Break Type</label>
+                <select id="breakType">
+                    <option value="15 Minutes Break">15 Minutes Break</option>
+                    <option value="1 Hour Break">1 Hour Break</option>
+                    <option value="10 Minutes Break">10 Minutes Break</option>
+                </select>
+
+                <div class="buttons ">
+                    <button id="breakOutBtn" onclick="BreakOut()">Break Out</button>
+                    <button id="breakInBtn" onclick="BreakIn()">Break In</button>
+                </div>
+            </div>
+
+            <!-- Admin Form -->
+            <div id="adminForm" class="form-section">
+                <label for="adminUserID">User ID</label>
+                <input type="text" id="userId" placeholder="Enter User ID">
+
+                <label for="adminPass">Password</label>
+                <input type="password" id="password" placeholder="Enter Password">
+
+                <button class="full-width" onclick="adminLogin()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/breaksystem/javascript/config.js"></script>
+    <script src="/breaksystem/javascript/login.js"></script>
+</body>
+
+
+</html>

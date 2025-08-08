@@ -1,4 +1,4 @@
-const BreaksModel = require('../../models/BreaksModel');
+const BreaksModel = require('../../models/break/BreaksModel');
 
 const BreaksController = {
     BreakOut: async (req, res) => {

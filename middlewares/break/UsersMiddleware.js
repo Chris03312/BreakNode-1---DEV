@@ -1,4 +1,4 @@
-const UsersModel = require('../models/UsersModel');
+const UsersModel = require('../../models/break/UsersModel');
 
 async function UsersDataValidation(req, res, next) {
     const { UserId, Name, Campaign, Password, FffBreak,

@@ -1,4 +1,4 @@
-const BreaksModel = require('../../models/BreaksModel');
+const BreaksModel = require('../../models/break/BreaksModel');
 
 const BreaksController = {
     Records: async (req, res) => {
@@ -84,9 +84,9 @@ const BreaksController = {
             else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 18;
             else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
 
-            let remarks = NULL;
+            let remarks = null;
 
-            if (reason && reason.trim() !== 'NU') {
+            if (reason && reason.trim() !== '') {
                 remarks = 'Disposition';
             } else {
                 if (diffMin < allowedMinutes) {

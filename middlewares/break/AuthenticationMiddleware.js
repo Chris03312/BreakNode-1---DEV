@@ -1,4 +1,4 @@
-const AuthenticationModel = require('../models/AuthenticationModel');
+const AuthenticationModel = require('../../models/break/AuthenticationModel');
 
 async function LoginValidation(req, res, next) {
     const { UserId, Password } = req.body;

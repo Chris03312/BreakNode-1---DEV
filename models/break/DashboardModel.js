@@ -1,4 +1,4 @@
-const connection = require('../configurations/database');
+const connection = require('../../configurations/database');
 const path = require('path');
 const fs = require('fs');
 
@@ -9,7 +9,7 @@ const DashboardModel = {
     },
 
     ExportToFileSync: async (records) => {
-        const archiveDir = path.join(__dirname, '../archives');
+        const archiveDir = path.join(__dirname, '../../archives');
         if (!fs.existsSync(archiveDir)) {
             fs.mkdirSync(archiveDir, { recursive: true });
         }

@@ -4,10 +4,11 @@ const router = express.Router();
 
 const BreaksController = require('../../controllers/break/BreaksController');
 
-const { BreaksInValidation, BreaksOutValidation } = require('../../middlewares/BreaksMiddleware');
+const { BreaksInValidation, BreaksOutValidation } = require('../../middlewares/break/BreaksMiddleware');
 
 router.get('/records', BreaksController.Records);
 router.get('/remarks', BreaksController.ActiveBreaks);
+
 router.post('/breakOut', BreaksOutValidation, BreaksController.BreakOut);
 router.post('/breakIn', BreaksInValidation, BreaksController.BreakIn);
 

@@ -1,4 +1,4 @@
-const BreaksModel = require('../models/BreaksModel');
+const BreaksModel = require('../../models/break/BreaksModel');
 
 async function BreaksInValidation(req, res, next) {
     const { UserIdIn, BreakTypeIn } = req.body;
@@ -10,7 +10,16 @@ async function BreaksInValidation(req, res, next) {
         });
     }
     try {
-        const CheckBreakOut = BreaksModel.CheckBreakOut(UserIdIn, BreakTypeIn);
+        const CheckBreakOutDetails = await BreaksModel.BreakDetails(UserIdIn);
+
+        if (!CheckBreakOutDetails || CheckBreakOutDetails.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: 'No user found!'
+            });
+        }
+
+        const CheckBreakOut = await BreaksModel.CheckBreakOut(UserIdIn, BreakTypeIn);
 
         if (CheckBreakOut && CheckBreakOut.length === 0) {
             return res.status(200).json({
@@ -19,7 +28,7 @@ async function BreaksInValidation(req, res, next) {
             });
         }
 
-        const CheckBreakOutnIn = BreaksModel.CheckBreakOutnIn(UserIdIn, BreakTypeIn);
+        const CheckBreakOutnIn = await BreaksModel.CheckBreakOutnIn(UserIdIn, BreakTypeIn);
 
         if (CheckBreakOutnIn && CheckBreakOutnIn.length > 0) {
             return res.status(200).json({
@@ -49,16 +58,25 @@ async function BreaksOutValidation(req, res, next) {
     }
 
     try {
-        const CheckActiveBreakOut = BreaksModel.CheckActiveBreakOut(UserIdOut);
+        const CheckBreakOutDetails = await BreaksModel.BreakDetails(UserIdOut);
+
+        if (!CheckBreakOutDetails || CheckBreakOutDetails.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: 'No user found!'
+            });
+        }
+
+        const CheckActiveBreakOut = await BreaksModel.CheckActiveBreakOut(UserIdOut);
 
         if (CheckActiveBreakOut && CheckActiveBreakOut.length > 0) {
             return res.status(200).json({
                 success: false,
-                message: `You're already on a ${CheckActiveBreakOut[0].breakType}. Please Break In first.`
+                message: `You have an active ${CheckActiveBreakOut[0].breakType}. Please Break In first.`
             });
         }
 
-        const CheckBreakInnOut = BreaksModel.CheckBreakInnOut(UserIdOut, BreakTypeOut);
+        const CheckBreakInnOut = await BreaksModel.CheckBreakInnOut(UserIdOut, BreakTypeOut);
 
         if (CheckBreakInnOut && CheckBreakInnOut.length > 0) {
             return res.status(200).json({

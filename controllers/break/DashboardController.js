@@ -1,4 +1,4 @@
-const DashboardModel = require('../../models/DashboardModel');
+const DashboardModel = require('../../models/break/DashboardModel');
 
 const DashboardController = {
     runArchiveSync: async () => {

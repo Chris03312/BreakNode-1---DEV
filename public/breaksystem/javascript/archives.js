@@ -70,7 +70,7 @@ async function loadRecordsByDate(date) {
                 align-items: center;
                 gap: 4px;
             ">
-                <img src="../assets/download-icon.png" alt="Download" style="width: 16px; height: 16px;">
+                <img src="/breaksystem/assets/download-icon.png" alt="Download" style="width: 16px; height: 16px;">
                 <span>Download</span>
             </button>
         </span>
