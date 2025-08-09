@@ -1,0 +1,151 @@
+<div class="sidebar">
+    <div class="profile-section">
+        <img src="/admin/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
+        <p class="username">Admin</p>
+    </div>
+
+    <div class="nav-container">
+        <ul class="nav main-nav">
+            <li><a href="/admin/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa-solid fa-users"></i> User Management
+                    <i class="fa-solid fa-caret-down caret"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin/attendance"><i class="fa-solid fa-calendar-check"></i> Attendance</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-mug-hot"></i> Break Management
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa-solid fa-users"></i> MEC</a></li>
+                            <li><a href="#"><i class="fa-solid fa-users"></i> MPL</a></li>
+                            <li><a href="#"><i class="fa-solid fa-users"></i> QA (Quality Assurance)</a></li>
+                            <li><a href="#"><i class="fa-solid fa-users"></i> Sms Blasters</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-users"></i> Agent Management
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa-solid fa-users"></i> MEC</a></li>
+                            <li><a href="#"><i class="fa-solid fa-users"></i> MPL</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa-solid fa-file-alt"></i> Reports
+                    <i class="fa-solid fa-caret-down caret"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-bullseye"></i> PTP Monitoring
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/ptpmonitoring?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/ptpmonitoring?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-list-check"></i> PTP Tracker
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/ptptracker?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/ptptracker?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-envelope-open-text"></i> Email Request
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/emailrequest?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/emailrequest?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-sim-card"></i> Sim Card Loading
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/simcardloading?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/simcardloading?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-ban"></i> Unauthorized Transaction
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/unauthorize?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/unauthorize?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-money-bill-wave"></i> Auto Deductions
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/autodeduction?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-circle-exclamation"></i> Mistakes
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/mistake?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/mistake?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-circle-exclamation"></i> Sms Inbound
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/smsinbound?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            </li>
+                            <li><a href="/admin/smsinbound?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+
+        <ul class="nav bottom-nav">
+            <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+            <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
+    </div>
+</div>

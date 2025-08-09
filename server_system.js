@@ -13,6 +13,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Static files
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'public', 'includes'));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
@@ -24,7 +27,7 @@ app.use(pageRoutes);
 
 // Cron Job
 const { runArchiveSync } = require('./controllers/break/DashboardController');
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 * * * *', async () => {
     console.log('[AUTO ARCHIVE] Running at midnight...');
     const result = await runArchiveSync();
     console.log('[ARCHIVE RESULT]', result.message);
