@@ -38,6 +38,9 @@ router.get('/agent/dashboard', (req, res) => {
 router.get('/agent/attendance', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'attendance', 'attendance.html'));
 });
+router.get('/agent/break', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'break', 'break.html'));
+});
 router.get('/agent/ptpmonitoring', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'collections', 'ptpmonitoring', 'ptpmonitoring.html'));
 });

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const LogoutRoutes = require('../LogoutRoutes');
 const AdminAuthenticationRoutes = require('../admin/AuthenticationRoutes');
 const AgentAuthenticationRoutes = require('../agent/AuthenticationRoutes');
 const AuthenticationRoutes = require('../break/AuthenticationRoute');
@@ -9,6 +10,7 @@ const UsersRoutes = require('../break/UsersRoutes');
 const ArchivesRoutes = require('../break/ArchivesRoutes');
 const AgentBreaksRoutes = require('../break/AgentBreaksRoutes');
 
+router.use('/Logout', LogoutRoutes);
 router.use('/Authentication', AuthenticationRoutes);
 router.use('/AdminAuthentication', AdminAuthenticationRoutes);
 router.use('/AgentAuthentication', AgentAuthenticationRoutes);

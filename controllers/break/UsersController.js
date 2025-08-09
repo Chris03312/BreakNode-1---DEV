@@ -7,7 +7,7 @@ const UsersController = {
 
             if (!data || data.length === 0) {
                 return res.status(200).json({
-                    success: true,
+                    success: false,
                     message: 'No Available Users Data',
                     users: []
                 });

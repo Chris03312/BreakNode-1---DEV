@@ -11,3 +11,21 @@ fetch('/agent/sidebar/sidebar.html')
     .catch(error => {
         console.error('Error loading sidebar:', error);
     });
+
+// dashboard.js
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        const userId = sessionStorage.getItem('UserId');
+        const name = sessionStorage.getItem('Name');
+
+        console.log("Stored UserId:", userId);
+        console.log("Stored Name:", name);
+
+        const nameElement = document.getElementById('AgentName');
+        if (nameElement) {
+            nameElement.innerText = name || "No Name Found";
+        } else {
+            console.warn("AgentName element not found in DOM");
+        }
+    }, 100); // wait 100ms for sidebar to load
+});

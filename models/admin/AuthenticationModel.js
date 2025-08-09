@@ -1,9 +1,9 @@
 const connection = require('../../configurations/database');
 
 const AuthenticationModel = {
-    AccessAdminData: async () => {
-        const sql = 'SELECT * FROM users WHERE id = ?';
-        return connection.all(sql);
+    AccessAdminData: async (UserId) => {
+        const sql = 'SELECT * FROM admin WHERE id = ?';
+        return connection.all(sql, [UserId]);
     },
 
 

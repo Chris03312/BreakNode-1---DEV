@@ -20,7 +20,7 @@ async function AgentLoginValidation(req, res, next) {
             });
         }
 
-        req.user = agent[0]; // Optional: attach to request
+        req.user = agent[0];
         return next();
     } catch (error) {
         console.error('[LoginValidation ERROR]', error);
