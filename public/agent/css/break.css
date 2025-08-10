@@ -1,0 +1,76 @@
+.break-grid {
+    display: grid;
+    grid-template-areas: "box1";
+    margin-top: 20px;
+}
+
+.box1 {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #2c3e50;
+    font-weight: bold;
+    min-height: 800px;
+}
+
+/* Time centered */
+.timeclock {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Buttons in a row */
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: flex-start;
+}
+
+.btn-break {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-break:hover {
+    background-color: #2980b9;
+}
+
+/* Three cards side by side */
+.main-card-row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Card styling */
+.card {
+    background: #ecf0f1;
+    border-radius: 8px;
+    padding: 15px;
+    flex: 1;
+    min-height: 200px;
+}
+
+/* Logs list */
+.break-logs ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+/* Status + Overtime combined vertically in one card */
+.status-overtime {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

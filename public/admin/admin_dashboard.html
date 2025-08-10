@@ -7,6 +7,8 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="/admin/css/sidebar.css" />
+    <link rel="stylesheet" href="/admin/css/dashboard.css" />
+
 </head>
 
 <body>
@@ -14,13 +16,71 @@
 
     <div class="main-content">
         <h1>Dashboard | Overview</h1>
+        <div class="dashboard-grid">
+            <div class="graph1 card">
+                <h3 class="card-title">Personal Loan Graph</h3>
+                <!-- MPL graph content here -->
+            </div>
 
-        <div id="graph1"></div>
-        <div id="graph2"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
+            <div class="graph2 card">
+                <h3 class="card-title">Easy Credit Graph</h3>
+                <!-- MEC graph content here -->
+            </div>
+
+            <div class="table card">
+                <h3 class="card-title">Rankings</h3>
+                <!-- Table content here -->
+            </div>
+
+            <div class="performance1 card">
+                <div class="card-header">
+                    <h3 class="card-title">Easy Credit</h3>
+                    <input type="text" id="performance-search" placeholder="Search...">
+                    <select id="filter-dropdown">
+                        <option value="">All</option>
+                        <option value="active">Monthly</option>
+                        <option value="archived">Weekly</option>
+                        <option value="pending">Daily</option>
+                    </select>
+                </div>
+                <!-- Chart or metrics -->
+            </div>
+
+            <div class="performance2 card">
+                <div class="card-header">
+                    <h3 class="card-title">Personal Loan</h3>
+                    <input type="text" id="performance-search" placeholder="Search...">
+                    <select id="filter-dropdown">
+                        <option value="">All</option>
+                        <option value="active">Monthly</option>
+                        <option value="archived">Weekly</option>
+                        <option value="pending">Daily</option>
+                    </select>
+                </div>
+                <!-- Chart or metrics -->
+            </div>
+
+            <div class="break-table card">
+                <div class="card-header">
+                    <h3 class="card-title">Break Summary</h3>
+                    <input type="text" id="break-search" placeholder="Search...">
+                </div>
+                <!-- Content -->
+            </div>
+
+            <div class="collections card">
+                <div class="card-header">
+                    <h3 class="card-title">Collections</h3>
+                    <select id="filter-dropdown">
+                        <option value="">All</option>
+                        <option value="active">Monthly</option>
+                        <option value="archived">Weekly</option>
+                        <option value="pending">Daily</option>
+                    </select>
+                </div>
+                <!-- Filters content -->
+            </div>
+        </div>
     </div>
 
     <script src="/admin/javascript/sidebar.js"></script>

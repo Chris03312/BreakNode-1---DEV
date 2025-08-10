@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-areas:
+        "graph1 graph2 table"
+        "performance1 performance1 collections"
+        "performance2 performance2 break";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+
+.graph1 {
+    grid-area: graph1;
+}
+
+.graph2 {
+    grid-area: graph2;
+}
+
+.table {
+    grid-area: table;
+}
+
+.performance1 {
+    grid-area: performance1;
+}
+
+.performance2 {
+    grid-area: performance2;
+}
+
+.break-table {
+    grid-area: break;
+}
+
+.collections {
+    grid-area: collections;
+}
+
+
+
+/* Card style for all blocks */
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 275px;
+    /* 👈 Bigger card height */
+
+}
+
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    /* controls spacing between input and select */
+}
+
+.card-header h3 {
+    margin-right: auto;
+    /* push inputs to the right */
+}
+
+.card-header input,
+.card-header select {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-shrink: 0;
+    /* prevent shrinking */
+    width: auto;
+    /* keep their natural size */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-areas:
+            "graph"
+            "table"
+            "performance"
+            "date-hired"
+            "break"
+            "collections";
+        grid-template-columns: 1fr;
+    }
+}
