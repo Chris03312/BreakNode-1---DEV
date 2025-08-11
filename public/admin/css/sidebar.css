@@ -123,9 +123,11 @@ body {
 }
 
 /* Show dropdown when parent is hovered */
-.dropdown:hover>.dropdown-menu {
+.dropdown:hover>.dropdown-menu,
+.dropdown-menu:hover {
     display: flex;
 }
+
 
 /* Styling for dropdown items */
 .dropdown-menu li {
@@ -235,7 +237,7 @@ body {
 }
 
 .modal-header h2 {
-    font-size: 20   px;
+    font-size: 20 px;
     font-weight: 700;
     color: #2c3e50;
     margin: 0;

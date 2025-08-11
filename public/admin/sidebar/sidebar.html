@@ -173,40 +173,28 @@
         </header>
         <div class="modal-body-split">
             <div class="modal-panel-left">
-                <label for="userId">User ID</label>
-                <input type="text" id="userId" placeholder="User ID" />
-
-                <label for="name">Name</label>
-                <input type="text" id="name" placeholder="Name" />
-
-                <label for="campaign">Campaign</label>
-                <select id="campaign">
-                    <option value="">--Select Campaign--</option>
-                    <option value="MEC 1 - 30">MEC 1 - 30</option>
-                    <option value="MEC 61 AND UP">MEC 61 AND UP</option>
-                    <option value="MEC 91 AND UP">MEC 91 AND UP</option>
-                    <option value="MEC 121 AND UP">MEC 121 AND UP</option>
-                    <option value="QA">QUALITY ASSURANCE (QA)</option>
-                    <option value="SMS BLATERS">SMS BLATERS</option>
+                <label for="campaign">Agents User ID</label>
+                <select id="UserID">
+                    <option value="">--Select User ID--</option>
                 </select>
             </div>
 
             <div class="modal-panel-right">
                 <label>15 Minutes Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="15 Minutes Break start" />
+                    <input type="time" aria-label="15 Minutes Break start" /> -
                     <input type="time" aria-label="15 Minutes Break end" />
                 </div>
 
                 <label>1 Hour Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="1 Hour Break start" />
+                    <input type="time" aria-label="1 Hour Break start" /> -
                     <input type="time" aria-label="1 Hour Break end" />
                 </div>
 
                 <label>10 Minutes Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="10 Minutes Break start" />
+                    <input type="time" aria-label="10 Minutes Break start" /> -
                     <input type="time" aria-label="10 Minutes Break end" />
                 </div>
             </div>
@@ -215,6 +203,7 @@
         <button class="submit">Submit</button>
     </div>
 </div>
+
 <div class="modal" id="agentAgentModal">
     <div class="modal-content">
         <header class="modal-header">
@@ -223,17 +212,18 @@
         </header>
         <div class="modal-body-split">
             <div class="modal-panel-left">
+                <div id="messageBox"></div>
                 <label for="userId">User ID</label>
-                <input type="text" id="userId" placeholder="User ID" />
+                <input type="text" id="agentId" placeholder="User ID" />
 
                 <label for="name">Name</label>
                 <input type="text" id="name" placeholder="Name" />
 
                 <label for="name">Password</label>
-                <input type="text" id="password" placeholder="password" />
+                <input type="password" id="agentPass" placeholder="password" />
 
                 <label for="campaign">Campaign</label>
-                <select id="campaign">
+                <select id="agentCampaign">
                     <option value="">--Select Campaign--</option>
                     <option value="MEC 1 - 30">MEC 1 - 30</option>
                     <option value="MEC 61 AND UP">MEC 61 AND UP</option>
@@ -244,9 +234,8 @@
                 </select>
             </div>
         </div>
-        <button class="submit">Submit</button>
+        <button class="submit" onclick="addAgent()">Submit</button>
     </div>
 </div>
-
 
 <script src="../javascript/sidebar.js"></script>

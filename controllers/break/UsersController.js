@@ -69,6 +69,32 @@ const UsersController = {
         }
     },
 
+    AgentWithoutSchedule: async (req, res) => {
+        try {
+            const AgentWithoutSchedules = await UsersModel.AgentsWithoutSchedule();
+
+            if (!AgentWithoutSchedules || AgentWithoutSchedules.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: `Failed to Fetch Agent without break schedule"`
+                });
+            }
+
+            return res.json({
+                success: true,
+                data: AgentWithoutSchedules
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Fetching Agent W/O break Schedule.'
+            });
+        }
+    },
+
+
+
     InsertUser: async (req, res) => {
         const { UserId, Name, Campaign, Password, FffBreak,
             FftBreak, FoneHour, ToneHour, SffBreak, SftBreak } = req.body;

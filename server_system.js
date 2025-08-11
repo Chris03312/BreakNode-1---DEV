@@ -35,7 +35,7 @@ cron.schedule('0 * * * *', async () => {
 
 // Server
 const Config = {
-    PORT: 3000,
+    PORT: 5000,
     HOST: 'localhost'
 };
 

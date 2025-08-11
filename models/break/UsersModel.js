@@ -5,6 +5,14 @@ const UsersModel = {
         const sql = 'SELECT * FROM schedule';
         return await connection.all('breaksystem', sql);
     },
+    AgentsWithoutSchedule: async () => {
+        const agents = await connection.all('usersystem', 'SELECT id, name FROM agents');
+        const scheduled = await connection.all('breaksystem', 'SELECT id FROM schedule');
+        const scheduledSet = new Set(scheduled.map(s => s.id));
+        return agents.filter(agent => !scheduledSet.has(agent.id));
+    },
+
+
     SearchData: async (searchTerm) => {
         const likeSearch = `%${searchTerm}%`;
         const sql = 'SELECT * FROM users WHERE name LIKE ? OR campaign LIKE ? OR id LIKE ?';
@@ -29,7 +37,8 @@ const UsersModel = {
     DeleteUser: async (UserId) => {
         const sql = 'DELETE FROM users WHERE id = ?';
         return await connection.run(sql, [UserId]);
-    }
+    },
+
 };
 
 module.exports = UsersModel;

@@ -34,14 +34,59 @@
                         <tbody id="TableBody"></tbody>
                     </table>
                 </div>
-
             </div>
+        </div>
+        <div class="modal" id="agentEditModal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2>Add New Agent</h2>
+                    <button class="modal-close" aria-label="Close modal" id="closeAgentEditModal">×</button>
+                </header>
+                <div class="modal-body-split">
+                    <div class="modal-panel-left">
+                        <div id="messageBox3"></div>
+                        <label for="userId">User ID</label>
+                        <input type="text" id="editId" placeholder="User ID" readonly />
 
+                        <label for="name">Name</label>
+                        <input type="text" id="editName" placeholder="Name" />
+
+                        <label for="name">Password</label>
+                        <input type="password" id="editPass" placeholder="password" />
+
+                        <label for="campaign">Status</label>
+                        <select id="editStatus">
+                            <option value="Enable">Active</option>
+                            <option value="Disabled">Inactive</option>
+                        </select>
+
+                        <label for="campaign">Campaign</label>
+                        <select id="editCampaign">
+                            <option value="MEC 1 - 30">MEC 1 - 30</option>
+                            <option value="MEC 61 AND UP">MEC 61 AND UP</option>
+                            <option value="MEC 91 AND UP">MEC 91 AND UP</option>
+                            <option value="MEC 121 AND UP">MEC 121 AND UP</option>
+                            <option value="QA">QUALITY ASSURANCE (QA)</option>
+                            <option value="SMS BLATERS">SMS BLATERS</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="submit" onclick="edit()">Submit</button>
+            </div>
+        </div>
+        <div id="deleteAgentModal" class="deletemodal-overlay" onclick="deleteAgentModal(event)" style="display:none;">
+            <div class="deletemodal-content">
+                <div id="messageBox2"></div>
+                <p id="message"></p>
+                <div class="deletemodal-actions">
+                    <button class="deletebtn" id="confirmDelete">Yes, Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="/admin/javascript/sidebar.js"></script>
     <script src="../../../javascript/config.js"></script>
+    <script src="/admin/javascript/sidebar.js"></script>
     <script src="/admin/javascript/user.js"></script>
 
 

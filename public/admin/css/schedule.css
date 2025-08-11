@@ -40,29 +40,6 @@
     margin: 0;
 }
 
-/* Add Agent button */
-#addAgent {
-    background: none;
-    border: 1px solid #ccc;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    color: #333;
-    transition: all 0.3s ease;
-}
-
-/* Hover effect */
-#addAgent:hover {
-    background-color: #28a745;
-    color: #fff;
-    border-color: #28a745;
-}
-
 .break-grid thead {
     background-color: #e8f0fe;
 }

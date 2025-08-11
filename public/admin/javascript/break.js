@@ -1,5 +1,3 @@
-const { HOST, PORT } = Config;
-
 function timeclock() {
     const clock = document.getElementById('timeclock');
     const now = new Date();
@@ -20,7 +18,6 @@ function timeclock() {
 
     clock.textContent = formattedTime;
 }
-
 
 async function recordTable() {
     try {
@@ -58,11 +55,6 @@ async function recordTable() {
         console.error('Error fetching records:', error);
     }
 }
-
-
-
-
-
 
 
 // Update clock every second

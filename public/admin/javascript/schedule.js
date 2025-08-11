@@ -1,5 +1,3 @@
-const { HOST, PORT } = Config;
-
 function formatTimeRange(start, end) {
     const formatTime = timeStr => {
         const date = new Date(`1970-01-01T${timeStr}`);
