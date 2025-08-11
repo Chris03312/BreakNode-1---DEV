@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="profile-section">
         <img src="/admin/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
-        <p class="username">Admin</p>
+        <div id="AgentName"></div>
     </div>
 
     <div class="nav-container">
@@ -13,8 +13,7 @@
                     <i class="fa-solid fa-caret-down caret"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="/admin/attendance"><i class="fa-solid fa-calendar-check"></i> Rankings</a></li>
-
+                    <li><a href="#"><i class="fa-solid fa-trophy"></i> Rankings</a></li>
                     <li><a href="/admin/attendance"><i class="fa-solid fa-calendar-check"></i> Attendance</a></li>
                     <li class="dropdown">
                         <a href="/admin/break" class="dropdown-toggle">
@@ -22,9 +21,18 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><i class="fa-solid fa-users"></i> MEC</a></li>
-                            <li><a href="#"><i class="fa-solid fa-users"></i> MPL</a></li>
-                            <li><a href="#"><i class="fa-solid fa-users"></i> QA | Sms Blasters</a></li>
+                            <li><a href="javascript:void(0)" id="addAgentBreakTrigger"><i
+                                        class="fa-solid fa-user-plus"></i>
+                                    Add New Agent Break</a>
+                            </li>
+                            <li><a href="/admin/schedule?agents=MEC"><i class="fa-solid fa-users"></i> Easy Credit</a>
+                            </li>
+                            <li><a href="/admin/schedule?agents=MPL"><i class="fa-solid fa-users"></i> Personal Loan</a>
+                            </li>
+                            <li><a href="/admin/schedule?agents=QA"><i class="fa-solid fa-users"></i> Quality
+                                    Assurance</a></li>
+                            <li><a href="/admin/schedule?agents=SMS"><i class="fa-solid fa-users"></i> SMS Blasters</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -33,8 +41,11 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><i class="fa-solid fa-users"></i> MEC</a></li>
-                            <li><a href="#"><i class="fa-solid fa-users"></i> MPL</a></li>
+                            <li><a href="javascript:void(0)" id="addAgentTrigger"><i class="fa-solid fa-user-plus"></i>
+                                    Add New Agent</a>
+                            </li>
+                            <li><a href="/admin/agent?users=MEC"><i class="fa-solid fa-users"></i> MEC</a></li>
+                            <li><a href="/admin/agent?users=MPL"><i class="fa-solid fa-users"></i> MPL</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -45,15 +56,17 @@
                     <i class="fa-solid fa-caret-down caret"></i>
                 </a>
                 <ul class="dropdown-menu">
+                    <li><a href="javascript:void(0)" id="uploadEndo"><i class="fa-solid fa-file-arrow-up"></i> Upload
+                            New Endorsement</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
                             <i class="fa-solid fa-bullseye"></i> PTP Monitoring
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/ptpmonitoring?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/ptpmonitoring?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/ptpmonitoring?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/ptpmonitoring?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -63,9 +76,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/ptptracker?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/ptptracker?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/ptptracker?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/ptptracker?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -75,9 +88,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/emailrequest?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/emailrequest?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/emailrequest?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/emailrequest?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -87,9 +100,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/simcardloading?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/simcardloading?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/simcardloading?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/simcardloading?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -99,9 +112,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/unauthorize?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/unauthorize?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/unauthorize?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/unauthorize?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -111,7 +124,7 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/autodeduction?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/autodeduction?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
                         </ul>
                     </li>
@@ -121,9 +134,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/mistake?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/mistake?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/mistake?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/mistake?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -133,9 +146,9 @@
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/smsinbound?users=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/smsinbound?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
                             </li>
-                            <li><a href="/admin/smsinbound?users=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li><a href="/admin/smsinbound?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
                             </li>
                         </ul>
                     </li>
@@ -150,3 +163,90 @@
         </ul>
     </div>
 </div>
+
+<!-- Modal HTML snippet -->
+<div class="modal" id="agentBreakModal">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h2>Add New Break Schedule</h2>
+            <button class="modal-close" aria-label="Close modal" id="closeBreakModal">×</button>
+        </header>
+        <div class="modal-body-split">
+            <div class="modal-panel-left">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" placeholder="User ID" />
+
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Name" />
+
+                <label for="campaign">Campaign</label>
+                <select id="campaign">
+                    <option value="">--Select Campaign--</option>
+                    <option value="MEC 1 - 30">MEC 1 - 30</option>
+                    <option value="MEC 61 AND UP">MEC 61 AND UP</option>
+                    <option value="MEC 91 AND UP">MEC 91 AND UP</option>
+                    <option value="MEC 121 AND UP">MEC 121 AND UP</option>
+                    <option value="QA">QUALITY ASSURANCE (QA)</option>
+                    <option value="SMS BLATERS">SMS BLATERS</option>
+                </select>
+            </div>
+
+            <div class="modal-panel-right">
+                <label>15 Minutes Break</label>
+                <div class="time-pair">
+                    <input type="time" aria-label="15 Minutes Break start" />
+                    <input type="time" aria-label="15 Minutes Break end" />
+                </div>
+
+                <label>1 Hour Break</label>
+                <div class="time-pair">
+                    <input type="time" aria-label="1 Hour Break start" />
+                    <input type="time" aria-label="1 Hour Break end" />
+                </div>
+
+                <label>10 Minutes Break</label>
+                <div class="time-pair">
+                    <input type="time" aria-label="10 Minutes Break start" />
+                    <input type="time" aria-label="10 Minutes Break end" />
+                </div>
+            </div>
+        </div>
+
+        <button class="submit">Submit</button>
+    </div>
+</div>
+<div class="modal" id="agentAgentModal">
+    <div class="modal-content">
+        <header class="modal-header">
+            <h2>Add New Agent</h2>
+            <button class="modal-close" aria-label="Close modal" id="closeAgentModal">×</button>
+        </header>
+        <div class="modal-body-split">
+            <div class="modal-panel-left">
+                <label for="userId">User ID</label>
+                <input type="text" id="userId" placeholder="User ID" />
+
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Name" />
+
+                <label for="name">Password</label>
+                <input type="text" id="password" placeholder="password" />
+
+                <label for="campaign">Campaign</label>
+                <select id="campaign">
+                    <option value="">--Select Campaign--</option>
+                    <option value="MEC 1 - 30">MEC 1 - 30</option>
+                    <option value="MEC 61 AND UP">MEC 61 AND UP</option>
+                    <option value="MEC 91 AND UP">MEC 91 AND UP</option>
+                    <option value="MEC 121 AND UP">MEC 121 AND UP</option>
+                    <option value="QA">QUALITY ASSURANCE (QA)</option>
+                    <option value="SMS BLATERS">SMS BLATERS</option>
+                </select>
+            </div>
+        </div>
+        <button class="submit">Submit</button>
+    </div>
+</div>
+
+
+<script src="../javascript/sidebar.js"></script>

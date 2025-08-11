@@ -24,7 +24,7 @@ const BreaksModel = {
     // BREAK / AGENT CONTROLLER 
     Records: async () => {
         const sql = 'SELECT * FROM records';
-        return await connection.all(sql);
+        return await connection.all('breaksystem',sql);
     },
     CheckAgentStatus: async (id) => {
         const sql = 'SELECT status FROM users WHERE id = ?'

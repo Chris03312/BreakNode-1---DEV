@@ -1,6 +1,11 @@
+const AuthenticationModel = require('../../models/admin/AuthenticationModel');
+
 const AuthenticationController = {
     AdminLogin: (req, res) => {
         const admin = req.admin;
+        const Name = req.admin.name;
+        const UserId = req.admin.id;
+
 
         if (!admin) {
             return res.status(401).json({
@@ -9,11 +14,29 @@ const AuthenticationController = {
             });
         }
 
+        try {
+            const InsertLoginLog = AuthenticationModel.LoginLogs(UserId, Name);
+
+            if (!InsertLoginLog || InsertLoginLog.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to insert Login Logs',
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Agent Login.'
+            });
+        }
+
         return res.json({
             success: true,
-            message: 'Login Successful',
             redirect: '/admin/dashboard',
-            data: admin
+            UserId,
+            Name
         });
     },
 

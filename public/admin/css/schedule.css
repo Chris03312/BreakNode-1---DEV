@@ -1,0 +1,122 @@
+.break-grid {
+    display: grid;
+    grid-template-areas: "box1";
+    margin-top: 20px;
+}
+
+.box1 {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #2c3e50;
+    font-weight: bold;
+    min-height: 910px;
+}
+
+.break-grid table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Flex container for title and button */
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Title inside title-bar */
+.title-bar .title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0;
+}
+
+/* Add Agent button */
+#addAgent {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#addAgent:hover {
+    background-color: #28a745;
+    color: #fff;
+    border-color: #28a745;
+}
+
+.break-grid thead {
+    background-color: #e8f0fe;
+}
+
+.break-grid th,
+.break-grid td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+    border-right: 1px solid #e0e0e0;
+    /* 👈 vertical column lines */
+}
+
+.break-grid th {
+    font-weight: 600;
+    color: #333;
+}
+
+.break-grid tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.break-grid tbody tr:hover {
+    background-color: #f1f5ff;
+    transition: background-color 0.3s ease;
+}
+
+.break-grid td {
+    color: #555;
+}
+
+/* Base button style */
+.break-grid button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+/* Edit hover effect */
+.break-grid button.edit:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Delete hover effect */
+.break-grid button.delete:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}

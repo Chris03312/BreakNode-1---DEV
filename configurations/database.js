@@ -1,57 +1,56 @@
+// configurations/database.js
+
 const Database = require('better-sqlite3');
 
-class SQLiteDB {
-    constructor() {
-        this.connection = new Database('configurations/breaksystem.sqlite');
-    }
+const dbMap = {
+    usersystem: new Database('configurations/usersystem.sqlite'),
+    breaksystem: new Database('configurations/breaksystem.sqlite'),
+};
 
-    prepare(sql) {
-        return this.connection.prepare(sql);
+const getConnection = (dbName) => {
+    const db = dbMap[dbName];
+    if (!db) {
+        throw new Error(`Database '${dbName}' not found.`);
     }
+    return db;
+};
 
-    transaction(fn) {
-        return this.connection.transaction(fn);
+const connection = {
+    async all(dbName, sql, params = []) {
+        try {
+            const db = getConnection(dbName);
+            const stmt = db.prepare(sql);
+            return stmt.all(params);
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    async run(dbName, sql, params = []) {
+        try {
+            const db = getConnection(dbName);
+            const stmt = db.prepare(sql);
+            return stmt.run(params);
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    async get(dbName, sql, params = []) {
+        try {
+            const db = getConnection(dbName);
+            const stmt = db.prepare(sql);
+            return stmt.get(params);
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    closeAll() {
+        for (const db of Object.values(dbMap)) {
+            db.close();
+        }
     }
+};
 
-    async all(sql, params = []) {
-        return new Promise((resolve, reject) => {
-            try {
-                const stmt = this.connection.prepare(sql);
-                const result = stmt.all(params);
-                resolve(result);
-            } catch (err) {
-                reject(err);
-            }
-        });
-    }
-
-    async get(sql, params = []) {
-        return new Promise((resolve, reject) => {
-            try {
-                const stmt = this.connection.prepare(sql);
-                const result = stmt.get(params);
-                resolve(result);
-            } catch (err) {
-                reject(err);
-            }
-        });
-    }
-
-    async run(sql, params = []) {
-        return new Promise((resolve, reject) => {
-            try {
-                const stmt = this.connection.prepare(sql);
-                const result = stmt.run(params);
-                resolve(result);
-            } catch (err) {
-                reject(err);
-            }
-        });
-    }
-
-    close() {
-        this.connection.close();
-    }
-}
-
-module.exports = new SQLiteDB();
+module.exports = connection;

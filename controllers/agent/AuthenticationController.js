@@ -5,8 +5,6 @@ const AuthenticationController = {
         const user = req.user;
         const Name = req.user.name;
         const UserId = req.user.id;
-        const Campaign = req.user.campaign;
-
 
         if (!user) {
             return res.status(401).json({
@@ -16,7 +14,7 @@ const AuthenticationController = {
         }
 
         try {
-            const InsertLoginLog = AuthenticationModel.LoginLogs(UserId, Name, Campaign);
+            const InsertLoginLog = AuthenticationModel.LoginLogs(UserId, Name);
 
             if (!InsertLoginLog || InsertLoginLog.length === 0) {
                 return res.status(200).json({

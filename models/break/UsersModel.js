@@ -1,9 +1,9 @@
 const connection = require('../../configurations/database');
 
 const UsersModel = {
-    UsersData: async () => {
-        const sql = 'SELECT * FROM users';
-        return await connection.all(sql);
+    AgentsData: async () => {
+        const sql = 'SELECT * FROM schedule';
+        return await connection.all('breaksystem', sql);
     },
     SearchData: async (searchTerm) => {
         const likeSearch = `%${searchTerm}%`;

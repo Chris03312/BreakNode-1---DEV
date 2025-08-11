@@ -1,30 +1,33 @@
 fetch('/admin/sidebar/sidebar.html')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Sidebar failed to load.');
-        }
-        return response.text();
-    })
+    .then(response => response.text())
     .then(html => {
         document.getElementById('sidebar').innerHTML = html;
+
+        // Now elements exist, safe to attach event listeners and update content
+        const userId = sessionStorage.getItem('UserId');
+        const name = sessionStorage.getItem('Name');
+        const nameElement = document.getElementById('AgentName');
+        if (nameElement) {
+            nameElement.innerText = name || "No Name Found";
+        }
+
+        document.getElementById('addAgentBreakTrigger').addEventListener('click', () => {
+            document.getElementById('agentBreakModal').style.display = 'flex';
+        });
+
+        document.getElementById('addAgentTrigger').addEventListener('click', () => {
+            document.getElementById('agentAgentModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeBreakModal').addEventListener('click', () => {
+            document.getElementById('agentBreakModal').style.display = 'none';
+        });
+
+        document.getElementById('closeAgentModal').addEventListener('click', () => {
+            document.getElementById('agentAgentModal').style.display = 'none';
+        });
+
     })
     .catch(error => {
         console.error('Error loading sidebar:', error);
     });
-
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        const userId = sessionStorage.getItem('UserId');
-        const name = sessionStorage.getItem('Name');
-
-        console.log("Stored UserId:", userId);
-        console.log("Stored Name:", name);
-
-        const nameElement = document.getElementById('AgentName');
-        if (nameElement) {
-            nameElement.innerText = name || "No Name Found";
-        } else {
-            console.warn("AgentName element not found in DOM");
-        }
-    }, 100); // wait 100ms for sidebar to load
-});

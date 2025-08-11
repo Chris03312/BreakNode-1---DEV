@@ -74,6 +74,21 @@ router.get('/admin/dashboard', (req, res) => {
 router.get('/admin/attendance', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'admin', 'attendance', 'attendance.html'));
 });
+
+// admin agent
+router.get('/admin/agent', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'admin', 'usermanagement', 'agentmanagement', 'users.html'));
+});
+
+// admin break
+router.get('/admin/break', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'admin', 'usermanagement', 'breakmanagement', 'break.html'));
+});
+router.get('/admin/schedule', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'admin', 'usermanagement', 'breakmanagement', 'schedule.html'));
+});
+
+// admin reports
 router.get('/admin/ptpmonitoring', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'admin', 'reports', 'ptpmonitoring', 'ptpmonitoring.html'));
 });

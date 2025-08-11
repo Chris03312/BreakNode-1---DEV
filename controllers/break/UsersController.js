@@ -1,9 +1,9 @@
 const UsersModel = require('../../models/break/UsersModel');
 
 const UsersController = {
-    UsersData: async (req, res) => {
+    AgentsData: async (req, res) => {
         try {
-            const data = await UsersModel.UsersData();
+            const data = await UsersModel.AgentsData();
 
             if (!data || data.length === 0) {
                 return res.status(200).json({
@@ -21,6 +21,42 @@ const UsersController = {
                 success: true,
                 mec: mecUsers,
                 mpl: mplUsers,
+                users: data
+            });
+
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Fetching User Datas.'
+            });
+        }
+    },
+
+    AgentsSchedule: async (req, res) => {
+        try {
+            const data = await UsersModel.AgentsData();
+
+            if (!data || data.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'No Available Users Data',
+                    users: []
+                });
+            }
+
+            // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
+            const mecUsers = data.filter(user => user.campaign.startsWith('MEC'));
+            const mplUsers = data.filter(user => user.campaign.startsWith('MPL'));
+            const qaUsers = data.filter(user => user.campaign.startsWith('QA'));
+            const smsUsers = data.filter(user => user.campaign.startsWith('SMS'));
+
+            return res.status(200).json({
+                success: true,
+                mec: mecUsers,
+                mpl: mplUsers,
+                qa: qaUsers,
+                sms: smsUsers,
                 users: data
             });
 
