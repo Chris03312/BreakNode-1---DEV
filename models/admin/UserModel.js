@@ -26,6 +26,10 @@ const UsersModel = {
         const scheduled = await connection.all('breaksystem', 'SELECT id FROM schedule');
         const scheduledSet = new Set(scheduled.map(s => s.id));
         return agents.filter(agent => !scheduledSet.has(agent.id));
+    },
+    GetAgentData: async (UserId) => {
+        const sql = 'SELECT * FROM agents WHERE id = ?';
+        return await connection.all('usersystem', sql, [UserId]);
     }
 };
 

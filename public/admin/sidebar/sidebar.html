@@ -173,8 +173,9 @@
         </header>
         <div class="modal-body-split">
             <div class="modal-panel-left">
+                <div id="messageBox6"></div>
                 <label for="campaign">Agents User ID</label>
-                <select id="UserID">
+                <select id="AgentsId">
                     <option value="">--Select User ID--</option>
                 </select>
             </div>
@@ -182,25 +183,25 @@
             <div class="modal-panel-right">
                 <label>15 Minutes Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="15 Minutes Break start" /> -
-                    <input type="time" aria-label="15 Minutes Break end" />
+                    <input type="time" id="FffBreak" aria-label="15 Minutes Break start" /> -
+                    <input type="time" id="FftBreak" aria-label="15 Minutes Break end" />
                 </div>
 
                 <label>1 Hour Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="1 Hour Break start" /> -
-                    <input type="time" aria-label="1 Hour Break end" />
+                    <input type="time" id="ToneHour" aria-label="1 Hour Break start" /> -
+                    <input type="time" id="FoneHour" aria-label="1 Hour Break end" />
                 </div>
 
                 <label>10 Minutes Break</label>
                 <div class="time-pair">
-                    <input type="time" aria-label="10 Minutes Break start" /> -
-                    <input type="time" aria-label="10 Minutes Break end" />
+                    <input type="time" id="SffBreak" aria-label="10 Minutes Break start" /> -
+                    <input type="time" id="SftBreak" aria-label="10 Minutes Break end" />
                 </div>
             </div>
         </div>
 
-        <button class="submit">Submit</button>
+        <button class="submit" onclick="AddNewBreakSchedule()">Submit</button>
     </div>
 </div>
 
@@ -229,6 +230,9 @@
                     <option value="MEC 61 AND UP">MEC 61 AND UP</option>
                     <option value="MEC 91 AND UP">MEC 91 AND UP</option>
                     <option value="MEC 121 AND UP">MEC 121 AND UP</option>
+                    <option value="MPL 1 - 30">MPL 1 - 30</option>
+                    <option value="MPL 91 AND UP">MPL 91 AND UP</option>
+                    <option value="MPL COHORT">MPL COHORT</option>
                     <option value="QA">QUALITY ASSURANCE (QA)</option>
                     <option value="SMS BLATERS">SMS BLATERS</option>
                 </select>

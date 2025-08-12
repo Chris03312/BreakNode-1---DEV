@@ -39,6 +39,55 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal" id="agentEditScheduleModal">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h2>Update Agent Break Schedule</h2>
+                    <button class="modal-close" aria-label="Close modal" onclick="closeEditModal()">×</button>
+                </header>
+                <div class="modal-body-split">
+                    <div class="modal-panel-left">
+                        <div id="messageBox4"></div>
+                        <label for="campaign">Agents User ID</label>
+                        <input type="text" id="editId" readonly>
+                    </div>
+
+                    <div class="modal-panel-right">
+                        <label>15 Minutes Break</label>
+                        <div class="time-pair">
+                            <input type="time" id="editFffBreak" aria-label="15 Minutes Break start" /> -
+                            <input type="time" id="editFftBreak" aria-label="15 Minutes Break end" />
+                        </div>
+
+                        <label>1 Hour Break</label>
+                        <div class="time-pair">
+                            <input type="time" id="editToneHour" aria-label="1 Hour Break start" /> -
+                            <input type="time" id="editFoneHour" aria-label="1 Hour Break end" />
+                        </div>
+
+                        <label>10 Minutes Break</label>
+                        <div class="time-pair">
+                            <input type="time" id="editSffBreak" aria-label="10 Minutes Break start" /> -
+                            <input type="time" id="editSftBreak" aria-label="10 Minutes Break end" />
+                        </div>
+                    </div>
+                </div>
+
+                <button class="submit" onclick="UpdateEditBtn()">Submit</button>
+            </div>
+        </div>
+
+        <div id="deleteAgentScheduleModal" class="deleteAgentScheduleModal-overlay"
+            onclick="deleteAgentScheduleModal(event)" style="display:none;">
+            <div class="deleteAgentScheduleModal-content">
+                <div id="messageBox5"></div>
+                <p id="message"></p>
+                <div class="deleteAgentScheduleModal-actions">
+                    <button class="deleteAgentScheduleModalbtn" id="confirmDelete">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../../../javascript/config.js"></script>

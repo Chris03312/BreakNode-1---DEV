@@ -1,4 +1,6 @@
 const UsersModel = require('../../models/break/UsersModel');
+const AgentModel = require('../../models/admin/UserModel');
+
 
 const UsersController = {
     AgentsData: async (req, res) => {
@@ -93,7 +95,130 @@ const UsersController = {
         }
     },
 
+    AgentInsertSchedule: async (req, res) => {
+        const { UserId, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak } = req.body;
 
+        console.log('Controller: ', UserId, FffBreak,
+            FftBreak, FoneHour, ToneHour, SffBreak, SftBreak);
+
+        try {
+            const AgentDatas = await AgentModel.GetAgentData(UserId);
+
+            if (!AgentDatas || AgentDatas.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: `Failed to Fetch Agent Data`
+                });
+            }
+
+            const data = AgentDatas[0];
+            const Name = data.name;
+            const Campaign = data.campaign;
+
+            console.log('Controller: ', UserId, Name, Campaign, FffBreak,
+                FftBreak, FoneHour, ToneHour, SffBreak, SftBreak);
+
+            const AgentInsertSchedules = await UsersModel.AgentInsertScheduleDatas(UserId, Name, Campaign, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak);
+
+            if (!AgentInsertSchedules || AgentInsertSchedules.changes === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: `Failed to Insert AgentData`
+                });
+            }
+
+            return res.json({
+                success: true,
+                message: `Successfully Inserted the user ${UserId}`
+            })
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Inserting Agent Schedule.'
+            });
+        }
+    },
+
+    AgentEditScheduleDatas: async (req, res) => {
+        const { id } = req.body;
+
+        try {
+            const editscheduleData = await UsersModel.AgentEditScheduleDatas(id);
+
+            if (!editscheduleData || editscheduleData.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to fetch edit agent schedule.'
+                });
+            }
+
+            return res.json({
+                success: true,
+                data: editscheduleData
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during fetching agent schedule edit.'
+            });
+        }
+    },
+
+    AgentUpdateSchedule: async (req, res) => {
+        const { agentId, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak } = req.body;
+
+        console.log('Controller: ', agentId, FffBreak,
+            FftBreak, FoneHour, ToneHour, SffBreak, SftBreak);
+
+        try {
+            const AgentUpdateSchedules = await UsersModel.AgentUpdateScheduleDatas(agentId, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak);
+            if (!AgentUpdateSchedules || AgentUpdateSchedules.changes === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to update agent schedule.'
+                });
+            }
+
+            return res.json({
+                success: true,
+                message: `Successfully Update the user ${agentId}`
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Updating Agent schedule.'
+            });
+        }
+    },
+
+    AgentDeleteSchedule: async (req, res) => {
+        const { id } = req.body;
+
+        try {
+            const AgentDeleteSchedules = await UsersModel.AgentDeleteScheduleDatas(id);
+            if (!AgentDeleteSchedules || AgentDeleteSchedules.affectedRows === 0) {
+                return res.json({
+                    success: false,
+                    message: `Failed to Delete User data of ${id}`
+                });
+            }
+
+            return res.json({
+                success: true,
+                message: `Successfully deleted the User Data of ${id}`
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Deleting Agent schedule.'
+            });
+        }
+
+    },
 
     InsertUser: async (req, res) => {
         const { UserId, Name, Campaign, Password, FffBreak,

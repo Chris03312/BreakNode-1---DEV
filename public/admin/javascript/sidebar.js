@@ -27,6 +27,7 @@ fetch('/admin/sidebar/sidebar.html')
             document.getElementById('agentAgentModal').style.display = 'none';
         });
 
+        AgentsWithoutBreak();
     })
     .catch(error => {
         console.error('Error loading sidebar:', error);
@@ -43,12 +44,9 @@ async function AgentsWithoutBreak() {
         const data = await res.json();
 
         if (data.success) {
-            const select = document.getElementById('UserID');
-
-            // Keep only the default option
+            const select = document.getElementById('AgentsId');
             select.innerHTML = '<option value="">--Select User ID--</option>';
 
-            // Add only IDs
             data.data.forEach(agent => {
                 const option = document.createElement('option');
                 option.value = agent.id;
@@ -100,4 +98,44 @@ async function addAgent() {
     }
 }
 
-AgentsWithoutBreak()
+async function AddNewBreakSchedule() {
+    const UserId = document.getElementById('AgentsId').value;
+    const FffBreak = document.getElementById('FffBreak').value;
+    const FftBreak = document.getElementById('FftBreak').value;
+    const FoneHour = document.getElementById('FoneHour').value;
+    const ToneHour = document.getElementById('ToneHour').value;
+    const SffBreak = document.getElementById('SffBreak').value;
+    const SftBreak = document.getElementById('SftBreak').value;
+    const messageBox6 = document.getElementById('messageBox6');
+
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/User/insertSchedule`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ UserId, FffBreak, FftBreak, FoneHour, ToneHour, SffBreak, SftBreak })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            messageBox6.innerText = data.message;
+            messageBox6.style.color = '#155724';
+            messageBox6.style.backgroundColor = '#d4edda';
+            messageBox6.style.border = '1px solid #c3e6cb';
+            messageBox6.style.padding = '10px';
+            messageBox6.style.borderRadius = '5px';
+            messageBox6.style.display = 'block';
+
+            // Refresh the dropdown after successful insert
+            await AgentsWithoutBreak();
+
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            messageBox6.innerText = data.message;
+        }
+    } catch (error) {
+        console.error('Error inserting schedule:', error);
+    }
+}
