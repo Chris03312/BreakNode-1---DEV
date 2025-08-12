@@ -46,7 +46,7 @@ const BreaksController = {
     },
 
     BreakIn: async (req, res) => {
-        const { UserIdIn, BreakTypeIn, reason } = req.body;
+        const { UserIdIn, BreakTypeIn, Reason } = req.body;
 
         try {
             const breakInResult = await BreaksModel.BreakIn(UserIdIn, BreakTypeIn);
@@ -81,12 +81,17 @@ const BreaksController = {
 
             let allowedMinutes = 60;
             if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
-            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 18;
+            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 17;
             else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
 
-            let remarks = null;
+            console.log('diffMin:', diffMin);
+            console.log('allowedMinutes:', allowedMinutes);
+            console.log('diffMin < allowedMinutes:', diffMin < allowedMinutes);
+            console.log('diffMin === allowedMinutes:', diffMin === allowedMinutes);
 
-            if (reason && reason.trim() !== '') {
+            let remarks = '';
+
+            if (Reason && Reason.trim() !== '') {
                 remarks = 'Disposition';
             } else {
                 if (diffMin < allowedMinutes) {
@@ -98,7 +103,7 @@ const BreaksController = {
                 }
             }
 
-            const remarksSaved = await BreaksModel.RemarksAndTimeDifference(UserIdIn, BreakTypeIn, TimeDifferenceText, remarks, reason);
+            const remarksSaved = await BreaksModel.RemarksAndTimeDifference(UserIdIn, BreakTypeIn, TimeDifferenceText, remarks, Reason);
             if (!remarksSaved) {
                 return res.status(400).json({ success: false, message: 'Failed to save remarks' });
             }
@@ -123,7 +128,7 @@ const BreaksController = {
             return res.status(200).json({
                 success: true,
                 message: 'Break In Successfully Recorded!',
-                status: remarks
+                remarks
             });
 
         } catch (error) {

@@ -26,6 +26,8 @@ async function logout() {
         if (data.success) {
             sessionStorage.removeItem('UserId');
             sessionStorage.removeItem('Name');
+            sessionStorage.removeItem('Campaign');
+
             window.location.href = data.redirect;
         }
     } catch (error) {

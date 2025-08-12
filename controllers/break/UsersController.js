@@ -71,6 +71,32 @@ const UsersController = {
         }
     },
 
+    GetAgentSchedule: async (req, res) => {
+        const { AgentId } = req.body;
+
+        try {
+            const GetAgentSchedules = await UsersModel.GetAgentsScheduleData(AgentId);
+
+            if (!GetAgentSchedules || GetAgentSchedules.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: `Failed to GET Agent break schedule"`
+                });
+            }
+
+            return res.json({
+                success: true,
+                data: GetAgentSchedules
+            })
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Fetching User Datas.'
+            });
+        }
+    },
+
     AgentWithoutSchedule: async (req, res) => {
         try {
             const AgentWithoutSchedules = await UsersModel.AgentsWithoutSchedule();

@@ -1,12 +1,12 @@
 const BreaksModel = require('../../models/break/BreaksModel');
 
 async function AgentBreakOutScheduleValidation(req, res, next) {
-    const { UserIdOut, BreakTypeOut, Password } = req.body;
+    const { UserIdOut } = req.body;
 
-    if (!/^\d+$/.test(UserIdOut.trim())) {
+    if (!UserIdOut || !UserIdOut.trim()) {
         return res.status(200).json({
             success: false,
-            message: 'Invalid User ID'
+            message: 'Invalid User ID',
         });
     }
 
@@ -15,15 +15,7 @@ async function AgentBreakOutScheduleValidation(req, res, next) {
         if (!BreakDetails || BreakDetails.length === 0) {
             return res.status(200).json({
                 success: false,
-                message: `User ID ${UserIdOut} Not Found`
-            });
-        }
-
-        const Authentication = await BreaksModel.BreakDetailsWithPassword(UserIdOut);
-        if (!Authentication || Authentication.length === 0) {   
-            return res.status(200).json({
-                success: false,
-                message: 'Invalid User ID and Password'
+                message: `User ID ${UserIdOut} Not Found`,
             });
         }
 
@@ -31,11 +23,17 @@ async function AgentBreakOutScheduleValidation(req, res, next) {
         if (checkStatus.length > 0 && checkStatus[0].status === 'Disabled') {
             return res.status(200).json({
                 success: false,
-                message: `Your account is disabled due to multiple Over Break attempts. Inform your Team Leader.`
+                message: `Your account is disabled due to multiple Over Break attempts. Inform your Team Leader.`,
             });
         }
 
         const checkSchedule = await BreaksModel.CheckSchedule(UserIdOut);
+        if (!checkSchedule || checkSchedule.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: 'No schedule found for this user.',
+            });
+        }
         const schedule = checkSchedule[0];
 
         const breakScheduleMap = {
@@ -44,80 +42,68 @@ async function AgentBreakOutScheduleValidation(req, res, next) {
             '10 Minutes Break': { start: schedule.SffBreak, end: schedule.SftBreak },
         };
 
-        const breakSchedule = await breakScheduleMap[BreakTypeOut];
-        if (!breakSchedule) {
-            return res.status(200).json({
-                success: false,
-                message: `Invalid break type: ${BreakTypeOut}`
-            });
-        }
-
         const options = {
             timeZone: 'Asia/Manila',
+            hour12: false,
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false
         };
-
-        const currentTime = new Date().toLocaleTimeString('en-US', options);
-        const [currH, currM] = currentTime.split(':').map(Number);
-        const [startH, startM] = breakSchedule.start.split(':').map(Number);
-        const [endH, endM] = breakSchedule.end.split(':').map(Number);
-
+        const currentTimeStr = new Date().toLocaleTimeString('en-US', options);
+        const [currH, currM] = currentTimeStr.split(':').map(Number);
         const currentTotalMin = currH * 60 + currM;
-        const startTotalMin = startH * 60 + startM;
-        const endTotalMin = endH * 60 + endM;
 
-        if (currentTotalMin < startTotalMin) {
+        let breakTypeOut = null;
+
+        for (const [breakType, times] of Object.entries(breakScheduleMap)) {
+            const [startH, startM] = times.start.split(':').map(Number);
+            const [endH, endM] = times.end.split(':').map(Number);
+
+            const startTotalMin = startH * 60 + startM;
+            const endTotalMin = endH * 60 + endM;
+
+            if (currentTotalMin >= startTotalMin && currentTotalMin <= endTotalMin) {
+                breakTypeOut = breakType;
+                break;
+            }
+        }
+
+        if (!breakTypeOut) {
             return res.status(200).json({
                 success: false,
-                message: `It's not yet time for your ${BreakTypeOut}. Your schedule starts at ${breakSchedule.start}.`
+                message: 'You cannot take a break now. Not within any scheduled break time.',
             });
         }
 
-        if (currentTotalMin > endTotalMin) {
-            return res.status(200).json({
-                success: false,
-                message: `You cannot take your ${BreakTypeOut} because it's already over. The schedule ended at ${breakSchedule.end}.`
-            });
-        }
-
-        return next();
+        req.breakTypeOut = breakTypeOut;
+        req.UserIdOut = UserIdOut;
+        req.status = checkStatus[0].status;
+        next();
     } catch (error) {
         console.error(error);
         return res.status(400).json({
             success: false,
-            message: 'Server error during Agent Schedule Break Out Middleware.'
+            message: 'Server error during Agent Schedule Break Out Validation.',
         });
     }
 }
 
 
 async function AgentBreakInScheduleValidation(req, res, next) {
-    const { UserIdIn, BreakTypeIn, Password } = req.body;
+    const { UserIdIn } = req.body;
 
-    if (!/^\d+$/.test(UserIdIn.trim())) {
+    if (!UserIdIn || !UserIdIn.trim()) {
         return res.status(200).json({
             success: false,
-            message: 'Invalid User ID'
+            message: 'Invalid User ID',
         });
-
     }
 
     try {
         const BreakDetails = await BreaksModel.BreakDetails(UserIdIn);
         if (!BreakDetails || BreakDetails.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: `User ID ${UserIdIn} Not Found`
-            });
-        }
-
-        const Authentication = await BreaksModel.BreakDetailsWithPassword(UserIdIn, Password);
-        if (!Authentication || Authentication.length === 0) {
             return res.status(200).json({
                 success: false,
-                message: 'Invalid User ID and Password'
+                message: `User ID ${UserIdIn} Not Found`,
             });
         }
 
@@ -125,11 +111,19 @@ async function AgentBreakInScheduleValidation(req, res, next) {
         if (checkStatus.length > 0 && checkStatus[0].status === 'Disabled') {
             return res.status(200).json({
                 success: false,
-                message: `Your account is disabled due to multiple Over Break attempts. Inform your Team Leader.`
+                message: `Your account is disabled due to multiple Over Break attempts. Inform your Team Leader.`,
             });
         }
 
+
         const checkSchedule = await BreaksModel.CheckSchedule(UserIdIn);
+        if (!checkSchedule || checkSchedule.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: 'No schedule found for this user.',
+            });
+        }
+
         const schedule = checkSchedule[0];
 
         const breakScheduleMap = {
@@ -138,75 +132,110 @@ async function AgentBreakInScheduleValidation(req, res, next) {
             '10 Minutes Break': { start: schedule.SffBreak, end: schedule.SftBreak },
         };
 
-        const breakSchedule = breakScheduleMap[BreakTypeIn];
-
-        if (!breakSchedule) {
-            return res.status(200).json({
-                success: false,
-                message: `Invalid break type: ${BreakTypeIn}`
-            });
-        }
-
         const options = {
             timeZone: 'Asia/Manila',
+            hour12: false,
             hour: '2-digit',
             minute: '2-digit',
-            hour12: false
         };
 
-        const currentTime = new Date().toLocaleTimeString('en-US', options);
-
-        const [currH, currM] = currentTime.split(':').map(Number);
-        const [startH, startM] = breakSchedule.start.split(':').map(Number);
-        const [endH, endM] = breakSchedule.end.split(':').map(Number);
-
+        const currentTimeStr = new Date().toLocaleTimeString('en-US', options);
+        const [currH, currM] = currentTimeStr.split(':').map(Number);
         const currentTotalMin = currH * 60 + currM;
-        const startTotalMin = startH * 60 + startM;
-        const endTotalMin = endH * 60 + endM;
 
-        if (currentTotalMin < startTotalMin) {
+        const allStartTimes = Object.values(breakScheduleMap).map(({ start }) => {
+            const [h, m] = start.split(':').map(Number);
+            return h * 60 + m;
+        });
+
+        const allEndTimes = Object.values(breakScheduleMap).map(({ end }) => {
+            const [h, m] = end.split(':').map(Number);
+            return h * 60 + m;
+        });
+
+        const earliestStart = Math.min(...allStartTimes);
+        if (currentTotalMin < earliestStart) {
             return res.status(200).json({
                 success: false,
-                message: `It's not yet time for your ${BreakTypeIn}. Your schedule starts at ${breakSchedule.start}.`
+                message: 'You cannot take a break now. Not within any scheduled break time.',
             });
         }
 
-        if (currentTotalMin > endTotalMin) {
+        let breakTypeIn = null;
+        let breakSchedule = null;
+
+
+        for (const [type, times] of Object.entries(breakScheduleMap)) {
+            const [startH, startM] = times.start.split(':').map(Number);
+            const [endH, endM] = times.end.split(':').map(Number);
+
+            const startTotalMin = startH * 60 + startM;
+            const endTotalMin = endH * 60 + endM;
+
+            if (currentTotalMin >= startTotalMin && currentTotalMin <= endTotalMin) {
+                breakTypeIn = type;
+                breakSchedule = times;
+                break;
+            }
+        }
+
+        if (!breakTypeIn) {
+            const latestEnd = Math.max(...allEndTimes);
+            if (currentTotalMin > latestEnd) {
+                const lastBreakEntry = Object.entries(breakScheduleMap)
+                    .find(([, times]) => {
+                        const [endH, endM] = times.end.split(':').map(Number);
+                        return (endH * 60 + endM) === latestEnd;
+                    });
+                const [lastBreakType, lastBreakTimes] = lastBreakEntry;
+
+                return res.status(200).json({
+                    success: false,
+                    message: `The ${lastBreakType} is over. The schedule ended at ${lastBreakTimes.end}. Please inform authorized personnel to Break In.`
+                });
+            }
+
             return res.status(200).json({
                 success: false,
-                message: `The ${BreakTypeIn} is Over. The schedule ended at ${breakSchedule.end} . Please inform Authorize personel to Break In`
+                message: 'You cannot take a break now. Not within any scheduled break time.',
             });
         }
 
-        return next();
+        req.breakTypeIn = breakTypeIn;
+        req.UserIdIn = UserIdIn;
+        next();
+
     } catch (error) {
         console.error(error);
         return res.status(400).json({
             success: false,
-            message: 'Server error during Agent Schedule Break In Middleware.'
+            message: 'Server error during Agent Schedule Break In Validation.',
         });
     }
 }
 
-async function AgentBreaksInValidation(req, res, next) {
-    const { UserIdIn, BreakTypeIn, Password } = req.body;
 
+async function AgentBreaksInValidation(req, res, next) {
+    const { UserIdIn } = req.body;
+    const breakTypeIn = req.breakTypeIn;
+
+    console.log(breakTypeIn, UserIdIn);
     try {
-        const CheckBreakIn = await BreaksModel.CheckBreakOut(UserIdIn, BreakTypeIn);
+        const CheckBreakIn = await BreaksModel.CheckBreakOut(UserIdIn, breakTypeIn);
 
         if (!CheckBreakIn || CheckBreakIn.length === 0) {
             return res.status(200).json({
                 success: false,
-                message: `You're not currently on a ${BreakTypeIn}.`
+                message: `Your ${breakTypeIn} is already ended. Please inform authorized personnel to Break In. [Over Break] `
             });
         }
 
-        const CheckBreakOutnIn = await BreaksModel.CheckBreakOutnIn(UserIdIn, BreakTypeIn);
+        const CheckBreakOutnIn = await BreaksModel.CheckBreakOutnIn(UserIdIn, breakTypeIn);
 
         if (CheckBreakOutnIn && CheckBreakOutnIn.length > 0) {
             return res.status(200).json({
                 success: false,
-                message: `You already took your ${BreakTypeIn}.`
+                message: `You already took your ${breakTypeIn}.`
             });
         }
 
@@ -221,7 +250,8 @@ async function AgentBreaksInValidation(req, res, next) {
 }
 
 async function AgentBreaksOutValidation(req, res, next) {
-    const { UserIdOut, BreakTypeOut, Password } = req.body;
+    const BreakTypeOut = req.breakTypeOut;
+    const UserIdOut = req.UserIdOut;
 
     try {
         const CheckActiveBreakOut = await BreaksModel.CheckActiveBreakOut(UserIdOut, BreakTypeOut);
@@ -250,8 +280,6 @@ async function AgentBreaksOutValidation(req, res, next) {
         });
     }
 }
-
-
 
 
 module.exports = { AgentBreakOutScheduleValidation, AgentBreakInScheduleValidation, AgentBreaksInValidation, AgentBreaksOutValidation };

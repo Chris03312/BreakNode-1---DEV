@@ -5,6 +5,8 @@ const AuthenticationController = {
         const user = req.user;
         const Name = req.user.name;
         const UserId = req.user.id;
+        const Campaign = req.user.campaign;
+
 
         if (!user) {
             return res.status(401).json({
@@ -35,7 +37,8 @@ const AuthenticationController = {
             success: true,
             redirect: '/agent/dashboard',
             UserId,
-            Name
+            Name,
+            Campaign
         });
     }
 };

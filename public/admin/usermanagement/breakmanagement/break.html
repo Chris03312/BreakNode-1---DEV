@@ -19,7 +19,15 @@
         <div class="break-grid">
             <div class="box1">
                 <!-- Time -->
-                <div class="timeclock" id="timeclock"></div>
+                <div class="clock-and-buttons">
+                    <div class="timeclock" id="timeclock"></div>
+                    <div class="break-buttons">
+                        <button type="button" class="btn btn-breakout" id="breakOutBtn">Break
+                            Out</button>
+                        <button type="button" class="btn btn-breakin" id="breakInBtn">Break
+                            In</button>
+                    </div>
+                </div>
                 <table>
                     <thead>
                         <th>Agent ID</th>
@@ -30,12 +38,68 @@
                         <th>Break In</th>
                         <th>Time Difference</th>
                         <th>Remarks</th>
+                        <th>Dispositions</th>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- Break Out Modal -->
+        <div id="breakOutModal" class="modal-container">
+            <div class="breakmodal">
+                <h2>Break Out</h2>
+                <div id="messageBox7"></div>
+                <label>User ID</label>
+                <input type="text" id="breakOutUserId" placeholder="Enter User ID">
+
+                <label>Break Type</label>
+                <select id="breakOutType">
+                    <option value="15 Minutes Break">15 Minutes Break</option>
+                    <option value="1 Hour Break">1 Hour Break</option>
+                    <option value="10 Minutes Break">10 Minutes Break</option>
+                </select>
+
+                <div class="modal-actions">
+                    <button class="btn btn-submit-breakout" onclick="BreakOut()">Submit</button>
+                    <button class="btn btn-cancel close-btn" onclick="closeModal('breakOutModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Break In Modal -->
+        <div id="breakInModal" class="modal-container">
+            <div class="breakmodal">
+                <h2>Break In</h2>
+                <div id="messageBox8"></div>
+                <label>User ID</label>
+                <input type="text" id="breakInUserId" placeholder="Enter User ID">
+
+                <label>Break Type</label>
+                <select id="breakInType">
+                    <option value="15 Minutes Break">15 Minutes Break</option>
+                    <option value="1 Hour Break">1 Hour Break</option>
+                    <option value="10 Minutes Break">10 Minutes Break</option>
+                </select>
+
+                <label for="">Reason</label>
+                <select name="reasonForlateBreak" id="reasonForlateBreak">
+                    <option value="" selected>Select Reason </option>
+                    <option value="Still In Call">Still In Call</option>
+                    <option value="System Issue">System Issue</option>
+                    <option value="Break Adjustment">Break Adjustment</option>
+                    <option value="Admin Forgot to Break In">Admin Forgot to Break In</option>
+
+                </select>
+
+                <div class="modal-actions">
+                    <button class="btn btn-submit-breakin" onclick="BreakIn()">Submit</button>
+                    <button class="btn btn-cancel close-btn" onclick="closeModal('breakInModal')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="../../../javascript/config.js"></script>

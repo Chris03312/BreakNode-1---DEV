@@ -5,6 +5,10 @@ const UsersModel = {
         const sql = 'SELECT * FROM schedule';
         return await connection.all('breaksystem', sql);
     },
+    GetAgentsScheduleData: async (AgentId) => {
+        const sql = 'SELECT * FROM schedule WHERE id = ?';
+        return await connection.all('breaksystem', sql, [AgentId]);
+    },
     AgentsWithoutSchedule: async () => {
         const agents = await connection.all('usersystem', 'SELECT id, name FROM agents');
         const scheduled = await connection.all('breaksystem', 'SELECT id FROM schedule');
@@ -13,7 +17,7 @@ const UsersModel = {
     },
     AgentInsertScheduleDatas: async (UserId, Name, Campaign, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak) => {
         const sql = 'INSERT INTO schedule (id, name, campaign, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak) VALUES (?,?,?,?,?,?,?,?,?)';
-        return await connection.run('breaksystem', sql, [UserId, Name, Campaign, FffBreak, FftBreak, ToneHour, FoneHour, SffBreak, SftBreak]);
+        return await connection.run('breaksystem', sql, [UserId, Name, Campaign, FffBreak, FftBreak, FoneHour, ToneHour, SffBreak, SftBreak]);
     },
     AgentEditScheduleDatas: async (id) => {
         const sql = 'SELECT * FROM schedule WHERE id = ?';

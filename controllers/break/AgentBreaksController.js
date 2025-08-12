@@ -2,7 +2,9 @@ const BreaksModel = require('../../models/break/BreaksModel');
 
 const BreaksController = {
     BreakOut: async (req, res) => {
-        const { UserIdOut, BreakTypeOut } = req.body;
+        const { UserIdOut } = req.body;
+        const BreakTypeOut = req.breakTypeOut;
+        const status = req.status;
 
         try {
             const BreakOutDetails = await BreaksModel.BreakDetails(UserIdOut);
@@ -10,7 +12,7 @@ const BreaksController = {
             if (!BreakOutDetails || BreakOutDetails.length === 0) {
                 return res.status(404).json({
                     success: false,
-                    message: 'User not found.'
+                    message: 'User not found.',
                 });
             }
 
@@ -20,26 +22,29 @@ const BreaksController = {
             if (!BreakOut || BreakOut.changes === 0) {
                 return res.status(500).json({
                     success: false,
-                    message: 'Break Out not recorded. No rows affected.'
+                    message: 'Break Out not recorded. No rows affected.',
                 });
             }
 
             return res.status(200).json({
                 success: true,
-                message: 'Break Out Successfully Recorded.'
+                message: 'Break Out Successfully Recorded.',
+                breakTypeOut: BreakTypeOut,
+                status
             });
 
         } catch (error) {
             console.error('BreakOut Error:', error);
             return res.status(500).json({
                 success: false,
-                message: 'Server error during Agent Break Out process.'
+                message: 'Server error during Agent Break Out process.',
             });
         }
     },
 
     BreakIn: async (req, res) => {
-        const { UserIdIn, BreakTypeIn } = req.body;
+        const { UserIdIn } = req.body;
+        const BreakTypeIn = req.breakTypeIn;
 
         try {
             const BreakIn = await BreaksModel.BreakIn(UserIdIn, BreakTypeIn);
@@ -78,9 +83,8 @@ const BreaksController = {
             let allowedMinutes = 60;
             if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
             else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 17;
-            else if (BreakTypeIn === '1 hour Break') allowedMinutes = 62;
+            else if (BreakTypeIn === '1 Hour Break') allowedMinutes = 62; // fix casing here
 
-            // Determine remarks
             let remarks = '';
             if (diffMin < allowedMinutes) {
                 remarks = 'Early';
@@ -114,7 +118,8 @@ const BreaksController = {
 
             return res.status(200).json({
                 success: true,
-                message: 'Break In Successfully Recorded!'
+                BreakTypeIn,
+                remarks
             });
 
         } catch (error) {

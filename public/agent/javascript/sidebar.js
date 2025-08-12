@@ -17,9 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const userId = sessionStorage.getItem('UserId');
         const name = sessionStorage.getItem('Name');
+        const campaign = sessionStorage.getItem('Campaign');
+
 
         console.log("Stored UserId:", userId);
         console.log("Stored Name:", name);
+        console.log("Stored Campaign:", campaign);
 
         const nameElement = document.getElementById('AgentName');
         if (nameElement) {

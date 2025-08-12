@@ -14,56 +14,55 @@
     <div id="sidebar"></div>
 
     <div class="main-content">
-        <h1>Break</h1>
+        <h1>Break Dashboard</h1>
         <div class="break-grid">
-            <div class="box1">
-                <!-- Time -->
-                <div class="timeclock" id="timeclock">06:21:12 PM</div>
+            <!-- Row 1: Time -->
+            <div class="timeclock" id="timeclock">06:21:12 PM</div>
 
-                <!-- Break Buttons -->
-                <div class="button-row">
-                    <button class="btn-break">Break In</button>
-                    <button class="btn-break">Break Out</button>
-                </div>
+            <!-- Left column: Buttons -->
+            <div class="button-row">
+                <button class="btn-break break-out" onclick="breakOut()">Break Out</button>
+                <button class="btn-break break-in" onclick="breakIn()">Break In</button>
+            </div>
 
-                <!-- Three Main Cards in Row -->
-                <div class="main-card-row">
-                    <!-- Schedule -->
-                    <div class="card break-schedule">
-                        <h4>Schedule</h4>
-                        <p>10:00 AM – 10:15 AM</p>
-                        <p>12:00 PM – 1:00 PM</p>
-                    </div>
+            <!-- Left bottom: Schedule Table -->
+            <div class="schedule-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>15 Minutes Break<br> (From - To)</th>
+                            <th>1 Hour Break <br>(From - To)</th>
+                            <th>10 Minutes Break <br>(From - To)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
-                    <!-- Logs -->
-                    <div class="card break-logs">
-                        <h4>Logs</h4>
-                        <ul>
-                            <li>10:02 – 10:17</li>
-                            <li>1:02 – 1:55</li>
-                        </ul>
-                    </div>
+            <!-- Center: Log Box -->
+            <div class="logbox">
+                <div>Break Logs</div>
+                <div id="messageBox"></div>
+                <div id="logs"></div>
+                <button id="clearLogsBtn">Clear Logs</button>
 
-                    <!-- Status + Overtime -->
-                    <div class="card status-overtime">
-                        <div class="break-status">
-                            <h4>Status</h4>
-                            <p>On Break</p>
-                        </div>
-                        <div class="overtime-count">
-                            <h4>Overtime</h4>
-                            <p>+9 mins</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- LIVE LOGS in the RECORD TABLE and it will show like "USER 3001 just break Out"-->
+            </div>
+
+            <div class="status">
+                <div id="stat">Status</div>
+
+            </div>
+
+            <!-- Right: Active Table -->
+            <div class="active-table">
+                <div id="OverBreak">OverBreak</div>
             </div>
         </div>
-
-
-
     </div>
 
     <script src="/agent/javascript/sidebar.js"></script>
+    <script src="../../javascript/config.js"></script>
     <script src="/agent/javascript/break.js"></script>
 
 </body>

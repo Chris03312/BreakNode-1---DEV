@@ -33,6 +33,7 @@ async function agentLogin() {
             // Store in session storage
             sessionStorage.setItem('UserId', UserId);
             sessionStorage.setItem('Name', data.Name);
+            sessionStorage.setItem('Campaign', data.Campaign);
 
             setTimeout(() => {
                 window.location.href = data.redirect;

@@ -14,14 +14,63 @@
     min-height: 870px;
 }
 
-/* Time centered */
+.clock-and-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
 .timeclock {
     font-size: 2rem;
     font-weight: bold;
     color: #2c3e50;
-    text-align: center;
-    margin-bottom: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
+.break-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Base button style */
+.btn {
+    padding: 10px 24px;
+    border-radius: 50px;
+    /* pill shape */
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    background: transparent;
+    transition: 0.3s ease;
+}
+
+/* Break Out button (red outline) */
+.btn-breakout {
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
+}
+
+.btn-breakout:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Break In button (green outline) */
+.btn-breakin {
+    border: 2px solid #27ae60;
+    color: #27ae60;
+}
+
+.btn-breakin:hover {
+    background-color: #27ae60;
+    color: white;
+}
+
+
 
 .break-grid table {
     width: 100%;
@@ -43,6 +92,8 @@
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
     font-size: 14px;
+    border-right: 1px solid #e0e0e0;
+    /* 👈 vertical column lines */
 }
 
 .break-grid th {
@@ -61,4 +112,115 @@
 
 .break-grid td {
     color: #555;
+}
+
+/* ===== Modal Container ===== */
+.modal-container {
+    position: fixed;
+    backdrop-filter: blur(1px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Dark overlay */
+    display: none;
+    /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* ===== Modal Box ===== */
+.breakmodal {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: modalFade 0.3s ease-out;
+}
+
+/* Modal Animation */
+@keyframes modalFade {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===== Headings ===== */
+.breakmodal h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* ===== Labels ===== */
+.breakmodal label {
+    display: block;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+/* ===== Inputs & Select ===== */
+.breakmodal input,
+.breakmodal select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    margin-bottom: 10px;
+    transition: border-color 0.2s;
+}
+
+.breakmodal input:focus,
+.breakmodal select:focus {
+    border-color: #007bff;
+}
+
+/* ===== Buttons ===== */
+.breakmodal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-submit-breakout {
+    background: #28a745;
+    color: white;
+}
+
+.btn-submit-breakin {
+    background: #007bff;
+    color: white;
+}
+
+.btn-cancel {
+    background: #dc3545;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.85;
 }
