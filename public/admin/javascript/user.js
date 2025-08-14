@@ -1,9 +1,19 @@
-async function getUsers() {
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+async function getUsers(searchTerm = '') {
     const params = new URLSearchParams(window.location.search);
-    const agents = params.get('users'); // MEC or MPL
+    const agents = params.get('users'); // e.g., MEC or MPL
     const title = document.getElementById('title');
 
-    title.innerText = agents + ' Agent Dashboard';
+    title.innerText = `${agents} Agent Dashboard`;
 
     try {
         const res = await fetch(`http://${HOST}:${PORT}/AdminUsers/userDatas`, {
@@ -14,10 +24,20 @@ async function getUsers() {
         const TableBody = document.getElementById('TableBody');
         TableBody.innerHTML = '';
 
-        const users = data[agents.toLowerCase()];
+        const users = data[agents.toLowerCase()] || [];
 
-        if (Array.isArray(users) && users.length > 0) {
-            users.forEach(user => {
+        // ✅ Clean searchTerm once for all comparisons
+        const search = searchTerm.toLowerCase();
+
+        // ✅ Filter users by name, ID, or campaign
+        const filteredUsers = users.filter(user =>
+            user.name.toLowerCase().includes(search) ||
+            user.id.toString().includes(search) ||
+            user.campaign.toLowerCase().includes(search)
+        );
+
+        if (filteredUsers.length > 0) {
+            filteredUsers.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${user.id}</td>
@@ -28,14 +48,13 @@ async function getUsers() {
                         <button type="button" class="edit" onclick="editBtn('${user.id}')">Edit</button>
                         <button type="button" class="delete" onclick="deleteBtn('${user.id}')">Delete</button>
                     </td>
-
                 `;
                 TableBody.appendChild(row);
             });
         } else {
             TableBody.innerHTML = `
                 <tr>
-                    <td colspan="7" style="text-align: center;">No ${agents} users found</td>
+                    <td colspan="5" style="text-align: center;">No matching ${agents} users found</td>
                 </tr>
             `;
         }
@@ -44,6 +63,13 @@ async function getUsers() {
         console.error('Error fetching records:', error);
     }
 }
+
+const debouncedSearch = debounce(function () {
+    const searchValue = document.getElementById('search').value.trim();
+    getUsers(searchValue);
+}, 300); // 300ms delay
+
+document.getElementById('search').addEventListener('input', debouncedSearch);
 
 async function editBtn(id) {
     try {

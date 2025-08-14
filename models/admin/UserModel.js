@@ -30,7 +30,11 @@ const UsersModel = {
     GetAgentData: async (UserId) => {
         const sql = 'SELECT * FROM agents WHERE id = ?';
         return await connection.all('usersystem', sql, [UserId]);
-    }
+    },
+    SearchAgentsData: async (users, searchTerm) => {
+        const sql = 'SELECT * FROM agents WHERE campaign = ? AND (name LIKE ? OR id LIKE ?)';
+        return await connection.all('usersystem', sql, [users, searchTerm, searchTerm, searchTerm]);
+    },
 };
 
 module.exports = UsersModel;

@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+.email-grid {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    min-height: 1000px;
+}
+
+.email-grid>div {
+    display: flex;
+    flex-direction: column;
+    /* stack children vertically */
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    min-height: 80px;
+    align-items: flex-start;
+    /* align children to left */
+    justify-content: flex-start;
+    /* align children to top */
+}
+
+.title {
+    font-size: 24px;
+    /* bigger font size */
+    font-weight: bold;
+    margin-bottom: 12px;
+    /* space below the title */
+}

@@ -51,7 +51,7 @@
 /* Break Out button (red outline) */
 .btn-breakout {
     border: 2px solid #e74c3c;
-    color: #e74c3c;
+    color: #27ae60;
 }
 
 .btn-breakout:hover {
@@ -62,7 +62,7 @@
 /* Break In button (green outline) */
 .btn-breakin {
     border: 2px solid #27ae60;
-    color: #27ae60;
+    color: #e74c3c;
 }
 
 .btn-breakin:hover {

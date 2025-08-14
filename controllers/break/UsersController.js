@@ -3,38 +3,6 @@ const AgentModel = require('../../models/admin/UserModel');
 
 
 const UsersController = {
-    AgentsData: async (req, res) => {
-        try {
-            const data = await UsersModel.AgentsData();
-
-            if (!data || data.length === 0) {
-                return res.status(200).json({
-                    success: false,
-                    message: 'No Available Users Data',
-                    users: []
-                });
-            }
-
-            // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
-            const mecUsers = data.filter(user => user.campaign.startsWith('MEC'));
-            const mplUsers = data.filter(user => user.campaign.startsWith('MPL'));
-
-            return res.status(200).json({
-                success: true,
-                mec: mecUsers,
-                mpl: mplUsers,
-                users: data
-            });
-
-        } catch (error) {
-            console.error(error);
-            return res.status(400).json({
-                success: false,
-                message: 'Server error during Fetching User Datas.'
-            });
-        }
-    },
-
     AgentsSchedule: async (req, res) => {
         try {
             const data = await UsersModel.AgentsData();
@@ -243,7 +211,6 @@ const UsersController = {
                 message: 'Server error during Deleting Agent schedule.'
             });
         }
-
     },
 
     InsertUser: async (req, res) => {
@@ -272,6 +239,7 @@ const UsersController = {
         }
     },
 
+
     EditUsers: async (req, res) => {
         const { id } = req.body;
 
@@ -293,32 +261,7 @@ const UsersController = {
         }
     },
 
-    SearchUsers: async (req, res) => {
-        const searchTerm = req.query.search || '';
 
-        try {
-            const search = await UsersModel.SearchData(searchTerm);
-
-            if (search && search.length > 0) {
-                return res.status(200).json({
-                    success: true,
-                    users: search
-                });
-            } else {
-                return res.status(200).json({
-                    success: false,
-                    message: `No Searchable Information for "${searchTerm}"`
-                });
-            }
-
-        } catch (error) {
-            console.error(error);
-            return res.status(400).json({
-                success: false,
-                message: 'Server error during Searching User Datas.'
-            });
-        }
-    },
 
     UpdateUsers: async (req, res) => {
         const { UserId, Name, Campaign, Password } = req.body;

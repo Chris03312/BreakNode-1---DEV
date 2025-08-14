@@ -16,11 +16,15 @@ const UsersController = {
             // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
             const mecUsers = data.filter(user => user.campaign.startsWith('MEC'));
             const mplUsers = data.filter(user => user.campaign.startsWith('MPL'));
+            const qaUsers = data.filter(user => user.campaign.startsWith('QA'));
+            const smsUsers = data.filter(user => user.campaign.startsWith('SMS'));
 
             return res.status(200).json({
                 success: true,
                 mec: mecUsers,
                 mpl: mplUsers,
+                qa: qaUsers,
+                sms: smsUsers,
                 users: data
             });
 
@@ -136,7 +140,44 @@ const UsersController = {
                 message: 'Server error during Deleting User Datas.'
             });
         }
-    }
+    },
+
+    SearchUser: async (req, res) => {
+        const searchTerm = req.query.search || '';
+        const users = req.query.users || '';
+
+        try {
+            const search = await UsersModel.SearchAgentsData(users, searchTerm);
+
+            const mecUsers = search.filter(user => user.campaign.startsWith('MEC'));
+            const mplUsers = search.filter(user => user.campaign.startsWith('MPL'));
+            const qaUsers = search.filter(user => user.campaign.startsWith('QA'));
+            const smsUsers = search.filter(user => user.campaign.startsWith('SMS'));
+
+            if (search && search.length > 0) {
+                return res.status(200).json({
+                    success: true,
+                    mec: mecUsers,
+                    mpl: mplUsers,
+                    qa: qaUsers,
+                    sms: smsUsers,
+                    users: search
+                });
+            } else {
+                return res.status(200).json({
+                    success: false,
+                    message: `No Searchable Information for "${searchTerm}"`
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Server error during Searching User Datas.'
+            });
+        }
+    },
 }
 
 module.exports = UsersController;

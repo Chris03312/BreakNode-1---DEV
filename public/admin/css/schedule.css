@@ -40,6 +40,22 @@
     margin: 0;
 }
 
+.title-bar #search {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 200px;
+    /* Adjust width as needed */
+}
+
+.title-bar #search:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
+}
+
 .break-grid thead {
     background-color: #e8f0fe;
 }

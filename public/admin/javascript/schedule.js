@@ -11,7 +11,18 @@ function formatTimeRange(start, end) {
     return `${formatTime(start)} - ${formatTime(end)}`;
 }
 
-async function getSchedule() {
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+
+async function getSchedule(searchTerm = '') {
     const params = new URLSearchParams(window.location.search);
     const agents = params.get('agents'); // MEC or MPL
     const title = document.getElementById('title');
@@ -27,10 +38,20 @@ async function getSchedule() {
         const TableBody = document.getElementById('TableBody');
         TableBody.innerHTML = '';
 
-        const users = data[agents.toLowerCase()];
+        const users = data[agents.toLowerCase()] || [];
 
-        if (Array.isArray(users) && users.length > 0) {
-            users.forEach(user => {
+        // ✅ Clean searchTerm once for all comparisons
+        const search = searchTerm.toLowerCase();
+
+        // ✅ Filter users by name, ID, or campaign
+        const filteredUsers = users.filter(user =>
+            user.name.toLowerCase().includes(search) ||
+            user.id.toString().includes(search) ||
+            user.campaign.toLowerCase().includes(search)
+        );
+
+        if (filteredUsers.length > 0) {
+            filteredUsers.forEach(user => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${user.id}</td>
@@ -50,7 +71,7 @@ async function getSchedule() {
         } else {
             TableBody.innerHTML = `
                 <tr>
-                    <td colspan="8" style="text-align: center;">No ${agents} users found</td>
+                    <td colspan="8" style="text-align: center;">No matching ${agents} users found</td>
                 </tr>
             `;
         }
@@ -59,6 +80,14 @@ async function getSchedule() {
         console.error('Error fetching records:', error);
     }
 }
+
+const debouncedSearch = debounce(function () {
+    const searchValue = document.getElementById('search').value.trim();
+    getSchedule(searchValue);
+}, 300); // 300ms delay
+
+document.getElementById('search').addEventListener('input', debouncedSearch);
+
 
 function closeEditModal() {
     const editModal = document.getElementById('agentEditScheduleModal');
@@ -170,6 +199,7 @@ async function deleteBtn(id) {
         }
     }, { once: true });
 }
+
 
 getSchedule();
 

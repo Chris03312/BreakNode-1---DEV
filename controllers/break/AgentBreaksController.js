@@ -44,7 +44,7 @@ const BreaksController = {
 
     BreakIn: async (req, res) => {
         const { UserIdIn } = req.body;
-        const BreakTypeIn = req.breakTypeIn;
+        const BreakTypeIn = req.breakTypeIn;    
 
         try {
             const BreakIn = await BreaksModel.BreakIn(UserIdIn, BreakTypeIn);
@@ -62,7 +62,6 @@ const BreaksController = {
                 return res.status(400).json({ success: false, message: 'Incomplete break data' });
             }
 
-            // Parse HH:mm:ss into total minutes
             const [outH, outM, outS] = breakOut.split(':').map(Number);
             const [inH, inM, inS] = breakIn.split(':').map(Number);
 
@@ -74,16 +73,14 @@ const BreaksController = {
                 return res.status(400).json({ success: false, message: 'Break In time is earlier than Break Out time' });
             }
 
-            // Convert diffMin to 0h 0m format
             const hours = Math.floor(diffMin / 60);
             const minutes = Math.floor(diffMin % 60);
             const TimeDifferenceText = `${hours}h ${minutes}m`;
 
-            // Determine allowed break duration in minutes
             let allowedMinutes = 60;
-            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 12;
-            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 17;
-            else if (BreakTypeIn === '1 Hour Break') allowedMinutes = 62; // fix casing here
+            if (BreakTypeIn === '10 Minutes Break') allowedMinutes = 11;
+            else if (BreakTypeIn === '15 Minutes Break') allowedMinutes = 16;
+            else if (BreakTypeIn === '1 Hour Break') allowedMinutes = 61; // fix casing here
 
             let remarks = '';
             if (diffMin < allowedMinutes) {

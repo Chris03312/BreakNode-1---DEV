@@ -3,7 +3,7 @@ const connection = require('../../configurations/database');
 const BreaksModel = {
     // BREAKS MIDDLEWARE BREAK IN
     CheckBreakOut: async (UserIdIn, BreakTypeIn) => {
-        const sql = 'SELECT * FROM records WHERE accountId = ? AND breakType = ? AND breakIn IS NULL';
+        const sql = `SELECT * FROM records WHERE accountId = ? AND breakType = ? AND breakIn IS NULL AND DATE(date) = DATE('now')`;
         return await connection.all('breaksystem', sql, [UserIdIn, BreakTypeIn]);
     },
     CheckBreakOutnIn: async (UserIdIn, BreakTypeIn) => {

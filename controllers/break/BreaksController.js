@@ -96,7 +96,7 @@ const BreaksController = {
             } else {
                 if (diffMin < allowedMinutes) {
                     remarks = 'Early';
-                } else if (diffMin <= allowedMinutes + 1) {
+                } else if (diffMin <= allowedMinutes) {
                     remarks = 'Late';
                 } else {
                     remarks = 'Over Break';

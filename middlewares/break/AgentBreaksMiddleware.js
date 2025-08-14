@@ -115,7 +115,6 @@ async function AgentBreakInScheduleValidation(req, res, next) {
             });
         }
 
-
         const checkSchedule = await BreaksModel.CheckSchedule(UserIdIn);
         if (!checkSchedule || checkSchedule.length === 0) {
             return res.status(200).json({
@@ -131,6 +130,14 @@ async function AgentBreakInScheduleValidation(req, res, next) {
             '1 Hour Break': { start: schedule.FoneHour, end: schedule.ToneHour },
             '10 Minutes Break': { start: schedule.SffBreak, end: schedule.SftBreak },
         };
+
+        const existingBreakOut = await BreaksModel.CheckBreakOut(UserIdIn);
+        if (existingBreakOut && existingBreakOut.length > 0) {
+            const breakTypeIn = existingBreakOut[0].break_type;
+            req.UserIdIn = UserIdIn;
+            req.breakTypeIn = breakTypeIn;
+            return next();
+        }
 
         const options = {
             timeZone: 'Asia/Manila',
@@ -162,47 +169,50 @@ async function AgentBreakInScheduleValidation(req, res, next) {
         }
 
         let breakTypeIn = null;
-        let breakSchedule = null;
-
 
         for (const [type, times] of Object.entries(breakScheduleMap)) {
             const [startH, startM] = times.start.split(':').map(Number);
             const [endH, endM] = times.end.split(':').map(Number);
 
             const startTotalMin = startH * 60 + startM;
-            const endTotalMin = endH * 60 + endM;
+            const endTotalMin = endH * 60 + endM + 1;
 
             if (currentTotalMin >= startTotalMin && currentTotalMin <= endTotalMin) {
                 breakTypeIn = type;
-                breakSchedule = times;
                 break;
             }
         }
 
         if (!breakTypeIn) {
             const latestEnd = Math.max(...allEndTimes);
-            if (currentTotalMin > latestEnd) {
+            const minutesSinceEnd = currentTotalMin - latestEnd;
+
+            if (minutesSinceEnd > 0 && minutesSinceEnd <= 5) {
                 const lastBreakEntry = Object.entries(breakScheduleMap)
                     .find(([, times]) => {
                         const [endH, endM] = times.end.split(':').map(Number);
                         return (endH * 60 + endM) === latestEnd;
                     });
-                const [lastBreakType, lastBreakTimes] = lastBreakEntry;
 
-                return res.status(200).json({
-                    success: false,
-                    message: `The ${lastBreakType} is over. The schedule ended at ${lastBreakTimes.end}. Please inform authorized personnel to Break In.`
-                });
+                if (lastBreakEntry) {
+                    const [lastBreakType, lastBreakTimes] = lastBreakEntry;
+                    const timingNote = `You are ${minutesSinceEnd} minute(s) Over Break.`;
+
+                    req.UserIdIn = UserIdIn;
+                    req.breakTypeIn = lastBreakType;
+
+                    return next();
+                }
             }
 
             return res.status(200).json({
                 success: false,
-                message: 'You cannot take a break now. Not within any scheduled break time.',
+                message: `You don't have an active break out. Please break out first.`,
             });
         }
 
-        req.breakTypeIn = breakTypeIn;
         req.UserIdIn = UserIdIn;
+        req.breakTypeIn = breakTypeIn;
         next();
 
     } catch (error) {
@@ -213,7 +223,6 @@ async function AgentBreakInScheduleValidation(req, res, next) {
         });
     }
 }
-
 
 async function AgentBreaksInValidation(req, res, next) {
     const { UserIdIn } = req.body;
@@ -226,7 +235,7 @@ async function AgentBreaksInValidation(req, res, next) {
         if (!CheckBreakIn || CheckBreakIn.length === 0) {
             return res.status(200).json({
                 success: false,
-                message: `Your ${breakTypeIn} is already ended. Please inform authorized personnel to Break In. [Over Break] `
+                message: `Your ${breakTypeIn} is already ended. Please inform authorized personnel to Break In.`
             });
         }
 

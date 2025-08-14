@@ -145,8 +145,10 @@ async function breakOut() {
         const formattedDate = now.toLocaleDateString('en-US', {
             year: 'numeric', month: 'long', day: '2-digit'
         });
+        const formattedTime = now.toLocaleTimeString();
 
         await addLogLine(`Date: ${formattedDate}`, 700);
+        await addLogLine(`Time: ${formattedTime}`, 700);
         await addLogLine(`User ID: ${UserIdOut}`, 700);
         await addLogLine(`Action: ${action}`, 700);
         await addLogLine(`Break Type: ${BreakTypeOut}`, 700);
@@ -196,7 +198,7 @@ async function breakIn() {
             return;
         }
 
-        const BreakTypeIn = breakInData.BreakTypeIn;  // Match server property exactly
+        const BreakTypeIn = breakInData.BreakTypeIn;
         const Remarks = breakInData.remarks;
 
         const action = 'Break In';
@@ -206,8 +208,10 @@ async function breakIn() {
         const formattedDate = now.toLocaleDateString('en-US', {
             year: 'numeric', month: 'long', day: '2-digit'
         });
+        const formattedTime = now.toLocaleTimeString();
 
         await addLogLine(`Date: ${formattedDate}`, 700);
+        await addLogLine(`Time: ${formattedTime}`, 700);
         await addLogLine(`User ID: ${UserIdIn}`, 700);
         await addLogLine(`Action: ${action}`, 700);
         await addLogLine(`Break Type: ${BreakTypeIn}`, 700);
