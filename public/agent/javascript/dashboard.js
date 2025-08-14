@@ -1,5 +1,5 @@
 const UserId = sessionStorage.getItem('UserId');
 
-if(!UserId){
+if (!UserId) {
     window.location.href = '/';
 }

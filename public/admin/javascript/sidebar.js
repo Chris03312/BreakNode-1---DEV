@@ -4,11 +4,15 @@ fetch('/admin/sidebar/sidebar.html')
         document.getElementById('sidebar').innerHTML = html;
 
         // Now elements exist, safe to attach event listeners and update content
-        const userId = sessionStorage.getItem('UserId');
-        const name = sessionStorage.getItem('Name');
+        const UserId = sessionStorage.getItem('UserId');
+        const Name = sessionStorage.getItem('Name');
+        
+        console.log('UserId:', UserId);
+        console.log('Name:', Name);
+
         const nameElement = document.getElementById('AgentName');
         if (nameElement) {
-            nameElement.innerText = name || "No Name Found";
+            nameElement.innerText = Name || "No Name Found";
         }
 
         document.getElementById('addAgentBreakTrigger').addEventListener('click', () => {

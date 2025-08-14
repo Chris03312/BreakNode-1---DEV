@@ -1,74 +1,105 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="sidebar">
+    <div class="profile-section">
+        <img src="/agent/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
+        <div id="AgentName"></div>
+    </div>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sidebar Logout Modal</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-</head>
+    <div class="nav-container">
+        <ul class="nav main-nav">
+            <li><a href="/agent/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="/agent/attendance"><i class="fa-solid fa-calendar-check"></i> Attendance</a></li>
+            <li><a href="/agent/break"><i class="fa-solid fa-mug-hot"></i> Break</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">
+                    <i class="fa-solid fa-file-alt"></i> Collections
+                    <i class="fa-solid fa-caret-down caret"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/agent/ptpmonitoring"><i class="fa-solid fa-bullseye"></i> PTP Monitoring</a></li>
+                    <li><a href="/agent/ptptracker"><i class="fa-solid fa-list-check"></i> PTP Tracker</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="fa-solid fa-envelope-open-text"></i> Agent Request
+                            <i class="fa-solid fa-caret-down caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)" id="requestEmailTrigger"><i
+                                        class="fa-solid fa-paper-plane"></i> Request to
+                                    Email</a>
+                            </li>
+                            <li><a href="javascript:void(0)" id="requestViberTrigger"><i class="fa-brands fa-viber"></i>
+                                    Request to Viber</a>
+                            </li>
+                            <li><a href="#"><i class="fa-solid fa-circle-check"></i> Confirm Payment</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/agent/simcardloading"><i class="fa-solid fa-sim-card"></i> Sim Card Loading</a>
+                    </li>
+                    <li><a href="/agent/unauthorize"><i class="fa-solid fa-ban"></i> Unauthorized Transaction</a>
+                    </li>
+                    <li><a href="/agent/autodeduction"><i class="fa-solid fa-money-bill-wave"></i> Auto
+                            Deductions</a></li>
+                    <li><a href="/agent/mistake"><i class="fa-solid fa-circle-exclamation"></i> Mistakes</a></li>
+                    <li><a href="/agent/smsinbound"><i class="fa-solid fa-circle-exclamation"></i> Sms Inbound</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
 
-<body>
-    <div class="sidebar">
-        <div class="profile-section">
-            <img src="/agent/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
-            <div id="AgentName"></div>
-        </div>
-
-        <div class="nav-container">
-            <ul class="nav main-nav">
-                <li><a href="/agent/dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
-                <li><a href="/agent/attendance"><i class="fa-solid fa-calendar-check"></i> Attendance</a></li>
-                <li><a href="/agent/break"><i class="fa-solid fa-mug-hot"></i> Break</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="fa-solid fa-file-alt"></i> Collections
-                        <i class="fa-solid fa-caret-down caret"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/agent/ptpmonitoring"><i class="fa-solid fa-bullseye"></i> PTP Monitoring</a></li>
-                        <li><a href="/agent/ptptracker"><i class="fa-solid fa-list-check"></i> PTP Tracker</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle">
-                                <i class="fa-solid fa-envelope-open-text"></i> Agent Request
-                                <i class="fa-solid fa-caret-down caret"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Proof of Payment</a>
-                                </li>
-                                <li><a href="#"><i class="fa-brands fa-viber"></i> Viber</a></li>
-                                <li><a href="#"><i class="fa-solid fa-circle-check"></i> Confirm Payment</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="/agent/simcardloading"><i class="fa-solid fa-sim-card"></i> Sim Card Loading</a>
-                        </li>
-                        <li><a href="/agent/unauthorize"><i class="fa-solid fa-ban"></i> Unauthorized Transaction</a>
-                        </li>
-                        <li><a href="/agent/autodeduction"><i class="fa-solid fa-money-bill-wave"></i> Auto
-                                Deductions</a></li>
-                        <li><a href="/agent/mistake"><i class="fa-solid fa-circle-exclamation"></i> Mistakes</a></li>
-                        <li><a href="/agent/smsinbound"><i class="fa-solid fa-circle-exclamation"></i> Sms Inbound</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="nav bottom-nav">
-                <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
-                <li><a href="javascript:void(0)" onclick="showLogoutModal()"><i
-                            class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-            </ul>
-        </div>
-        <!-- Logout Modal -->
-        <div id="logoutModal" class="modal-overlay" onclick="closeLogoutModal(event)" style="display:none;">
-            <div class="modal-content">
-                <p>Are you sure you want to log out?</p>
-                <div class="modal-actions">
-                    <button class="btn" onclick="logout()">Yes, Logout</button>
-                </div>
+        <ul class="nav bottom-nav">
+            <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
+            <li><a href="javascript:void(0)" onclick="showLogoutModal()"><i class="fa-solid fa-right-from-bracket"></i>
+                    Logout</a></li>
+        </ul>
+    </div>
+    <!-- Logout Modal -->
+    <div id="logoutModal" class="modal-overlay" onclick="closeLogoutModal(event)" style="display:none;">
+        <div class="modal-content">
+            <p>Are you sure you want to log out?</p>
+            <div class="modal-actions">
+                <button class="btn" onclick="logout()">Yes, Logout</button>
             </div>
         </div>
     </div>
-</body>
+</div>
 
-</html>
+<div class="requestEmailModal" id="requestEmailModal">
+    <div class="requestEmailModal-content">
+        <div class="requestEmailModal-header">
+            <h2>Email Request</h2>
+        </div>
+        <div class="requestEmailModal-body-split">
+            <div class="requestEmailModal-panel-left">
+                <label for="req-name">Name</label>
+                <input type="text" id="reqname" placeholder="Enter name">
+
+                <label for="req-email">Email</label>
+                <input type="email" id="reqemail" placeholder="Enter email">
+
+                <label for="req-client">Client Name</label>
+                <input type="text" id="reqclient" placeholder="Enter client name">
+
+                <label for="req-mobile">Mobile Number</label>
+                <input type="text" id="reqmobile" placeholder="Enter mobile number">
+            </div>
+
+            <div class="requestEmailModal-panel-right">
+                <label for="req-amount">Amount</label>
+                <input type="number" id="reqamount" placeholder="Enter amount">
+
+                <label for="req-account">Account Number</label>
+                <input type="text" id="reqaccount" placeholder="Enter account number">
+
+                <label for="req-details">Request Details</label>
+                <input type="text" id="reqdetails" placeholder="Enter request details">
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="cancel">Cancel Request</button>
+            <button class="submit">Submit Request</button>
+
+        </div>
+    </div>
+</div>
+
+<script src="../javascript/sidebar.js"></script>
