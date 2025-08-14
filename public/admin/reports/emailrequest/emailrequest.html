@@ -138,9 +138,26 @@
                     </table>
                 </div>
             </div>
-
         </div>
-
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <p id="messageBox10"></p>
+                <p>Are you sure you want to send this email to <span id="email"></span>?</p>
+                <button id="confirmModalBtn" onclick="confirmModalBtn()">Confirm</button>
+                <button id="cancelModalBtn">Cancel</button>
+            </div>
+        </div>
+        <div id="confirmAmountModal" class="modal">
+            <div class="modal-content">
+                <p id="messageBox11"></p>
+                <p>Confirm payment amount to <span id="confirmEmail"></span>?</p>
+                <input type="text" id="ConfirmedAmount" placeholder="Enter amount" />
+                <div class="modal-actions">
+                    <button id="confirmAmountModalBtn" onclick="confirmAmountModalBtn()">Confirm</button>
+                    <button id="cancelConfirmAmountModalBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="../../../javascript/config.js"></script>
     <script src="/admin/javascript/emailrequest.js"></script>

@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+.email-grid {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    min-height: 1000px;
+}
+
+.email-grid>div {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    min-height: 80px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+/* Scrollable table container */
+.table-container {
+    width: 100%;
+    max-height: 400px;
+    /* Adjust height */
+    overflow-x: auto;
+    overflow-y: auto;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Table styles */
+.table-container table {
+    width: 100%;
+    border-collapse: separate;
+    /* Separate for sticky header */
+    border-spacing: 0;
+    min-width: 900px;
+    /* Minimum width for horizontal scroll */
+    font-size: 13px;
+}
+
+/* Sticky header */
+.table-container thead th {
+    position: flex;
+    top: 0;
+    background-color: #e8f0fe;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Table cells */
+.table-container th,
+.table-container td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    color: #555;
+    min-width: 120px;
+    /* Fixed width for alignment */
+}
+
+/* Remove right border on last column */
+.table-container th:last-child,
+.table-container td:last-child {
+    border-right: none;
+}
+
+.table-container th {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Alternate row colors */
+.table-container tbody tr:nth-child(odd) td {
+    background-color: #ffffff;
+    /* White */
+}
+
+.table-container tbody tr:nth-child(even) td {
+    background-color: #f0f2f5;
+    /* Light gray-blue for contrast */
+}
+
+/* Hover effect */
+.table-container tbody tr:hover td {
+    background-color: #e0e7ff;
+    /* Soft blue highlight */
+    transition: background-color 0.3s ease;
+}
+
+/* Buttons in table */
+.table-container button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+    margin-right: 6px;
+}

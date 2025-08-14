@@ -251,7 +251,6 @@ body {
 .requestEmailModal {
     display: none;
     position: fixed;
-    z-index: 9999;
     inset: 0;
     background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(2px);

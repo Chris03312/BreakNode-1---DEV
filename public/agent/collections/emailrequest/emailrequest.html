@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agent | Email Request</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/agent/css/sidebar.css" />
+    <link rel="stylesheet" href="/agent/css/emailrequest.css" />
+
 </head>
 
 <body>
@@ -14,16 +16,79 @@
 
     <div class="main-content">
         <h1>Email Request</h1>
+        <div class="email-grid">
+            <div class="box request">
+                <h3 class="title">Email Requested</h3>
+                <div class="table-container">
+                    <table id="request">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Agent Name</th>
+                                <th>Email</th>
+                                <th>Client Name</th>
+                                <th>Mobile Number</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Request Detail</th>
+                                <th>Confirmed Amount</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box sent">
+                <h3 class="title">Email Sent</h3>
+                <div class="table-container">
+                    <table id="sent">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Agent Name</th>
+                                <th>Email</th>
+                                <th>Client Name</th>
+                                <th>Mobile Number</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Request Detail</th>
+                                <th>Confirmed Amount</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
 
-        <div id="graph1"></div>
-        <div id="graph2"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-
+            <div class="box confirmed">
+                <h3 class="title">Confirmed Payment</h3>
+                <div class="table-container">
+                    <table id="confirmed">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Agent Name</th>
+                                <th>Email</th>
+                                <th>Client Name</th>
+                                <th>Mobile Number</th>
+                                <th>Amount</th>
+                                <th>Account Number</th>
+                                <th>Request Detail</th>
+                                <th>Confirmed Amount</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="../../../javascript/config.js"></script>
+    <script src="/agent/javascript/emailrequest.js"></script>
     <script src="/agent/javascript/sidebar.js"></script>
 </body>
 

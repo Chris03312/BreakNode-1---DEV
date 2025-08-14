@@ -30,7 +30,8 @@
                             <li><a href="javascript:void(0)" id="requestViberTrigger"><i class="fa-brands fa-viber"></i>
                                     Request to Viber</a>
                             </li>
-                            <li><a href="#"><i class="fa-solid fa-circle-check"></i> Confirm Payment</a></li>
+                            <li><a href="/agent/emailrequest"><i class="fa-solid fa-circle-check"></i> Confirm
+                                    Payment</a></li>
                         </ul>
                     </li>
                     <li><a href="/agent/simcardloading"><i class="fa-solid fa-sim-card"></i> Sim Card Loading</a>
@@ -63,16 +64,14 @@
     </div>
 </div>
 
-<div class="requestEmailModal" id="requestEmailModal">
+<div class="requestEmailModal" id="requestEmailModal" style="display: none;">
     <div class="requestEmailModal-content">
         <div class="requestEmailModal-header">
             <h2>Email Request</h2>
+            <span id="messageBox9"></span>
         </div>
         <div class="requestEmailModal-body-split">
             <div class="requestEmailModal-panel-left">
-                <label for="req-name">Name</label>
-                <input type="text" id="reqname" placeholder="Enter name">
-
                 <label for="req-email">Email</label>
                 <input type="email" id="reqemail" placeholder="Enter email">
 
@@ -85,7 +84,7 @@
 
             <div class="requestEmailModal-panel-right">
                 <label for="req-amount">Amount</label>
-                <input type="number" id="reqamount" placeholder="Enter amount">
+                <input type="text" id="reqamount" placeholder="Enter amount">
 
                 <label for="req-account">Account Number</label>
                 <input type="text" id="reqaccount" placeholder="Enter account number">
@@ -95,8 +94,8 @@
             </div>
         </div>
         <div class="button-group">
-            <button class="cancel">Cancel Request</button>
-            <button class="submit">Submit Request</button>
+            <button class="cancel" id="cancelRequestEmail">Cancel Request</button>
+            <button class="submit" onclick="emailRequest()">Submit Request</button>
 
         </div>
     </div>
