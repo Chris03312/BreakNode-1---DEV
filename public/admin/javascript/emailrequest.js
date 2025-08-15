@@ -62,9 +62,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>
                     <button 
                         class="send-btn" 
-                        onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}')"${item.remarks?.toLowerCase() === 'sent' ? 'disabled' : ''}>Send
+                        onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}', '${item.campaign}')"${item.remarks?.toLowerCase() === 'sent' ? 'disabled' : ''}>Send
                     </button>
-                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.agentId}', '${item.email}')"
+                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.agentId}', '${item.accountNumber}', '${item.email}')"
                         ${item.remarks?.trim().toLowerCase() === 'pending' ? 'disabled' : ''}>
                         Confirm
                     </button>
@@ -165,18 +165,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Initial fetch
     fetchAndPopulateTables();
-
-    // Refresh every 5 seconds
     setInterval(fetchAndPopulateTables, 5000);
 });
 
 
-let emailData = {}; // define it outside
+let emailData = {};
 
-function sendBtn(AgentId, Email, ClientName, Amount, AccountNumber) {
-    emailData = { AgentId, Email, ClientName, Amount, AccountNumber };
+function sendBtn(AgentId, Email, ClientName, Amount, AccountNumber, Campaign) {
+    emailData = { AgentId, Email, ClientName, Amount, AccountNumber, Campaign };
     document.getElementById('confirmModal').style.display = 'flex';
     document.getElementById('email').innerText = Email;
 
@@ -189,7 +186,7 @@ function sendBtn(AgentId, Email, ClientName, Amount, AccountNumber) {
 }
 
 async function confirmModalBtn() {
-    const { AgentId, Email, ClientName, Amount, AccountNumber } = emailData;
+    const { AgentId, Email, ClientName, Amount, AccountNumber, Campaign } = emailData;
 
     const messageBox10 = document.getElementById('messageBox10');
     const confirmModalBtn = document.getElementById('confirmModalBtn');
@@ -199,7 +196,7 @@ async function confirmModalBtn() {
         const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/sendEmailRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, Email, ClientName, Amount, AccountNumber })
+            body: JSON.stringify({ AgentId, Email, ClientName, Amount, AccountNumber, Campaign })
         });
 
         const data = await res.json();
@@ -231,8 +228,8 @@ async function confirmModalBtn() {
 
 let confirmEmail = {};
 
-async function confirmAmountBtn(AgentId, Email) {
-    confirmEmail = { AgentId, Email };
+async function confirmAmountBtn(AgentId, AccountNumber, Email) {
+    confirmEmail = { AgentId, AccountNumber, Email };
     document.getElementById('confirmAmountModal').style.display = 'flex';
     document.getElementById('confirmEmail').innerText = Email;
 
@@ -245,7 +242,7 @@ async function confirmAmountBtn(AgentId, Email) {
 }
 
 async function confirmAmountModalBtn() {
-    const { AgentId, Email } = confirmEmail;
+    const { AgentId, AccountNumber, Email } = confirmEmail;
     const ConfirmedAmount = document.getElementById('ConfirmedAmount').value;
 
     const messageBox11 = document.getElementById('messageBox11');
@@ -256,7 +253,7 @@ async function confirmAmountModalBtn() {
         const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/confirmedAmount`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, Email, ConfirmedAmount })
+            body: JSON.stringify({ AgentId, AccountNumber, ConfirmedAmount })
         });
 
         const data = await res.json();

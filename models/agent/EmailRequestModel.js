@@ -24,8 +24,8 @@ const EmailRequestModel = {
         }
     },
     AgentEmailUpdateDatas: async (AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails) => {
-        const sql = 'UPDATE emailrequest SET clientName = ?, mobileNumber = ?, amount = ?, accountNumber = ?, request = ? WHERE email = ? AND AgentId = ? AND campaign = ?';
-        return await connection.run('usersystem', sql, [reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails, reqeditemail, AgentId, Campaign]);
+        const sql = 'UPDATE emailrequest SET email = ?, clientName = ?, mobileNumber = ?, amount = ?, request = ? WHERE accountNumber = ? AND AgentId = ? AND campaign = ?';
+        return await connection.run('usersystem', sql, [reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails, reqeditaccount, AgentId, Campaign]);
     }
 }
 

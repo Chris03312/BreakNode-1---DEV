@@ -44,12 +44,12 @@ const EmailRequestController = {
     },
 
     SendEmailRequest: async (req, res) => {
-        const { AgentId, Campaign, Email, ClientName, Amount, AccountNumber } = req.body;
+        const { AgentId, Email, ClientName, Amount, AccountNumber, Campaign } = req.body;
         const AdminEmail = `catalan.christian.03312002@gmail.com`;
         const apppassword = 'vghwigmmxvylenpa';
         try {
 
-            const UpdateEmailRemarks = await EmailRequestModel.UpdateEmailRemarks(AgentId, Campaign, Email,);
+            const UpdateEmailRemarks = await EmailRequestModel.UpdateEmailRemarks(AgentId, Campaign, AccountNumber);
             if (!UpdateEmailRemarks || UpdateEmailRemarks.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -102,10 +102,10 @@ const EmailRequestController = {
     },
 
     ConfirmedAmount: async (req, res) => {
-        const { AgentId, Email, ConfirmedAmount } = req.body;
+        const { AgentId, AccountNumber, ConfirmedAmount } = req.body;
 
         try {
-            const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(AgentId, Email, ConfirmedAmount);
+            const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(AgentId, AccountNumber, ConfirmedAmount);
             if (!UpdateConfirmedEmail || UpdateConfirmedEmail.length === 0) {
                 return res.status(200).json({
                     success: false,
