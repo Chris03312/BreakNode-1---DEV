@@ -1,0 +1,92 @@
+SendEmailRequest: async (req, res) => {
+    const { AgentId, Email, ClientName, Amount, AccountNumber } = req.body;
+    const AdminEmail = `catalan.christian.03312002@gmail.com`;
+    const apppassword = 'vghwigmmxvylenpa'; // Consider storing this securely
+
+    try {
+        // Update remarks before sending email
+        const updated = await EmailRequestModel.UpdateEmailRemarks(AgentId, Email);
+
+        if (!updated) {
+            return res.status(200).json({
+                success: false,
+                message: 'Failed to update email remarks.'
+            });
+        }
+
+        // Setup transporter
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: AdminEmail,
+                pass: apppassword
+            }
+        });
+
+        // Define email content
+        const mailOptions = {
+            from: `"Admin" <${AdminEmail}>`,
+            to: Email,
+            subject: "Payment Request Confirmation",
+            html: `
+                <p style="font-family: Arial, sans-serif; font-size: 14px;">
+                    I trust this message finds you well.
+                </p>
+
+                <p style="font-family: Arial, sans-serif; font-size: 14px;">
+                    We are currently in the process of updating our records and would appreciate it if you could kindly provide 
+                    <strong>proof of payment</strong> for our reference. Confirmation of any payment made would be greatly appreciated 
+                    to ensure our records remain accurate and up to date.
+                </p>
+
+                <p style="font-family: Arial, sans-serif; font-size: 14px;">
+                    Should you have any questions or require further clarification, please do not hesitate to contact us.
+                </p>
+
+                <p style="font-family: Arial, sans-serif; font-size: 14px;">
+                    Thank you for your attention to this matter.
+                </p>
+
+                <br>
+
+                <p style="font-family: Arial, sans-serif; font-size: 14px;">
+                    <strong>Account Number:</strong> ${AccountNumber}<br>
+                    <strong>Amount:</strong> ₱${parseFloat(Amount).toLocaleString()}
+                </p>
+
+                <br>
+
+                <p style="font-family: 'Georgia', serif; font-size: 16px; font-style: italic; color: purple;">
+                    <strong>Aubrey Blando</strong><br>
+                    <span style="color: black; font-weight: bold;">SRMC CREDIT COLLECTION SERVICES</span><br>
+                    <a href="tel:09277050520" style="color: #007bff;">09277050520</a><br>
+                </p>
+
+                <img src="cid:srmcLogo" alt="SRMC Logo" style="width: 160px; height: auto; margin-top: 10px;" />
+            `,
+            attachments: [
+                {
+                    filename: 'srmc-logo.png',
+                    path: '/absolute/path/to/srmc-logo.png', // ← replace with your actual logo path
+                    cid: 'srmcLogo'
+                }
+            ]
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        return res.status(200).json({
+            success: true,
+            message: `Email successfully sent to ${Email}`
+        });
+
+    } catch (error) {
+        console.error("Error sending email:", error);
+        return res.status(400).json({
+            success: false,
+            message: 'Server error during email sending.'
+        });
+    }
+}

@@ -1,5 +1,3 @@
-const { HOST, PORT } = Config;
-
 const logsContainer = document.getElementById('logs');
 const userId = sessionStorage.getItem('UserId');  // Your current user ID
 const storageKey = `breakLogs_${userId}`;

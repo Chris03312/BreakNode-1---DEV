@@ -6,7 +6,7 @@ fetch('/admin/sidebar/sidebar.html')
         // Now elements exist, safe to attach event listeners and update content
         const UserId = sessionStorage.getItem('UserId');
         const Name = sessionStorage.getItem('Name');
-        
+
         console.log('UserId:', UserId);
         console.log('Name:', Name);
 

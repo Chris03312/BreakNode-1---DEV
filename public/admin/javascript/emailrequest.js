@@ -1,18 +1,23 @@
 window.addEventListener('DOMContentLoaded', function () {
-    const AgentId = sessionStorage.getItem('UserId');
     const params = new URLSearchParams(window.location.search);
     const agents = params.get('agents'); // MEC or MPL
 
     function populateTableRows(tableId, data) {
         const tbody = document.querySelector(`#${tableId} tbody`);
-        if (!tbody) return;
+        if (!tbody) {
+            console.error(`Table with ID "${tableId}" not found!`);
+            return;
+        }
+
+        const isViberTable = tableId === 'mecViber' || tableId === 'mplViber';
+        const columnCount = isViberTable ? 10 : 11; // Adjust based on columns shown
 
         tbody.innerHTML = '';
 
         if (!data || data.length === 0) {
             const tr = document.createElement('tr');
             const td = document.createElement('td');
-            td.colSpan = 12;
+            td.colSpan = columnCount;
             td.style.textAlign = 'center';
             td.textContent = 'No data available';
             tr.appendChild(td);
@@ -21,8 +26,29 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         data.forEach(item => {
+            if (item.remarks?.trim().toLowerCase() === 'confirmed') return;
+
             const tr = document.createElement('tr');
-            tr.innerHTML = `
+
+            tr.innerHTML = isViberTable
+                ? `
+                <td>${item.date || ''}</td>
+                <td>${item.agentName || ''}</td>
+                <td>${item.clientName || ''}</td>
+                <td>${item.mobileNumber || ''}</td>
+                <td style="text-align:center;">₱${item.amount || '-'}</td>
+                <td>${item.accountNumber || ''}</td>
+                <td>${item.request || ''}</td>
+                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not confirmed yet'}</td>
+                <td>${item.remarks || ''}</td>
+                <td>
+                    <button class="confirm-btn" onclick="confirmViberAmountBtn('${item.agentId}')"
+                        ${item.remarks?.trim().toLowerCase() === 'pending' ? 'disabled' : ''}>
+                        Confirm
+                    </button>
+                </td>
+                `
+                : `
                 <td>${item.date || ''}</td>
                 <td>${item.agentName || ''}</td>
                 <td>${item.email || ''}</td>
@@ -34,10 +60,17 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not confirmed yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
-                    <button class="send-btn" onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}')">Send</button>
-                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.agentId}', '${item.email}')">Confirm</button>
+                    <button 
+                        class="send-btn" 
+                        onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}')"${item.remarks?.toLowerCase() === 'sent' ? 'disabled' : ''}>Send
+                    </button>
+                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.agentId}', '${item.email}')"
+                        ${item.remarks?.trim().toLowerCase() === 'pending' ? 'disabled' : ''}>
+                        Confirm
+                    </button>
                 </td>
             `;
+
             tbody.appendChild(tr);
         });
     }
@@ -51,18 +84,23 @@ window.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.box').forEach(box => box.style.display = 'block');
         populateTableRows('mpl130', responseData.mpl130 || []);
         populateTableRows('mpl91', responseData.mpl91 || []);
+        populateTableRows('mplViber', responseData.mplViber || []);
         populateTableRows('mec130', responseData.mec130 || []);
         populateTableRows('mec61', responseData.mec61 || []);
         populateTableRows('mec121', responseData.mec121 || []);
+        populateTableRows('mecViber', responseData.mecViber || []);
     };
 
     const showAllTablesWithNoData = () => {
         document.querySelectorAll('.box').forEach(box => box.style.display = 'block');
         populateTableRows('mpl130', []);
         populateTableRows('mpl91', []);
+        populateTableRows('mplViber', []);
         populateTableRows('mec130', []);
         populateTableRows('mec61', []);
         populateTableRows('mec121', []);
+        populateTableRows('mecViber', []);
+
     };
 
     async function fetchAndPopulateTables() {
@@ -79,11 +117,14 @@ window.addEventListener('DOMContentLoaded', function () {
                     showBoxes('.box.mpl');
                     populateTableRows('mpl130', []);
                     populateTableRows('mpl91', []);
+                    populateTableRows('mplViber', []);
                 } else if (agents === 'MEC') {
                     showBoxes('.box.mec');
                     populateTableRows('mec130', []);
                     populateTableRows('mec61', []);
                     populateTableRows('mec121', []);
+                    populateTableRows('mecViber', []);
+
                 } else {
                     showAllTablesWithNoData();
                 }
@@ -95,11 +136,13 @@ window.addEventListener('DOMContentLoaded', function () {
                 showBoxes('.box.mpl');
                 populateTableRows('mpl130', responseData.mpl130 || []);
                 populateTableRows('mpl91', responseData.mpl91 || []);
+                populateTableRows('mplViber', responseData.mplViber || []);
             } else if (agents === 'MEC') {
                 showBoxes('.box.mec');
                 populateTableRows('mec130', responseData.mec130 || []);
                 populateTableRows('mec61', responseData.mec61 || []);
                 populateTableRows('mec121', responseData.mec121 || []);
+                populateTableRows('mecViber', responseData.mecViber || []);
             } else {
                 showAllTablesWithData(responseData);
             }
@@ -238,8 +281,10 @@ async function confirmAmountModalBtn() {
     } catch (error) {
         console.error('Error Admin Sending Confirm Email Amount Request:', error);
     } finally {
-        confirmAmountModalBtn.innerText = "Confirm"; // reset button text
+        confirmAmountModalBtn.innerText = "Confirm";
     }
 }
+
+
 
 

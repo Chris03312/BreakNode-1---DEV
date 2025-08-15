@@ -30,6 +30,8 @@ fetch('/agent/sidebar/sidebar.html')
         console.error('Error loading sidebar:', error);
     });
 
+const { HOST, PORT } = Config;
+
 async function emailRequest() {
     const AgentId = sessionStorage.getItem('UserId');
     const agentName = sessionStorage.getItem('Name');

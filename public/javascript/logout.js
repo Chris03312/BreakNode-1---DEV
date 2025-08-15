@@ -1,5 +1,3 @@
-const { HOST, PORT } = Config;
-
 function showLogoutModal() {
     document.getElementById('logoutModal').style.display = 'flex';
 }

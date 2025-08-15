@@ -15,19 +15,23 @@ const EmailRequestController = {
             }
 
             // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
-            const mec130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 1 - 30'));
-            const mec61EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 61 AND UP'));
-            const mec121EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 121 AND UP'));
-            const mpl130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 1 - 30'));
-            const mpl91EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 91 AND UP'));
+            const mec130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 1 - 30') && user.request.startsWith('Proof'));
+            const mec61EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 61 AND UP') && user.request.startsWith('Proof'));
+            const mec121EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 121 AND UP') && user.request.startsWith('Proof'));
+            const mecViberRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC') && user.request.startsWith('Viber'));
+            const mpl130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 1 - 30') && user.request.startsWith('Proof'));
+            const mpl91EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 91 AND UP') && user.request.startsWith('Proof'));
+            const mplViberRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL') && user.request.startsWith('Viber'));
 
             return res.status(200).json({
                 success: true,
                 mec130: mec130EmailRequest,
                 mec61: mec61EmailRequest,
                 mec121: mec121EmailRequest,
+                mecViber: mecViberRequest,
                 mpl130: mpl130EmailRequest,
                 mpl91: mpl91EmailRequest,
+                mplViber: mplViberRequest,
                 emails: EmailRequestData
             });
         } catch (error) {
@@ -40,12 +44,12 @@ const EmailRequestController = {
     },
 
     SendEmailRequest: async (req, res) => {
-        const { AgentId, Email, ClientName, Amount, AccountNumber } = req.body;
+        const { AgentId, Campaign, Email, ClientName, Amount, AccountNumber } = req.body;
         const AdminEmail = `catalan.christian.03312002@gmail.com`;
         const apppassword = 'vghwigmmxvylenpa';
         try {
 
-            const UpdateEmailRemarks = await EmailRequestModel.UpdateEmailRemarks(AgentId, Email,);
+            const UpdateEmailRemarks = await EmailRequestModel.UpdateEmailRemarks(AgentId, Campaign, Email,);
             if (!UpdateEmailRemarks || UpdateEmailRemarks.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -80,7 +84,7 @@ const EmailRequestController = {
                 `
             };
 
-            // Send email
+            // Send email   
             await transporter.sendMail(mailOptions);
 
             return res.status(200).json({

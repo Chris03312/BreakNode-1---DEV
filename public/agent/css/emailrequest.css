@@ -118,3 +118,168 @@ body {
     color: #333;
     margin-right: 6px;
 }
+
+/* Modern Modal Overlay */
+.requestEditEmailModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    padding: 17px;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Modal Box */
+.requestEditEmailModal-content {
+    background-color: #ffffff;
+    border-radius: 16px;
+    width: 600px;
+    max-width: 95%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.25s ease-in-out;
+    transition: all 0.3s ease;
+}
+
+/* Modal Header */
+.requestEditEmailModal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.requestEditEmailModal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Modal Layout - Two Panels */
+.requestEditEmailModal-body-split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.requestEditEmailModal-panel-left,
+.requestEditEmailModal-panel-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 200px;
+}
+
+/* Labels */
+.requestEditEmailModal-content label {
+    font-size: 0.9rem;
+    color: #34495e;
+    display: block;
+}
+
+/* Inputs */
+.requestEditEmailModal-content input,
+.requestEditEmailModal-content select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    transition: border 0.2s ease;
+    outline: none;
+    margin-bottom: 12px;
+    /* Adjust para sa mas compact na spacing */
+}
+
+.requestEditEmailModal-content input:focus,
+.requestEditEmailModal-content select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Submit Button */
+.submit {
+    margin-top: 28px;
+    padding: 12px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+}
+
+.submit:hover {
+    background-color: #2980b9;
+}
+
+.cancel {
+    margin-top: 12px;
+    padding: 12px 20px;
+    background-color: #e74c3c;
+    /* red-ish */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+    /* aligns to the right like submit */
+}
+
+.cancel:hover {
+    background-color: #c0392b;
+}
+
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    /* space between buttons */
+    justify-content: flex-end;
+    /* align buttons to the right */
+    margin-top: 28px;
+    /* add spacing above buttons */
+}
+
+.submit,
+.cancel {
+    margin-top: 0;
+    /* remove individual top margins */
+    align-self: auto;
+    /* reset previous alignment */
+    flex: 0 0 auto;
+    /* prevent buttons from stretching */
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

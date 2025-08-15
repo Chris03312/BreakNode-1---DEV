@@ -62,8 +62,8 @@ async function getSchedule(searchTerm = '') {
                     <td>${formatTimeRange(user.SffBreak, user.SftBreak)}</td>
                     <td>${user.overBreak || 0} times</td>
                     <td>
-                        <button type="button" class="edit" onclick="editbtn(${user.id})">Edit</button>
-                        <button type="button" class="delete" onclick="deleteBtn(${user.id})">Delete</button>
+                        <button type="button" class="edit" onclick="editbtn('${user.id}')">Edit</button>
+                        <button type="button" class="delete" onclick="deleteBtn('${user.id}')">Delete</button>
                     </td>
                 `;
                 TableBody.appendChild(row);
@@ -94,15 +94,15 @@ function closeEditModal() {
     editModal.style.display = 'none';
 }
 
-async function editbtn(id) {
+async function editbtn(AgentId) {
     const editModal = document.getElementById('agentEditScheduleModal');
     editModal.style.display = 'flex';
 
     try {
-        const res = await fetch(`http://${HOST}:${PORT}/User/editSchedule`, {
+        const res = await fetch(`http://${HOST}:${PORT}/User/agentSchedule`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id })
+            body: JSON.stringify({ AgentId })
         });
 
         const data = await res.json();

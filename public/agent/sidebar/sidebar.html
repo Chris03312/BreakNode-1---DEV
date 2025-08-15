@@ -81,7 +81,6 @@
                 <label for="req-mobile">Mobile Number</label>
                 <input type="text" id="reqmobile" placeholder="Enter mobile number">
             </div>
-
             <div class="requestEmailModal-panel-right">
                 <label for="req-amount">Amount</label>
                 <input type="text" id="reqamount" placeholder="Enter amount">
@@ -90,7 +89,10 @@
                 <input type="text" id="reqaccount" placeholder="Enter account number">
 
                 <label for="req-details">Request Details</label>
-                <input type="text" id="reqdetails" placeholder="Enter request details">
+                <select id="reqdetails">
+                    <option value="" disabled>-- Select Request Details --</option>
+                    <option value="Proof of Payment" selected>Proof of Payment</option>
+                </select>
             </div>
         </div>
         <div class="button-group">
@@ -101,4 +103,6 @@
     </div>
 </div>
 
+<script src="../../javascript/logout.js"></script>
+<script src="../../javascript/config.js"></script>
 <script src="../javascript/sidebar.js"></script>
