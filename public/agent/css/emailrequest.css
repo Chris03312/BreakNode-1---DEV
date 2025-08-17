@@ -119,6 +119,35 @@ body {
     margin-right: 6px;
 }
 
+#remarks-pending {
+    background-color: #fff3cd;
+    /* Light yellow */
+    color: #000000;
+    font-weight: bold;
+}
+
+#remarks-sent {
+    background-color: #cce5ff;
+    /* Light blue */
+    color: #000000;
+    font-weight: bold;
+}
+
+#remarks-confirmed {
+    background-color: #fffb00;
+    /* Light green */
+    color: #000000;
+    font-weight: bold;
+}
+
+#remarks-broken {
+    background-color: #e40013;
+    /* Light red */
+    color: #000000;
+    font-weight: bold;
+}
+
+
 /* Modern Modal Overlay */
 .requestEditEmailModal {
     display: none;

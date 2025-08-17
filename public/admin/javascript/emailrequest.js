@@ -14,6 +14,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
         tbody.innerHTML = '';
 
+        const filteredData = data.filter(item => item.remarks?.trim().toLowerCase() !== 'confirmed');
+
+        if (filteredData.length === 0) {
+            const tr = document.createElement('tr');
+            const td = document.createElement('td');
+            td.colSpan = columnCount;
+            td.style.textAlign = 'center';
+            td.textContent = 'No data available';
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            return;
+        }
+
         if (!data || data.length === 0) {
             const tr = document.createElement('tr');
             const td = document.createElement('td');
@@ -102,6 +115,21 @@ window.addEventListener('DOMContentLoaded', function () {
         populateTableRows('mecViber', []);
 
     };
+
+
+    async function AutoArchiveBroken(brokenPTP) {
+        const { agentId, email, clientName, accountNumber } = brokenPTP;
+
+        try {
+            await fetch(`http://${Config.HOST}:${Config.PORT}/AgentEmailRequest/emailRequest`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ agentId, email, clientName, accountNumber })
+            });
+        } catch (error) {
+            console.error('Error Admin Sending BrokenPTP Email Request:', error);
+        }
+    }
 
     async function fetchAndPopulateTables() {
         try {
@@ -281,7 +309,3 @@ async function confirmAmountModalBtn() {
         confirmAmountModalBtn.innerText = "Confirm";
     }
 }
-
-
-
-

@@ -52,7 +52,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : '-'}</td>
-                <td>${item.remarks || ''}</td>
+                <td id="remarks-${(item.remarks || '').toLowerCase().replace(/\s+/g, '-')}">
+                    ${item.remarks || ''}
+                </td>
                 <td>
                 ${['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
                         ? ''
@@ -79,6 +81,7 @@ window.addEventListener('DOMContentLoaded', function () {
             populateTableRows('viber', data.viber || []);
             populateTableRows('confirmed', data.confirmed || []);
 
+
             if (!data.success) {
                 console.warn('No data:', data.message);
             }
@@ -93,6 +96,7 @@ window.addEventListener('DOMContentLoaded', function () {
     fetchAndPopulateTables();
     setInterval(fetchAndPopulateTables, 3000);
 });
+
 
 
 async function requestEditModal(AccountNumber, request) {

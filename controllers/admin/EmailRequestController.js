@@ -14,14 +14,69 @@ const EmailRequestController = {
                 });
             }
 
-            // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
-            const mec130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 1 - 30') && user.request.startsWith('Proof'));
-            const mec61EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 61 AND UP') && user.request.startsWith('Proof'));
-            const mec121EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC 121 AND UP') && user.request.startsWith('Proof'));
-            const mecViberRequest = EmailRequestData.filter(user => user.campaign.startsWith('MEC') && user.request.startsWith('Viber'));
-            const mpl130EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 1 - 30') && user.request.startsWith('Proof'));
-            const mpl91EmailRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL 91 AND UP') && user.request.startsWith('Proof'));
-            const mplViberRequest = EmailRequestData.filter(user => user.campaign.startsWith('MPL') && user.request.startsWith('Viber'));
+            const today = new Date();
+
+            for (const record of EmailRequestData) {
+                const recordDate = new Date(record.date);
+
+                if (recordDate < today) {
+                    await EmailRequestModel.UpdateBrokenPTPS(
+                        record.agentId,
+                        record.email,
+                        record.clientName,
+                        record.accountNumber
+                    );
+                }
+            }
+
+            // 🔁 Re-fetch updated data after DB updates
+            const UpdatedEmailRequestData = await EmailRequestModel.EmailRequestData();
+
+            // Filter out only non-broken ones for display
+            const filterNotBroken = user =>
+                !(user.remarks || '').toLowerCase().startsWith('broken');
+
+            const mec130EmailRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MEC 1 - 30') &&
+                    user.request.startsWith('Proof') &&
+                    filterNotBroken(user)
+            );
+
+            const mec61EmailRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MEC 61 AND UP') &&
+                    user.request.startsWith('Proof') &&
+                    filterNotBroken(user)
+            );
+
+            const mec121EmailRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MEC 121 AND UP') &&
+                    user.request.startsWith('Proof') &&
+                    filterNotBroken(user)
+            );
+
+            const mecViberRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MEC') &&
+                    user.request.startsWith('Viber') &&
+                    filterNotBroken(user)
+            );
+
+            const mpl130EmailRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MPL 1 - 30') &&
+                    user.request.startsWith('Proof') &&
+                    filterNotBroken(user)
+            );
+
+            const mpl91EmailRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MPL 91 AND UP') &&
+                    user.request.startsWith('Proof') &&
+                    filterNotBroken(user)
+            );
+
+            const mplViberRequest = UpdatedEmailRequestData.filter(
+                user => user.campaign.startsWith('MPL') &&
+                    user.request.startsWith('Viber') &&
+                    filterNotBroken(user)
+            );
 
             return res.status(200).json({
                 success: true,
@@ -32,8 +87,9 @@ const EmailRequestController = {
                 mpl130: mpl130EmailRequest,
                 mpl91: mpl91EmailRequest,
                 mplViber: mplViberRequest,
-                emails: EmailRequestData
+                emails: UpdatedEmailRequestData
             });
+
         } catch (error) {
             console.error(error);
             return res.status(400).json({
@@ -106,6 +162,7 @@ const EmailRequestController = {
 
         try {
             const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(AgentId, AccountNumber, ConfirmedAmount);
+
             if (!UpdateConfirmedEmail || UpdateConfirmedEmail.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -125,8 +182,7 @@ const EmailRequestController = {
             });
         }
 
-    }
-
+    },
 }
 
 module.exports = EmailRequestController;

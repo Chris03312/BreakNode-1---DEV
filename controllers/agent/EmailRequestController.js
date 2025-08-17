@@ -15,8 +15,10 @@ const EmaiRequestController = {
             }
 
             const confirmedEmailRequest = EmailRequestData.filter(user => user.remarks.startsWith('Confirmed'));
+            const brokenRequest = EmailRequestData.filter(user => user.remarks.startsWith('Broken'));
             const pendingEmailRequest = EmailRequestData.filter(user => !user.request.startsWith('Viber Request') && !user.remarks.startsWith('Confirmed') && user.request.startsWith('Proof of Payment') || user.remarks.startsWith('Sent'));
             const viberRequest = EmailRequestData.filter(user => user.request.startsWith('Viber Request'));
+
 
             return res.status(200).json({
                 success: true,
