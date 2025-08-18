@@ -52,13 +52,16 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : '-'}</td>
-                <td id="remarks-${(item.remarks || '').toLowerCase().replace(/\s+/g, '-')}">
-                    ${item.remarks || ''}
-                </td>
+                <td>${item.remarks || ''}</td>
                 <td>
-                ${['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
-                        ? ''
-                        : `<button type="button" onclick="requestEditModal('${item.accountNumber}', '${item.request}')">Edit</button>`}
+                    ${item.remarks?.trim().toLowerCase() === 'broken'
+                        ? `<button type="button" onclick="ReRequest('${item.agentId}', '${item.campaign}', '${item.email}', '${item.accountNumber}')">Re-Email</button>`
+                        : (
+                            ['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
+                                ? ''
+                                : `<button type="button" onclick="requestEditModal('${item.accountNumber}', '${item.request}')">Edit</button>`
+                        )
+                    }
                 </td>
             `;
             }
@@ -80,7 +83,7 @@ window.addEventListener('DOMContentLoaded', function () {
             populateTableRows('request', data.pending || []);
             populateTableRows('viber', data.viber || []);
             populateTableRows('confirmed', data.confirmed || []);
-
+            populateTableRows('broken', data.broken || []);
 
             if (!data.success) {
                 console.warn('No data:', data.message);
@@ -90,6 +93,7 @@ window.addEventListener('DOMContentLoaded', function () {
             populateTableRows('request', []);
             populateTableRows('viber', []);
             populateTableRows('confirmed', []);
+            populateTableRows('broken', []);
         }
     }
 
@@ -207,5 +211,52 @@ async function emailEditRequest() {
         }
     } catch (error) {
         console.error('Error Agent Updating Email Request:', error);
+    }
+}
+
+let reemail = '';
+async function ReRequest(AgentId, Campaign, Email, AccountNumber) {
+    reemail = { AgentId, Campaign, Email, AccountNumber };
+
+    const ReRequestModal = document.getElementById('ReRequestModal');
+    ReRequestModal.style.display = 'flex';
+
+    const closeReRequestModal = document.getElementById('closeReRequestModal');
+    closeReRequestModal.style.display = 'none';
+
+    document.getElementById('messageBox13').innerText = 'Are you sure you want to Re - Email ' + Email;
+
+}
+
+async function confirmReRequest() {
+    const { AgentId, Campaign, Email, AccountNumber } = reemail;
+
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/reEmailRequest`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ AgentId, Campaign, Email, AccountNumber })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            messageBox13.innerText = data.message;
+            messageBox13.style.color = 'green';
+            messageBox13.style.backgroundColor = '#d4edda';
+            messageBox13.style.padding = '10px';
+            messageBox13.style.borderRadius = '5px';
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            messageBox13.innerText = data.message;
+            messageBox13.style.color = 'red';
+            messageBox13.style.backgroundColor = '#f8d7da';
+            messageBox13.style.padding = '10px';
+            messageBox13.style.borderRadius = '5px';
+        }
+    } catch (error) {
+        console.error('Error Agent Re - Email Request:', error);
     }
 }

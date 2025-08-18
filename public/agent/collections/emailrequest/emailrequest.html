@@ -1,134 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agent | Email Request</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="/agent/css/sidebar.css" />
     <link rel="stylesheet" href="/agent/css/emailrequest.css" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div id="sidebar"></div>
 
     <div class="main-content">
-        <h1>Email Request</h1>
-        <div class="email-grid">
-            <div class="box request">
-                <h3 class="title">Requesting for Email</h3>
-                <div class="table-container">
-                    <table id="request">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Agent Name</th>
-                                <th>Email</th>
-                                <th>Client Name</th>
-                                <th>Mobile Number</th>
-                                <th>Amount</th>
-                                <th>Account Number</th>
-                                <th>Request Details</th>
-                                <th>Confirmed Amount</th>
-                                <th>Remarks</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box confirmed">
-                <h3 class="title">Confirmed Proof of Payment (Email)</h3>
-                <div class="table-container">
-                    <table id="confirmed">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Agent Name</th>
-                                <th>Email</th>
-                                <th>Client Name</th>
-                                <th>Mobile Number</th>
-                                <th>Amount</th>
-                                <th>Account Number</th>
-                                <th>Request Details</th>
-                                <th>Confirmed Amount</th>
-                                <th>Remarks</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box sent">
-                <h3 class="title">Requesting for Viber</h3>
-                <div class="table-container">
-                    <table id="viber">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Agent Name</th>
-                                <th>Client Name</th>
-                                <th>Mobile Number</th>
-                                <th>Amount</th>
-                                <th>Account Number</th>
-                                <th>Request Details</th>
-                                <th>Confirmed Amount</th>
-                                <th>Remarks</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+      <h1>Email Request</h1>
+      <div class="email-grid">
+        <div class="box request">
+          <h3 class="title">Requesting for Email</h3>
+          <div class="table-container">
+            <table id="request">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Agent Name</th>
+                  <th>Email</th>
+                  <th>Client Name</th>
+                  <th>Mobile Number</th>
+                  <th>Amount</th>
+                  <th>Account Number</th>
+                  <th>Request Details</th>
+                  <th>Confirmed Amount</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
-        <div class="requestEditEmailModal" id="requestEditEmailModal" style="display: none;">
-            <div class="requestEditEmailModal-content">
-                <div class="requestEditEmailModal-header">
-                    <h2>Edit Email Request</h2>
-                    <span id="messageBox11"></span>
-                </div>
-                <div class="requestEditEmailModal-body-split">
-                    <div class="requestEditEmailModal-panel-left">
-                        <label for="req-email">Email</label>
-                        <input type="email" id="reqeditemail" placeholder="Enter email">
-
-                        <label for="req-client">Client Name</label>
-                        <input type="text" id="reqeditclient" placeholder="Enter client name">
-
-                        <label for="req-mobile">Mobile Number</label>
-                        <input type="text" id="reqeditmobile" placeholder="Enter mobile number">
-                    </div>
-                    <div class="requestEditEmailModal-panel-right">
-                        <label for="req-amount">Amount</label>
-                        <input type="text" id="reqeditamount" placeholder="Enter amount">
-
-                        <label for="req-account">Account Number</label>
-                        <input type="text" id="reqeditaccount" placeholder="Enter account number" readonly>
-
-                        <label for="req-details">Request Details</label>
-                        <select id="reqeditdetails">
-                            <option value="" disabled>-- Select Request Details --</option>
-                            <option value="Proof of Payment" selected>Proof of Payment</option>
-                            <option value="Viber Request" selected>Viber Request</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button class="submit" onclick="emailEditRequest()">Submit Edit Request</button>
-                    <button class="cancel" id="cancelRequestEditEmail">Cancel Edit</button>
-                </div>
-            </div>
+        <div class="box confirmed">
+          <h3 class="title">Confirmed Proof of Payment (Email)</h3>
+          <div class="table-container">
+            <table id="confirmed">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Agent Name</th>
+                  <th>Email</th>
+                  <th>Client Name</th>
+                  <th>Mobile Number</th>
+                  <th>Amount</th>
+                  <th>Account Number</th>
+                  <th>Request Details</th>
+                  <th>Confirmed Amount</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
+        <div class="box sent">
+          <h3 class="title">Requesting for Viber</h3>
+          <div class="table-container">
+            <table id="viber">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Agent Name</th>
+                  <th>Client Name</th>
+                  <th>Mobile Number</th>
+                  <th>Amount</th>
+                  <th>Account Number</th>
+                  <th>Request Details</th>
+                  <th>Confirmed Amount</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="box broken">
+          <h3 class="title">Broken PTP</h3>
+          <div class="table-container">
+            <table id="broken">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Agent Name</th>
+                  <th>Email</th>
+                  <th>Client Name</th>
+                  <th>Mobile Number</th>
+                  <th>Amount</th>
+                  <th>Account Number</th>
+                  <th>Request Details</th>
+                  <th>Confirmed Amount</th>
+                  <th>Remarks</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div
+        class="requestEditEmailModal"
+        id="requestEditEmailModal"
+        style="display: none"
+      >
+        <div class="requestEditEmailModal-content">
+          <div class="requestEditEmailModal-header">
+            <h2>Edit Email Request</h2>
+            <span id="messageBox11"></span>
+          </div>
+          <div class="requestEditEmailModal-body-split">
+            <div class="requestEditEmailModal-panel-left">
+              <label for="req-email">Email</label>
+              <input type="email" id="reqeditemail" placeholder="Enter email" />
+
+              <label for="req-client">Client Name</label>
+              <input
+                type="text"
+                id="reqeditclient"
+                placeholder="Enter client name"
+              />
+
+              <label for="req-mobile">Mobile Number</label>
+              <input
+                type="text"
+                id="reqeditmobile"
+                placeholder="Enter mobile number"
+              />
+            </div>
+            <div class="requestEditEmailModal-panel-right">
+              <label for="req-amount">Amount</label>
+              <input
+                type="text"
+                id="reqeditamount"
+                placeholder="Enter amount"
+              />
+
+              <label for="req-account">Account Number</label>
+              <input
+                type="text"
+                id="reqeditaccount"
+                placeholder="Enter account number"
+                readonly
+              />
+
+              <label for="req-details">Request Details</label>
+              <select id="reqeditdetails">
+                <option value="" disabled>-- Select Request Details --</option>
+                <option value="Proof of Payment" selected>
+                  Proof of Payment
+                </option>
+                <option value="Viber Request" selected>Viber Request</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-group">
+            <button class="submit" onclick="emailEditRequest()">
+              Submit Edit Request
+            </button>
+            <button class="cancel" id="cancelRequestEditEmail">
+              Cancel Edit
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- ReRequest Modal -->
+      <div id="ReRequestModal" class="modal">
+        <div class="modal-content">
+          <span id="closeReRequestModal" class="close">&times;</span>
+          <h3>Re-Email Request</h3>
+          <p id="messageBox13">Processing your request...</p>
+          <div class="modal-footer">
+            <button
+              id="confirmReRequestBtn"
+              class="btn-confirm"
+              onclick="confirmReRequest()"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="../../../javascript/config.js"></script>
     <script src="/agent/javascript/emailrequest.js"></script>
     <script src="/agent/javascript/sidebar.js"></script>
-</body>
-
+  </body>
 </html>

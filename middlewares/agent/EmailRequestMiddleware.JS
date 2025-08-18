@@ -16,9 +16,11 @@ async function AgentEmailRequestValidation(req, res, next) {
         const existingRequests = await EmailRequestModel.CheckExistingEmail(Reqemail);
 
         if (existingRequests && existingRequests.length > 0) {
+            const { agentName, remarks } = existingRequests[0];
+
             return res.status(200).json({
                 success: false,
-                message: `The email ${Reqemail} is already Requested by ${existingRequests[0].agentName}.`
+                message: `The email ${Reqemail} is requested by ${agentName} (status: ${remarks}).`
             });
         }
 
