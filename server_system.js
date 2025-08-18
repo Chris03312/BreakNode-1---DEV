@@ -40,3 +40,6 @@ const Config = {
 };
 
 app.listen(Config.PORT, () => console.log(`Listening on http://${Config.HOST}:${Config.PORT}`));
+
+// Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+
