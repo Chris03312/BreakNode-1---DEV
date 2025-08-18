@@ -6,6 +6,11 @@ const EmailRequestModel = {
         return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, Email, ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending']
         );
     },
+    InsertViberRequest: async (AgentInsertData, agentName, Campaign, ClientName, MobileNumber, Amount, AccountNumber, Request) => {
+        const sql = `INSERT INTO emailrequest (date, agentId, agentName, campaign, email, clientName, mobileNumber, amount, accountNumber, request, remarks, requestedAt) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?,?,?,?,?, DATETIME('now', '+8 hours'))`;
+        return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, 'Non-Email', ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending']
+        );
+    },
     EmailRequestData: async (AgentId, Campaign) => {
         const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND campaign = ?`;
         return await connection.all('usersystem', sql, [AgentId, Campaign]);
@@ -30,6 +35,18 @@ const EmailRequestModel = {
     AgentReEmailRequest: async (AgentId, Campaign, Email, AccountNumber) => {
         const sql = `UPDATE emailrequest SET remarks = ?, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
         return await connection.run('usersystem', sql, ['Pending', AgentId, Campaign, Email, AccountNumber]);
+    },
+    CountEmailRequests: async (AgentId, Campaign, TargetDate) => {
+        const sql = `
+        SELECT 
+            COUNT(*) AS total,
+            SUM(CASE WHEN remarks = 'Confirmed' THEN 1 ELSE 0 END) AS confirmed
+        FROM emailrequest
+        WHERE agentId = ? 
+          AND campaign = ? 
+          AND DATE(date, 'localtime') = ?
+    `;
+        return await connection.all('usersystem', sql, [AgentId, Campaign, TargetDate]);
     }
 }
 module.exports = EmailRequestModel;

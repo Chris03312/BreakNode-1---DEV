@@ -330,7 +330,87 @@ body {
     box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-/* Submit Button */
+/* Viber Modal Overlay */
+.requestViberModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    padding: 17px;
+    animation: fadeIn 0.25s ease-in-out;
+    z-index: 1000;
+}
+
+/* Viber Modal Box */
+.requestViberModal-content {
+    background-color: #ffffff;
+    border-radius: 16px;
+    width: 600px;
+    max-width: 95%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.25s ease-in-out;
+    transition: all 0.3s ease;
+}
+
+/* Viber Modal Header */
+.requestViberModal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.requestViberModal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Viber Modal Layout - Two Panels */
+.requestViberModal-body-split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.requestViberModal-panel-left,
+.requestViberModal-panel-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 200px;
+}
+
+.requestViberModal-content label {
+    font-size: 0.9rem;
+    color: #34495e;
+    display: block;
+}
+    
+.requestViberModal-content input,
+.requestViberModal-content select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    transition: border 0.2s ease;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.requestViberModal-content input:focus,
+.requestViberModal-content select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
 .submit {
     margin-top: 28px;
     padding: 12px 20px;
@@ -387,6 +467,26 @@ body {
     flex: 0 0 auto;
     /* prevent buttons from stretching */
 }
+
+.notif-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.icon-badge-wrapper,
+.notif-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
 
 
 /* Animations */

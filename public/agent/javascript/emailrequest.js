@@ -30,10 +30,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.agentName || ''}</td>
                 <td>${item.clientName || ''}</td>
                 <td>${item.mobileNumber || ''}</td>
-                <td style="text-align:center;">₱${item.amount || '-'}</td>
+                <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
-                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : '-'}</td>
+                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                 ${item.remarks?.trim().toLowerCase() === 'sent'
@@ -48,10 +48,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.email || ''}</td>
                 <td>${item.clientName || ''}</td>
                 <td>${item.mobileNumber || ''}</td>
-                <td style="text-align:center;">₱${item.amount || '-'}</td>
+                <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
-                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : '-'}</td>
+                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                     ${item.remarks?.trim().toLowerCase() === 'broken'
@@ -248,7 +248,7 @@ async function confirmReRequest() {
 
             setTimeout(() => {
                 location.reload();
-            }, 1000);
+            }, 2000);
         } else {
             messageBox13.innerText = data.message;
             messageBox13.style.color = 'red';

@@ -25,9 +25,9 @@ const EmaiRequestController = {
             );
 
             const pendingEmailRequest = EmailRequestData.filter(user =>
+                user.email !== 'Non-Email' &&
                 user.date === today &&
-                user.remarks === "Pending" ||
-                user.remarks === "Sent"
+                (user.remarks === "Pending" || user.remarks === "Sent")
             );
 
             const viberRequest = EmailRequestData.filter(
@@ -66,6 +66,33 @@ const EmaiRequestController = {
             return res.status(200).json({
                 success: true,
                 message: `Successfully requested an email for ${Reqclient}`
+            });
+        } catch (error) {
+            console.warn(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Error in Inserting Email Request', error
+            })
+        }
+    },
+
+    InsertAgentViberRequest: async (req, res) => {
+        const { AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails } = req.body;
+
+        console.log(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails);
+
+        try {
+            const AgentViberRequest = await EmailRequestModel.InsertViberRequest(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails);
+            if (!AgentViberRequest || AgentViberRequest.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to insert Email Request'
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: `Successfully requested an email for ${vibclient}`
             });
         } catch (error) {
             console.warn(error);
@@ -126,7 +153,6 @@ const EmaiRequestController = {
             }
         }
     },
-
     AgentEmailUpdateDatas: async (req, res) => {
         const { AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails } = req.body;
 
@@ -172,6 +198,36 @@ const EmaiRequestController = {
             return res.status(400).json({
                 success: false,
                 message: 'Error in Re Request Email',
+                error
+            });
+        }
+    },
+    CountEmailRequest: async (req, res) => {
+        const { AgentId, Campaign } = req.body;
+        const today = new Date().toISOString().split('T')[0];
+        try {
+            const results = await EmailRequestModel.CountEmailRequests(AgentId, Campaign, today);
+
+            if (!results || results.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    total: 0,
+                    confirmed: 0,
+                });
+            }
+
+            const { total, confirmed } = results[0];
+
+            return res.status(200).json({
+                success: true,
+                total,
+                confirmed,
+            });
+        } catch (error) {
+            console.warn(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Error in Counting Request Email',
                 error
             });
         }

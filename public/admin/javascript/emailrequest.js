@@ -49,10 +49,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.agentName || ''}</td>
                 <td>${item.clientName || ''}</td>
                 <td>${item.mobileNumber || ''}</td>
-                <td style="text-align:center;">₱${item.amount || '-'}</td>
+                <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
-                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not confirmed yet'}</td>
+                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                     <button class="confirm-btn" onclick="confirmViberAmountBtn('${item.agentId}')"
@@ -67,10 +67,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.email || ''}</td>
                 <td>${item.clientName || ''}</td>
                 <td>${item.mobileNumber || ''}</td>
-                <td style="text-align:center;">₱${item.amount || '-'}</td>
+                <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
-                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not confirmed yet'}</td>
+                <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                     <button 

@@ -39,6 +39,7 @@ fetch('/admin/sidebar/sidebar.html')
 
 const { HOST, PORT } = Config;
 
+
 async function AgentsWithoutBreak() {
     try {
         const res = await fetch(`http://${HOST}:${PORT}/User/agentwithoutsched`, {
@@ -64,6 +65,37 @@ async function AgentsWithoutBreak() {
         console.error('Error Getting Agent without break schedule:', error);
     }
 }
+
+async function countNotif() {
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/countEmailRequest`, {
+            method: 'GET',
+        });
+
+        const data = await res.json();
+
+        const totalBadge = document.getElementById('totalBadge');
+        const mecBadge = document.getElementById('mecBadge');
+        const mplBadge = document.getElementById('mplBadge');
+
+        if (data.success) {
+            totalBadge.innerText = data.total ?? 0;
+            mecBadge.innerText = data.mec ?? 0;
+            mplBadge.innerText = data.mpl ?? 0;
+        } else {
+            totalBadge.innerText = '0';
+            mecBadge.innerText = '0';
+            mplBadge.innerText = '0';
+        }
+    } catch (error) {
+        console.error('Error Counting Email Request Count:', error);
+    }
+}
+
+
+countNotif();
+setInterval(countNotif, 1000);
+
 
 async function addAgent() {
     const UserId = document.getElementById('agentId').value;

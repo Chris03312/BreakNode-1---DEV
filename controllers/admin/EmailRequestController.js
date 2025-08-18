@@ -183,6 +183,37 @@ const EmailRequestController = {
         }
 
     },
+    CountEmailRequest: async (req, res) => {
+        try {
+            const results = await EmailRequestModel.CountEmailRequests();
+
+            if (!results || results.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    total: 0,
+                    mec: 0,
+                    mpl: 0
+                });
+            }
+
+            // results[0] contains the counts from SQL
+            const { total, mec, mpl } = results[0];
+
+            return res.status(200).json({
+                success: true,
+                total,
+                mec,
+                mpl
+            });
+        } catch (error) {
+            console.warn(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Error in Counting Request Email',
+                error
+            });
+        }
+    }
 }
 
 module.exports = EmailRequestController;
