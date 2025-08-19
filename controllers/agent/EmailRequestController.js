@@ -52,10 +52,10 @@ const EmaiRequestController = {
     },
 
     InsertAgentEmailRequest: async (req, res) => {
-        const { AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails } = req.body;
+        const { AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails, reqdpd } = req.body;
 
         try {
-            const AgentEmailRequest = await EmailRequestModel.InsertEmailRequest(AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails);
+            const AgentEmailRequest = await EmailRequestModel.InsertEmailRequest(AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails, reqdpd);
             if (!AgentEmailRequest || AgentEmailRequest.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -77,12 +77,12 @@ const EmaiRequestController = {
     },
 
     InsertAgentViberRequest: async (req, res) => {
-        const { AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails } = req.body;
+        const { AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails, vibdpd } = req.body;
 
-        console.log(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails);
+        console.log(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails, vibdpd);
 
         try {
-            const AgentViberRequest = await EmailRequestModel.InsertViberRequest(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails);
+            const AgentViberRequest = await EmailRequestModel.InsertViberRequest(AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails, vibdpd);
             if (!AgentViberRequest || AgentViberRequest.length === 0) {
                 return res.status(200).json({
                     success: false,
@@ -179,9 +179,10 @@ const EmaiRequestController = {
         }
     },
     ReEmailRequest: async (req, res) => {
-        const { AgentId, Campaign, Email, AccountNumber } = req.body;
+        const { AgentId, Campaign, Email, Amount, AccountNumber } = req.body;
+
         try {
-            const ReEmailRequests = await EmailRequestModel.AgentReEmailRequest(AgentId, Campaign, Email, AccountNumber);
+            const ReEmailRequests = await EmailRequestModel.AgentReEmailRequest(AgentId, Campaign, Email, Amount, AccountNumber);
             if (!ReEmailRequests && ReEmailRequests.length === 0) {
                 return res.status(200).json({
                     success: false,

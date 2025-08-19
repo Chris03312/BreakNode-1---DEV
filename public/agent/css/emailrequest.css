@@ -69,7 +69,7 @@ body {
 .table-container th,
 .table-container td {
     padding: 10px 12px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #e0e0e0;
     border-right: 1px solid #e0e0e0;
     color: #555;
@@ -297,34 +297,57 @@ body {
     color: #666;
 }
 
-/* Footer */
-.modal-footer {
-    margin-top: 15px;
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.btn-confirm {
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.modal-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-confirm,
+.btn-cancel {
     background-color: #007bff;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 20px;
     color: white;
     border-radius: 6px;
     cursor: pointer;
 }
 
 .btn-confirm:hover {
-    background-color: #0056b3;
+    background-color: #07c400;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.btn-cancel:hover {
+    background-color: #ff0000;
 }
 
 

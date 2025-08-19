@@ -27,7 +27,7 @@ app.use(pageRoutes);
 
 // Cron Job
 const { runArchiveSync } = require('./controllers/break/DashboardController');
-cron.schedule('0 * * * *', async () => {
+cron.schedule('0 * * * *', async() => {
     console.log('[AUTO ARCHIVE] Running at midnight...');
     const result = await runArchiveSync();
     console.log('[ARCHIVE RESULT]', result.message);
@@ -42,4 +42,3 @@ const Config = {
 app.listen(Config.PORT, () => console.log(`Listening on http://${Config.HOST}:${Config.PORT}`));
 
 // Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-

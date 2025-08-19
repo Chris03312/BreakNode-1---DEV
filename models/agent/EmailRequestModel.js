@@ -1,14 +1,14 @@
 const connection = require('../../configurations/database');
 
 const EmailRequestModel = {
-    InsertEmailRequest: async (AgentInsertData, agentName, Campaign, Email, ClientName, MobileNumber, Amount, AccountNumber, Request) => {
-        const sql = `INSERT INTO emailrequest (date, agentId, agentName, campaign, email, clientName, mobileNumber, amount, accountNumber, request, remarks, requestedAt) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?,?,?,?,?, DATETIME('now', '+8 hours'))`;
-        return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, Email, ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending']
+    InsertEmailRequest: async (AgentInsertData, agentName, Campaign, Email, ClientName, MobileNumber, Amount, AccountNumber, Request, dpd) => {
+        const sql = `INSERT INTO emailrequest (date, agentId, agentName, campaign, email, clientName, mobileNumber, amount, accountNumber, request, remarks, dpd, requestedAt) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?,?,?,?,?,?, DATETIME('now', '+8 hours'))`;
+        return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, Email, ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending', dpd,]
         );
     },
-    InsertViberRequest: async (AgentInsertData, agentName, Campaign, ClientName, MobileNumber, Amount, AccountNumber, Request) => {
-        const sql = `INSERT INTO emailrequest (date, agentId, agentName, campaign, email, clientName, mobileNumber, amount, accountNumber, request, remarks, requestedAt) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?,?,?,?,?, DATETIME('now', '+8 hours'))`;
-        return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, 'Non-Email', ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending']
+    InsertViberRequest: async (AgentInsertData, agentName, Campaign, ClientName, MobileNumber, Amount, AccountNumber, Request, dpd) => {
+        const sql = `INSERT INTO emailrequest (date, agentId, agentName, campaign, email, clientName, mobileNumber, amount, accountNumber, request, remarks, dpd, requestedAt) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?,?,?,?,?,?, DATETIME('now', '+8 hours'))`;
+        return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, 'Non-Email', ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending', dpd]
         );
     },
     EmailRequestData: async (AgentId, Campaign) => {
@@ -32,9 +32,9 @@ const EmailRequestModel = {
         const sql = 'UPDATE emailrequest SET email = ?, clientName = ?, mobileNumber = ?, amount = ?, request = ? WHERE accountNumber = ? AND AgentId = ? AND campaign = ?';
         return await connection.run('usersystem', sql, [reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails, reqeditaccount, AgentId, Campaign]);
     },
-    AgentReEmailRequest: async (AgentId, Campaign, Email, AccountNumber) => {
-        const sql = `UPDATE emailrequest SET remarks = ?, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
-        return await connection.run('usersystem', sql, ['Pending', AgentId, Campaign, Email, AccountNumber]);
+    AgentReEmailRequest: async (AgentId, Campaign, Email, Amount, AccountNumber) => {
+        const sql = `UPDATE emailrequest SET remarks = ?, Amount = ?, dpd + 1, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
+        return await connection.run('usersystem', sql, ['Pending', Amount, AgentId, Campaign, Email, AccountNumber]);
     },
     CountEmailRequests: async (AgentId, Campaign, TargetDate) => {
         const sql = `

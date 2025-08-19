@@ -103,13 +103,14 @@ async function emailRequest() {
     const Reqamount = document.getElementById('reqamount').value;
     const Reqaccount = document.getElementById('reqaccount').value;
     const Reqdetails = document.getElementById('reqdetails').value;
+    const reqdpd = document.getElementById('reqdpd').value;
     const messageBox9 = document.getElementById('messageBox9');
 
     try {
         const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/insertEmailRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails })
+            body: JSON.stringify({ AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails, reqdpd })
         });
 
         const data = await res.json();
@@ -145,13 +146,14 @@ async function viberRequest() {
     const vibamount = document.getElementById('vibamount').value;
     const vibaccount = document.getElementById('vibaccount').value;
     const vibdetails = document.getElementById('vibdetails').value;
+    const vibdpd = document.getElementById('vibdpd').value;
     const messageBox15 = document.getElementById('messageBox15');
 
     try {
         const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/insertViberRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails })
+            body: JSON.stringify({ AgentId, agentName, Campaign, vibclient, vibmobile, vibamount, vibaccount, vibdetails, vibdpd })
         });
 
         const data = await res.json();

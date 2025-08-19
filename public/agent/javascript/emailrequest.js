@@ -33,6 +33,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
+                <td>${item.dpd || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
@@ -51,11 +52,12 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
+                <td>${item.dpd || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                     ${item.remarks?.trim().toLowerCase() === 'broken'
-                        ? `<button type="button" onclick="ReRequest('${item.agentId}', '${item.campaign}', '${item.email}', '${item.accountNumber}')">Re-Email</button>`
+                        ? `<button type="button" onclick="ReRequest('${item.agentId}', '${item.campaign}', '${item.clientName}', '${item.email}', '${item.amount}', '${item.dpd}', '${item.accountNumber}')">Re-Email</button>`
                         : (
                             ['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
                                 ? ''
@@ -215,27 +217,35 @@ async function emailEditRequest() {
 }
 
 let reemail = '';
-async function ReRequest(AgentId, Campaign, Email, AccountNumber) {
-    reemail = { AgentId, Campaign, Email, AccountNumber };
+
+async function ReRequest(AgentId, Campaign, clientName, Email, Amount, Dpd, AccountNumber) {
+    reemail = { AgentId, Campaign, Email, Amount, Dpd, AccountNumber };
 
     const ReRequestModal = document.getElementById('ReRequestModal');
     ReRequestModal.style.display = 'flex';
 
-    const closeReRequestModal = document.getElementById('closeReRequestModal');
-    closeReRequestModal.style.display = 'none';
+    if (Email === 'Non-Email') {
+        document.getElementById('messageBox13').innerText =
+            'Are you sure you want to Re - Email \n' + clientName;
+    } else {
+        document.getElementById('messageBox13').innerText =
+            'Are you sure you want to Re - Email \n' + Email;
+    }
 
-    document.getElementById('messageBox13').innerText = 'Are you sure you want to Re - Email ' + Email;
-
+    document.getElementById('closeReRequestModal').addEventListener('click', function () {
+        ReRequestModal.style.display = 'none';
+    });
 }
 
+
 async function confirmReRequest() {
-    const { AgentId, Campaign, Email, AccountNumber } = reemail;
+    const { AgentId, Campaign, Email, Amount, Dpd, AccountNumber } = reemail;
 
     try {
         const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/reEmailRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, Campaign, Email, AccountNumber })
+            body: JSON.stringify({ AgentId, Campaign, Email, Amount, Dpd, AccountNumber })
         });
         const data = await res.json();
 

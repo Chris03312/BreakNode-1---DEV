@@ -52,6 +52,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
+                <td>${item.dpd || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
@@ -70,6 +71,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td style="text-align:center;">₱${item.amount ? Number(item.amount).toLocaleString('en-PH', { minimumFractionDigits: 2 }) : '-'}</td>
                 <td>${item.accountNumber || ''}</td>
                 <td>${item.request || ''}</td>
+                <td>${item.dpd || ''}</td>
                 <td style="text-align:center;">${item.confirmedAmount ? `₱${item.confirmedAmount}` : 'Not Confirmed Yet'}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
