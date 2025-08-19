@@ -1,6 +1,47 @@
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
 const UsersModel = require('../../models/admin/UserModel');
 
 const UsersController = {
+    AdminInsertEndorsement: async (req, res) => {
+        try {
+            const mecFile = req.files['endorsementFileMEC'] ? req.files['endorsementFileMEC'][0] : null;
+            const mplFile = req.files['endorsementFileMPL'] ? req.files['endorsementFileMPL'][0] : null;
+
+            if (!mecFile || !mplFile) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Both MEC and MPL endorsement files must be uploaded.'
+                });
+            }
+
+            const MECDir = path.join(__dirname, '../../endorsement/MEC');
+            const MPLDir = path.join(__dirname, '../../endorsement/MPL');
+
+            fs.mkdirSync(MECDir, { recursive: true });
+            fs.mkdirSync(MPLDir, { recursive: true });
+
+            const mecDestPath = path.join(MECDir, mecFile.originalname);
+            fs.renameSync(mecFile.path, mecDestPath);
+
+            const mplDestPath = path.join(MPLDir, mplFile.originalname);
+            fs.renameSync(mplFile.path, mplDestPath);
+
+            return res.status(200).json({
+                success: true,
+                message: 'Both MEC and MPL endorsement files uploaded successfully.'
+            });
+
+        } catch (error) {
+            console.error('Error in AdminInsertEndorsement:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Server error during file upload.'
+            });
+        }
+    },
     AgentsData: async (req, res) => {
         try {
             const data = await UsersModel.AgentsData();
@@ -36,7 +77,6 @@ const UsersController = {
             });
         }
     },
-
     AgentInsertUser: async (req, res) => {
         const { UserId, Name, Password, Campaign } = req.body;
 

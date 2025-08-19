@@ -19,6 +19,10 @@ const EmailRequestModel = {
         const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
         return await connection.all('usersystem', sql, [Reqemail]);
     },
+    CheckExistingViber: async (Reqemail) => {
+        const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
+        return await connection.all('usersystem', sql, [Reqemail]);
+    },
     EmailEditRequestData: async (AgentId, AccountNumber, request) => {
         if (request === 'Proof of Payment') {
             const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND accountNumber = ? AND request = ? AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
@@ -32,9 +36,9 @@ const EmailRequestModel = {
         const sql = 'UPDATE emailrequest SET email = ?, clientName = ?, mobileNumber = ?, amount = ?, request = ? WHERE accountNumber = ? AND AgentId = ? AND campaign = ?';
         return await connection.run('usersystem', sql, [reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails, reqeditaccount, AgentId, Campaign]);
     },
-    AgentReEmailRequest: async (AgentId, Campaign, Email, Amount, AccountNumber) => {
-        const sql = `UPDATE emailrequest SET remarks = ?, Amount = ?, dpd + 1, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
-        return await connection.run('usersystem', sql, ['Pending', Amount, AgentId, Campaign, Email, AccountNumber]);
+    AgentReEmailRequest: async (AgentId, Campaign, Email, Amount, Dpd, AccountNumber) => {
+        const sql = `UPDATE emailrequest SET remarks = ?, Amount = ?, dpd = ?, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
+        return await connection.run('usersystem', sql, ['Pending', Amount, Dpd, AgentId, Campaign, Email, AccountNumber]);
     },
     CountEmailRequests: async (AgentId, Campaign, TargetDate) => {
         const sql = `

@@ -15,6 +15,10 @@ fetch('/admin/sidebar/sidebar.html')
             nameElement.innerText = Name || "No Name Found";
         }
 
+        document.getElementById('uploadEndoTrigger').addEventListener('click', () => {
+            document.getElementById('EndorsementModal').style.display = 'flex';
+        });
+
         document.getElementById('addAgentBreakTrigger').addEventListener('click', () => {
             document.getElementById('agentBreakModal').style.display = 'flex';
         });
@@ -29,6 +33,10 @@ fetch('/admin/sidebar/sidebar.html')
 
         document.getElementById('closeAgentModal').addEventListener('click', () => {
             document.getElementById('agentAgentModal').style.display = 'none';
+        });
+
+        document.getElementById('closeEndorsementModalBtn').addEventListener('click', () => {
+            document.getElementById('EndorsementModal').style.display = 'none';
         });
 
         AgentsWithoutBreak();
@@ -66,36 +74,86 @@ async function AgentsWithoutBreak() {
     }
 }
 
-async function countNotif() {
+document.addEventListener('DOMContentLoaded', () => {
+    async function countNotif() {
+        try {
+            const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/countEmailRequest`, {
+                method: 'GET',
+            });
+
+            const data = await res.json();
+
+            const totalBadge = document.getElementById('totalBadge');
+            const mecBadge = document.getElementById('mecBadge');
+            const mplBadge = document.getElementById('mplBadge');
+
+            if (data.success) {
+                totalBadge.innerText = data.total ?? 0;
+                mecBadge.innerText = data.mec ?? 0;
+                mplBadge.innerText = data.mpl ?? 0;
+            } else {
+                totalBadge.innerText = '0';
+                mecBadge.innerText = '0';
+                mplBadge.innerText = '0';
+            }
+        } catch (error) {
+            console.error('Error Counting Email Request Count:', error);
+        }
+    }
+
+    countNotif();
+    setInterval(countNotif, 1000);
+});
+
+
+async function uploadEndorsement() {
+    const endorsementMECFileInput = document.getElementById('endorsementFileMEC');
+    const endorsementMPLFileInput = document.getElementById('endorsementFileMPL');
+    const messageBox16 = document.getElementById('messageBox16');
+
+    if (!endorsementMECFileInput.files.length || !endorsementMPLFileInput.files.length) {
+        messageBox16.innerText = "Please select both MEC and MPL files to upload.";
+        messageBox16.style.color = 'red';
+        messageBox16.style.display = 'block';
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('endorsementFileMEC', endorsementMECFileInput.files[0]);
+    formData.append('endorsementFileMPL', endorsementMPLFileInput.files[0]);
+
     try {
-        const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/countEmailRequest`, {
-            method: 'GET',
+        const res = await fetch(`http://${HOST}:${PORT}/AdminUsers/insertEndorsement`, {
+            method: 'POST',
+            body: formData
         });
 
         const data = await res.json();
 
-        const totalBadge = document.getElementById('totalBadge');
-        const mecBadge = document.getElementById('mecBadge');
-        const mplBadge = document.getElementById('mplBadge');
-
         if (data.success) {
-            totalBadge.innerText = data.total ?? 0;
-            mecBadge.innerText = data.mec ?? 0;
-            mplBadge.innerText = data.mpl ?? 0;
+            messageBox16.innerText = data.message;
+            messageBox16.style.color = '#155724';
+            messageBox16.style.backgroundColor = '#d4edda';
+            messageBox16.style.border = '1px solid #c3e6cb';
+            messageBox16.style.padding = '10px';
+            messageBox16.style.borderRadius = '5px';
+            messageBox16.style.display = 'block';
+
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
         } else {
-            totalBadge.innerText = '0';
-            mecBadge.innerText = '0';
-            mplBadge.innerText = '0';
+            messageBox16.innerText = data.message;
+            messageBox16.style.color = 'red';
+            messageBox16.style.display = 'block';
         }
     } catch (error) {
-        console.error('Error Counting Email Request Count:', error);
+        console.error('Error Uploading Endorsement', error);
+        messageBox16.innerText = "Upload failed, please try again.";
+        messageBox16.style.color = 'red';
+        messageBox16.style.display = 'block';
     }
 }
-
-
-countNotif();
-setInterval(countNotif, 1000);
-
 
 async function addAgent() {
     const UserId = document.getElementById('agentId').value;

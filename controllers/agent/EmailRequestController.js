@@ -20,8 +20,12 @@ const EmaiRequestController = {
                 user => user.remarks.startsWith('Confirmed')
             );
 
-            const brokenRequest = EmailRequestData.filter(
-                user => user.remarks.startsWith('Broken') && user.request.startsWith('Proof of Payment') || user.request.startsWith('Viber Request')
+            const brokenRequest = EmailRequestData.filter(user =>
+                !user.remarks.startsWith('Pending') &&
+                (
+                    (user.remarks.startsWith('Broken') && user.request.startsWith('Proof of Payment')) ||
+                    user.request.startsWith('Viber Request')
+                )
             );
 
             const pendingEmailRequest = EmailRequestData.filter(user =>
@@ -179,21 +183,31 @@ const EmaiRequestController = {
         }
     },
     ReEmailRequest: async (req, res) => {
-        const { AgentId, Campaign, Email, Amount, AccountNumber } = req.body;
+        const { AgentId, Campaign, ClientName, Email, Amount, Dpd, AccountNumber } = req.body;
 
         try {
-            const ReEmailRequests = await EmailRequestModel.AgentReEmailRequest(AgentId, Campaign, Email, Amount, AccountNumber);
-            if (!ReEmailRequests && ReEmailRequests.length === 0) {
+            const ReEmailRequests = await EmailRequestModel.AgentReEmailRequest(
+                AgentId, Campaign, Email, Amount, Dpd, AccountNumber
+            );
+
+            const isNonEmail = Email === 'Non-Email';
+
+            if (!ReEmailRequests && ReEmailRequests.length > 0) {
                 return res.status(200).json({
                     success: false,
-                    message: `Re - Emailing ${Email} is Failed`
+                    message: isNonEmail
+                        ? `Re - Requesting ${ClientName} failed`
+                        : `Re - Emailing ${Email} failed`
                 });
             }
 
             return res.status(200).json({
                 success: true,
-                message: `Re - Emailing ${Email} is Successfull`
+                message: isNonEmail
+                    ? `Re - Requesting ${ClientName} was successful`
+                    : `Re - Emailing ${Email} was successful`
             });
+
         } catch (error) {
             console.warn(error);
             return res.status(400).json({
@@ -203,6 +217,7 @@ const EmaiRequestController = {
             });
         }
     },
+
     CountEmailRequest: async (req, res) => {
         const { AgentId, Campaign } = req.body;
         const today = new Date().toISOString().split('T')[0];

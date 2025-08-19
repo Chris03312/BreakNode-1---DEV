@@ -4,6 +4,7 @@ const router = express.Router();
 const LogoutRoutes = require('../LogoutRoutes');
 const AdminAuthenticationRoutes = require('../admin/AuthenticationRoutes');
 const AdminUsersRoutes = require('../admin/UsersRoutes');
+const AgentUsersRoutes = require('../agent/UsersRoutes');
 const AdminEmailRequestRoutes = require('../admin/EmailRequestRoutes');
 const AgentEmailRequestRoutes = require('../agent/EmailRequestRoutes');
 const AgentAuthenticationRoutes = require('../agent/AuthenticationRoutes');
@@ -20,6 +21,7 @@ router.use('/Authentication', AuthenticationRoutes);
 router.use('/AdminAuthentication', AdminAuthenticationRoutes);
 router.use('/AdminUsers', AdminUsersRoutes);
 router.use('/AdminEmailRequest', AdminEmailRequestRoutes);
+router.use('/AgentUsers', AgentUsersRoutes);
 
 router.use('/AgentAuthentication', AgentAuthenticationRoutes);
 router.use('/AgentEmailRequest', AgentEmailRequestRoutes);

@@ -1,6 +1,10 @@
 const connection = require('../../configurations/database');
 
 const UsersModel = {
+    InsertEndorsementPath: async (originalPath, agentPath) => {
+        const sql = 'INSERT INTO endorsement (original, agent) VALUES (?,?)';
+        return await connection.run('usersystem', sql, [originalPath, agentPath]);
+    },
     AgentsData: async () => {
         const sql = 'SELECT * FROM agents';
         return await connection.all('usersystem', sql);

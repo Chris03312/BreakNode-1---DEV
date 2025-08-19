@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const EmailRequestController = require('../../controllers/agent/EmailRequestController');
-const { } = require('../../middlewares/agent/EmailRequestMiddleware');
+const { AgentEmailRequestValidation, AgentReEmailRequest } = require('../../middlewares/agent/EmailRequestMiddleware');
 
 
 router.post('/countEmailRequest', EmailRequestController.CountEmailRequest);

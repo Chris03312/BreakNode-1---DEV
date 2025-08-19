@@ -63,7 +63,8 @@
                     <i class="fa-solid fa-caret-down caret"></i>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="javascript:void(0)" id="uploadEndo"><i class="fa-solid fa-file-arrow-up"></i> Upload
+                    <li><a href="javascript:void(0)" id="uploadEndoTrigger"><i class="fa-solid fa-file-arrow-up"></i>
+                            Upload
                             New Endorsement</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
@@ -188,6 +189,19 @@
             <li><a href="#"><i class="fa-solid fa-gear"></i> Settings</a></li>
             <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
         </ul>
+    </div>
+</div>
+
+<div id="EndorsementModal" class="EndorsementModal" style="display: none;">
+    <div class="EndorsementModal-content">
+        <span class="close-btn" id="closeEndorsementModalBtn">&times;</span>
+        <div class="EndorsementModal-header">Upload Endorsement</div>
+        <div id="messageBox16"></div>
+        <label>MEC</label>
+        <input type="file" id="endorsementFileMEC" placeholder="MAYA EASY CREDIT" />
+        <label>MPL</label>
+        <input type="file" id="endorsementFileMPL" placeholder="MAYA PERSONAL LOAN" />
+        <button id="uploadBtn" onclick="uploadEndorsement()">Upload</button>
     </div>
 </div>
 

@@ -351,3 +351,87 @@ body {
     position: relative;
     display: inline-block;
 }
+
+/* Modal Overlay */
+.EndorsementModal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    /* Flex to center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* Padding to prevent content from touching edges on small screens */
+    box-sizing: border-box;
+}
+
+/* Modal Content Box */
+.EndorsementModal-content {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 8px;
+    width: 320px;
+    max-width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Modal Header */
+.EndorsementModal-header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Inputs full width */
+.EndorsementModal input[type="file"],
+.EndorsementModal input[type="text"] {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+}
+
+/* Close button */
+.EndorsementModal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 22px;
+    color: #aaa;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.EndorsementModal .close-btn:hover {
+    color: #000;
+}
+
+/* Upload button */
+.EndorsementModal button {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+}
+
+.EndorsementModal button:hover {
+    background-color: #0056b3;
+}

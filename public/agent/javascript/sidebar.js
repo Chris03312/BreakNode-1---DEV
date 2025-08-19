@@ -41,21 +41,6 @@ fetch('/agent/sidebar/sidebar.html')
 const { HOST, PORT } = Config;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const reqDetails = document.getElementById('reqdetails');
-    const otherRequestInput = document.getElementById('reqothers');
-
-    if (reqDetails && otherRequestInput) {
-        reqDetails.addEventListener('change', function () {
-            if (this.value === 'Others') {
-                otherRequestInput.style.display = 'flex';
-            } else {
-                otherRequestInput.style.display = 'none';
-            }
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     async function countNotif() {
         const AgentId = sessionStorage.getItem('UserId');
         const Campaign = sessionStorage.getItem('Campaign');
@@ -86,11 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     countNotif();
-    setInterval(countNotif, 1000); // Run every 1 second
-
-
+    setInterval(countNotif, 1000);
 });
-
 
 
 async function emailRequest() {

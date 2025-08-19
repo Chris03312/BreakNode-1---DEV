@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.remarks || ''}</td>
                 <td>
                     ${item.remarks?.trim().toLowerCase() === 'broken'
-                        ? `<button type="button" onclick="ReRequest('${item.agentId}', '${item.campaign}', '${item.clientName}', '${item.email}', '${item.amount}', '${item.dpd}', '${item.accountNumber}')">Re-Email</button>`
+                        ? `<button type="button" onclick="ReRequest('${item.agentId}', '${item.campaign}', '${item.clientName}', '${item.email}', '${item.accountNumber}')">Re-Email</button>`
                         : (
                             ['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
                                 ? ''
@@ -218,34 +218,39 @@ async function emailEditRequest() {
 
 let reemail = '';
 
-async function ReRequest(AgentId, Campaign, clientName, Email, Amount, Dpd, AccountNumber) {
-    reemail = { AgentId, Campaign, Email, Amount, Dpd, AccountNumber };
+async function ReRequest(AgentId, Campaign, ClientName, Email, AccountNumber) {
+    reemail = { AgentId, Campaign, ClientName, Email, AccountNumber };
+
+    messageBox14.innerText = '';
+    messageBox14.style.color = 'transparent';
+    messageBox14.style.backgroundColor = '';
+    messageBox14.style.padding = '';
+    messageBox14.style.borderRadius = '';
 
     const ReRequestModal = document.getElementById('ReRequestModal');
     ReRequestModal.style.display = 'flex';
 
-    if (Email === 'Non-Email') {
-        document.getElementById('messageBox13').innerText =
-            'Are you sure you want to Re - Email \n' + clientName;
-    } else {
-        document.getElementById('messageBox13').innerText =
-            'Are you sure you want to Re - Email \n' + Email;
-    }
+    const message = Email === 'Non-Email'
+        ? `Are you sure you want to Re - Email \n${ClientName}`
+        : `Are you sure you want to Re - Email \n${Email}`;
 
-    document.getElementById('closeReRequestModal').addEventListener('click', function () {
+    document.getElementById('messageBox13').innerText = message;
+
+    document.getElementById('closeReRequestModal').onclick = () => {
         ReRequestModal.style.display = 'none';
-    });
+    };
 }
 
-
 async function confirmReRequest() {
-    const { AgentId, Campaign, Email, Amount, Dpd, AccountNumber } = reemail;
+    const { AgentId, Campaign, ClientName, Email, AccountNumber } = reemail;
+    const Amount = document.getElementById('reAmount').value;
+    const Dpd = document.getElementById('reDpd').value;
 
     try {
         const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/reEmailRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, Campaign, Email, Amount, Dpd, AccountNumber })
+            body: JSON.stringify({ AgentId, Campaign, ClientName, Email, Amount, Dpd, AccountNumber })
         });
         const data = await res.json();
 
@@ -260,11 +265,11 @@ async function confirmReRequest() {
                 location.reload();
             }, 2000);
         } else {
-            messageBox13.innerText = data.message;
-            messageBox13.style.color = 'red';
-            messageBox13.style.backgroundColor = '#f8d7da';
-            messageBox13.style.padding = '10px';
-            messageBox13.style.borderRadius = '5px';
+            messageBox14.innerText = data.message;
+            messageBox14.style.color = 'red';
+            messageBox14.style.backgroundColor = '#f8d7da';
+            messageBox14.style.padding = '10px';
+            messageBox14.style.borderRadius = '5px';
         }
     } catch (error) {
         console.error('Error Agent Re - Email Request:', error);

@@ -22,6 +22,11 @@
         </a>
         <ul class="dropdown-menu">
           <li>
+            <a href="/agent/endorsement">
+              <i class="fa-solid fa-file-signature"></i> Endorsement
+            </a>
+          </li>
+          <li>
             <a href="/agent/ptpmonitoring"><i class="fa-solid fa-bullseye"></i> PTP Monitoring</a>
           </li>
           <li>
@@ -125,12 +130,10 @@
 
         <label for="req-details">Request Details</label>
         <select id="reqdetails">
-          <option value="" disabled>-- Select Request Details --</option>
-          <option value="Proof of Payment" selected>Proof of Payment</option>
-          <option value="Others">Others</option>
+          <option value="">-- Select Request Details --</option>
+          <option value="Proof of Payment">Proof of Payment</option>
         </select>
 
-        <input type="text" id="reqothers" placeholder="Enter custom request details" style="display: none;" />
       </div>
     </div>
     <div class="button-group">
@@ -142,7 +145,7 @@
 <div class="requestViberModal" id="requestViberModal" style="display: none">
   <div class="requestViberModal-content">
     <div class="requestViberModal-header">
-      <h2 id="Etitle">Email Request</h2>
+      <h2 id="Etitle">Viber Request</h2>
       <span id="messageBox15"></span>
     </div>
     <div class="requestViberModal-body-split">
@@ -154,6 +157,9 @@
         <input type="text" id="vibmobile" placeholder="Enter mobile number" />
 
         <label for="req-amount">Amount</label>
+        <input type="text" id="vibdpd" placeholder="Enter DPD" />
+
+        <label for="req-amount">DPD</label>
         <input type="text" id="vibamount" placeholder="Enter amount" />
       </div>
       <div class="requestViberModal-panel-right">
@@ -162,9 +168,10 @@
 
         <label for="req-details">Request Details</label>
         <select id="vibdetails">
-          <option value="" disabled>-- Select Request Details --</option>
-          <option value="Viber Request" selected>Viber Request</option>
+          <option value="" disabled selected>-- Select Request Details --</option>
+          <option value="Viber Request">Viber Request</option>
         </select>
+
       </div>
     </div>
     <div class="button-group">
