@@ -51,6 +51,10 @@
                   Viber</a>
               </li>
               <li>
+                <a href="javascript:void(0)" id="requestLoadTrigger"><i class="fa-brands fa-viber"></i> Request Sim
+                  Card Load</a>
+              </li>
+              <li>
                 <a href="/agent/emailrequest">
                   <span class="notif-wrapper">
                     <i class="fa-solid fa-circle-check"></i>
@@ -59,10 +63,10 @@
                   Confirm Payment
                 </a>
               </li>
+              <li>
+                <a href="/agent/simcardloading"><i class="fa-solid fa-sim-card"></i> Sim Card Loading</a>
+              </li>
             </ul>
-          </li>
-          <li>
-            <a href="/agent/simcardloading"><i class="fa-solid fa-sim-card"></i> Sim Card Loading</a>
           </li>
           <li>
             <a href="/agent/unauthorize"><i class="fa-solid fa-ban"></i> Unauthorized Transaction</a>
@@ -75,6 +79,12 @@
           </li>
           <li>
             <a href="/agent/smsinbound"><i class="fa-solid fa-circle-exclamation"></i> Sms Inbound</a>
+          </li>
+          <li>
+            <a href="/agent/smsblast"><i class="fa-solid fa-circle-exclamation"></i> Sms Blast</a>
+          </li>
+          <li>
+            <a href="/agent/hardphone"><i class="fa-solid fa-circle-exclamation"></i> Hard Phone</a>
           </li>
         </ul>
       </li>
@@ -177,6 +187,27 @@
     <div class="button-group">
       <button class="cancel" id="cancelRequestViber">Cancel Request</button>
       <button class="submit" onclick="viberRequest()">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<div class="requestLoadModal" id="requestLoadModal" style="display: none">
+  <div class="requestLoadModal-content">
+    <div class="requestLoadModal-header">
+      <h2 id="Etitle">SimCard Load Request</h2>
+      <span id="messageBox9"></span>
+    </div>
+    <div class="requestLoadModal-body-split">
+      <div class="requestLoadModal-panel-left">
+        <label for="req-mobile">Mobile Number</label>
+        <input type="text" id="reqloadmobile" placeholder="Enter mobile number" />
+        <label for="req-mobile">Purpose of Loading</label>
+        <input type="text" id="reqloadpurpose" placeholder="Enter mobile number" />
+      </div>
+    </div>
+    <div class="button-group">
+      <button class="cancel" id="cancelRequestLoad">Cancel Request</button>
+      <button class="submit" onclick="loadRequest()">Submit Request</button>
     </div>
   </div>
 </div>

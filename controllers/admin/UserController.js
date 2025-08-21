@@ -5,40 +5,115 @@ const path = require('path');
 const UsersModel = require('../../models/admin/UserModel');
 
 const UsersController = {
+    runArchiveEndorsementSync: async () => {
+        try {
+            const campaignDirs = ['MEC', 'MPL'];
+
+            // Current date in MMDDYYYY format to match filenames
+            const today = new Date();
+            const todayStr = `${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${today.getFullYear()}`;
+
+            for (const dir of campaignDirs) {
+                const basePath = path.resolve(__dirname, `../../endorsement/${dir}`);
+                const newPath = path.join(basePath, 'NEW');
+                const oldPath = path.join(basePath, 'OLD');
+
+                if (!fs.existsSync(newPath)) {
+                    console.warn(`⚠️ NEW folder not found for ${dir}`);
+                    continue;
+                }
+
+                if (!fs.existsSync(oldPath)) {
+                    fs.mkdirSync(oldPath, { recursive: true });
+                }
+
+                const files = fs.readdirSync(newPath).filter(file =>
+                    file.endsWith('.xlsx') && !file.startsWith('~$')
+                );
+
+                for (const file of files) {
+                    console.log(`🔍 Processing file: ${file}`);
+
+                    const fileDateMatch = file.match(/(\d{8})/);
+
+                    if (!fileDateMatch) {
+                        console.warn(`⚠️ No valid date found in file: ${file}`);
+                        continue;
+                    }
+
+                    const fileDate = fileDateMatch[1];
+                    console.log(`📅 File date: ${fileDate}, Today: ${todayStr}`);
+
+                    // If date is not today, archive it
+                    if (fileDate !== todayStr) {
+                        const fromPath = path.join(newPath, file);
+                        const toPath = path.join(oldPath, file);
+
+                        fs.renameSync(fromPath, toPath);
+                        console.log(`📦 Moved ${file} ➜ OLD (${dir})`);
+                    }
+                }
+            }
+
+            return {
+                success: true,
+                message: '✅ Endorsements auto-archived successfully.'
+            };
+
+        } catch (error) {
+            console.error('🔥 Auto-archiving error:', error);
+            return {
+                success: false,
+                message: '❌ Failed to auto-archive endorsements.',
+                error
+            };
+        }
+    },
     AdminInsertEndorsement: async (req, res) => {
         try {
             const mecFile = req.files['endorsementFileMEC'] ? req.files['endorsementFileMEC'][0] : null;
             const mplFile = req.files['endorsementFileMPL'] ? req.files['endorsementFileMPL'][0] : null;
 
-            if (!mecFile || !mplFile) {
+            if (!mecFile && !mplFile) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Both MEC and MPL endorsement files must be uploaded.'
+                    message: 'At least one of MEC or MPL endorsement files must be uploaded.'
                 });
             }
 
-            const MECDir = path.join(__dirname, '../../endorsement/MEC');
-            const MPLDir = path.join(__dirname, '../../endorsement/MPL');
+            const MECDir = path.join(__dirname, '../../endorsement/MEC/NEW');
+            const MPLDir = path.join(__dirname, '../../endorsement/MPL/NEW');
 
             fs.mkdirSync(MECDir, { recursive: true });
             fs.mkdirSync(MPLDir, { recursive: true });
 
-            const mecDestPath = path.join(MECDir, mecFile.originalname);
-            fs.renameSync(mecFile.path, mecDestPath);
+            let uploadedFiles = [];
 
-            const mplDestPath = path.join(MPLDir, mplFile.originalname);
-            fs.renameSync(mplFile.path, mplDestPath);
+            if (mecFile) {
+                const mecDestPath = path.join(MECDir, mecFile.originalname);
+                fs.renameSync(mecFile.path, mecDestPath);
+                uploadedFiles.push('MEC');
+                console.log(`✅ MEC file uploaded: ${mecFile.originalname}`);
+            }
+
+            if (mplFile) {
+                const mplDestPath = path.join(MPLDir, mplFile.originalname);
+                fs.renameSync(mplFile.path, mplDestPath);
+                uploadedFiles.push('MPL');
+                console.log(`✅ MPL file uploaded: ${mplFile.originalname}`);
+            }
 
             return res.status(200).json({
                 success: true,
-                message: 'Both MEC and MPL endorsement files uploaded successfully.'
+                message: `✅ ${uploadedFiles.join(' and ')} endorsement file(s) uploaded successfully.`,
+                uploaded: uploadedFiles
             });
 
         } catch (error) {
-            console.error('Error in AdminInsertEndorsement:', error);
+            console.error('🔥 Error in AdminInsertEndorsement:', error);
             return res.status(500).json({
                 success: false,
-                message: 'Server error during file upload.'
+                message: '❌ Server error during file upload.'
             });
         }
     },

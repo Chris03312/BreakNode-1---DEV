@@ -106,6 +106,19 @@ const EmaiRequestController = {
             })
         }
     },
+    InsertLoadRequest: async (req, res) => {
+        const { AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose } = req.body;
+
+        try {
+            const InsertLoadRequests = await EmailRequestModel.InsertLoadRequests(AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose);
+        } catch (error) {
+            console.warn(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Error in Inserting Load Request', error
+            })
+        }
+    },
 
     AgentEmailEditDatas: async (req, res) => {
         const { AgentId, AccountNumber, request } = req.body;

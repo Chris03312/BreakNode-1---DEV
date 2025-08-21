@@ -1,14 +1,14 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const ExcelJS = require('exceljs');
 
 const cache = {
-    data: {},      // cache data keyed by Campaign
-    timestamp: 0,  // last cache update time
-    ttl: 10 * 60 * 1000 // 10 hours // BUT IF YOU RESTART OR CNTRL S IN THE SOURCE CODE IT WILL RESET THE CACHE 10 * 60 * 60 & 1000 for 10 hours
+    data: {},
+    timestamp: 0,
+    ttl: 10 * 60 * 1000 // 10 minutes
 };
 
-const UsersController = {
+module.exports = {
     EndorsementData: async (req, res) => {
         try {
             const { Campaign } = req.body;
@@ -18,15 +18,14 @@ const UsersController = {
             }
 
             const now = Date.now();
-            if (
-                cache.data[Campaign] &&
-                now - cache.timestamp < cache.ttl
-            ) {
-                console.log('Serving data from cache for', Campaign);
+            if (cache.data[Campaign] && now - cache.timestamp < cache.ttl) {
+                console.log('📦 Serving data from cache for', Campaign);
                 return res.status(200).json({
                     success: true,
                     data: cache.data[Campaign].data,
-                    sheet: cache.data[Campaign].sheet
+                    sheet: cache.data[Campaign].sheet,
+                    endorsementStatus: cache.data[Campaign].endorsementStatus,
+                    latestOldEndorsementDate: cache.data[Campaign].latestOldEndorsementDate
                 });
             }
 
@@ -44,47 +43,98 @@ const UsersController = {
             }
 
             const { sheet, dir } = campaignInfo;
-            const folderPath = path.resolve(__dirname, `../../endorsement/${dir}`);
 
-            // If folder doesn't exist, respond with empty data
-            if (!fs.existsSync(folderPath)) {
+            const today = new Date();
+            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${today.getFullYear()}`;
+
+            const basePath = path.resolve(__dirname, `../../endorsement/${dir}`);
+            const newPath = path.join(basePath, 'NEW');
+            const oldPath = path.join(basePath, 'OLD');
+
+            let selectedPath = oldPath;
+            let endorsementStatus = 'Old Endorsement';
+
+            // Get latest date from OLD folder
+            let latestDate = null;
+            let latestDateFormatted = 'No valid date found';
+            if (fs.existsSync(oldPath)) {
+                const oldFiles = fs.readdirSync(oldPath).filter(f =>
+                    f.endsWith('.xlsx') && !f.startsWith('~$')
+                );
+
+                for (const file of oldFiles) {
+                    const match = file.match(/(\d{8})/); // Match MMDDYYYY
+                    if (match) {
+                        const dateStr = match[1];
+                        const mm = parseInt(dateStr.substring(0, 2), 10);
+                        const dd = parseInt(dateStr.substring(2, 4), 10);
+                        const yyyy = parseInt(dateStr.substring(4, 8), 10);
+                        const fileDate = new Date(yyyy, mm - 1, dd);
+                        if (!latestDate || fileDate > latestDate) {
+                            latestDate = fileDate;
+                        }
+                    }
+                }
+
+                if (latestDate) {
+                    latestDateFormatted = `${String(latestDate.getMonth() + 1).padStart(2, '0')}/${String(latestDate.getDate()).padStart(2, '0')}/${latestDate.getFullYear()}`;
+                }
+            }
+
+            // Check NEW path for newer files
+            if (fs.existsSync(newPath)) {
+                const newFiles = fs.readdirSync(newPath).filter(f =>
+                    f.endsWith('.xlsx') &&
+                    !f.startsWith('~$') &&
+                    f.includes(formattedDate)
+                );
+
+                if (newFiles.length > 0) {
+                    selectedPath = newPath;
+                    endorsementStatus = 'New Endorsement';
+                    console.log(`📂 Using NEW ENDORSEMENT for ${Campaign}`);
+                } else {
+                    console.log(`📂 No files dated ${formattedDate} found in NEW ENDORSEMENT. Using OLD ENDORSEMENT.`);
+                }
+            } else {
+                console.warn(`⚠️ NEW folder does not exist at ${newPath}`);
+            }
+
+            if (!fs.existsSync(selectedPath)) {
                 return res.status(200).json({ success: true, data: [] });
             }
 
-            // Read all Excel files (exclude temp files starting with ~$)
-            const files = fs.readdirSync(folderPath).filter(f =>
+            const files = fs.readdirSync(selectedPath).filter(f =>
                 f.endsWith('.xlsx') && !f.startsWith('~$')
             );
 
             const allData = [];
 
             for (const fileName of files) {
-                const filePath = path.join(folderPath, fileName);
+                const filePath = path.join(selectedPath, fileName);
                 const workbook = new ExcelJS.Workbook();
 
                 try {
                     await workbook.xlsx.readFile(filePath);
                 } catch (err) {
                     console.error(`❌ Error reading file "${fileName}":`, err.message);
-                    continue; // skip this file and continue with others
+                    continue;
                 }
 
                 const worksheet = workbook.getWorksheet(sheet);
                 if (!worksheet) {
                     console.warn(`⚠️ Sheet "${sheet}" not found in file "${fileName}"`);
-                    continue; // skip if sheet missing
+                    continue;
                 }
 
-                // Read header row including empty cells
                 const headerRow = worksheet.getRow(1);
                 const headers = [];
                 headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
                     headers.push(cell?.value ?? `Column${colNumber}`);
                 });
 
-                // Read each row including empty cells
                 worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-                    if (rowNumber === 1) return; // skip header row
+                    if (rowNumber === 1) return;
 
                     const rowData = {};
                     row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
@@ -96,15 +146,21 @@ const UsersController = {
                 });
             }
 
-            // Cache the data so next requests are faster
-            cache.data[Campaign] = { data: allData, sheet };
+            // Cache the result
+            cache.data[Campaign] = {
+                data: allData,
+                sheet,
+                endorsementStatus,
+                latestOldEndorsementDate: latestDateFormatted
+            };
             cache.timestamp = now;
 
-            // Send the data back
             return res.status(200).json({
                 success: true,
                 data: allData,
-                sheet
+                sheet,
+                endorsementStatus,
+                latestOldEndorsementDate: latestDateFormatted
             });
 
         } catch (error) {
@@ -116,5 +172,3 @@ const UsersController = {
         }
     }
 };
-
-module.exports = UsersController;

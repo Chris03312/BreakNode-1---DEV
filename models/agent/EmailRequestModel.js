@@ -11,6 +11,10 @@ const EmailRequestModel = {
         return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, 'Non-Email', ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending', dpd]
         );
     },
+    InsertLoadRequests: async (AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose) => {
+        const sql = 'INSERT INTO loadrequest';
+        return await connection.run('usersystem', sql, [AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose]);
+    },
     EmailRequestData: async (AgentId, Campaign) => {
         const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND campaign = ?`;
         return await connection.all('usersystem', sql, [AgentId, Campaign]);

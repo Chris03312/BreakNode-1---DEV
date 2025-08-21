@@ -30,13 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const data = await res.json();
+            const endoTitle = document.getElementById('endoTitle');
             console.log("Fetched data:", data);
 
             if (data.success) {
                 fullData = data.data;
-                filteredData = fullData; // initially no filter
+                filteredData = fullData;
                 renderTablePage(currentPage);
                 renderPaginationControls();
+                endoTitle.innerText = `📁 Endorsement Source: ${data.endorsementStatus}`;
             } else {
                 container.innerHTML = `<p style="color: red;">${data.message}</p>`;
             }

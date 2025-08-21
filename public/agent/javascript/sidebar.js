@@ -25,6 +25,10 @@ fetch('/agent/sidebar/sidebar.html')
             document.getElementById('requestViberModal').style.display = 'flex';
         });
 
+        document.getElementById('requestLoadTrigger').addEventListener('click', () => {
+            document.getElementById('requestLoadModal').style.display = 'flex';
+        });
+
         document.getElementById('cancelRequestEmail').addEventListener('click', () => {
             document.getElementById('requestEmailModal').style.display = 'none';
         });
@@ -33,6 +37,9 @@ fetch('/agent/sidebar/sidebar.html')
             document.getElementById('requestViberModal').style.display = 'none';
         });
 
+        document.getElementById('cancelRequestLoad').addEventListener('click', () => {
+            document.getElementById('requestLoadModal').style.display = 'none';
+        });
     })
     .catch(error => {
         console.error('Error loading sidebar:', error);
@@ -160,4 +167,40 @@ async function viberRequest() {
     } catch (error) {
         console.error('Error Inserting  Email Request:', error);
     }
+}
+
+async function loadRequest() {
+    const AgentId = sessionStorage.getItem('UserId');
+    const AgentName = sessionStorage.getItem('Name');
+    const Campaign = sessionStorage.getItem('Campaign');
+    const reqloadmobile = document.getElementById('reqloadmobile');
+    const reqloadpurpose = document.getElementById('reqloadpurpose');
+    const messageBox16 = document.getElementById('messageBox16');
+
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/insertLoadRequest`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            messageBox16.innerText = data.message;
+            messageBox16.style.color = 'green';
+            messageBox16.style.backgroundColor = '#d4edda';
+            messageBox16.style.padding = '10px';
+            messageBox16.style.borderRadius = '5px';
+        } else {
+            messageBox16.innerText = data.message;
+            messageBox16.style.color = 'red';
+            messageBox16.style.backgroundColor = '#f8d7da';
+            messageBox16.style.padding = '10px';
+            messageBox16.style.borderRadius = '5px';
+        }
+    } catch (error) {
+        console.error('Error Inserting  Load Request:', error);
+    }
+
 }

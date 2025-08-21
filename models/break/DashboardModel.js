@@ -5,7 +5,7 @@ const fs = require('fs');
 const DashboardModel = {
     ArchiveRecords: async () => {
         const sql = `SELECT * FROM records WHERE DATE(date) < DATE('now')`;
-        return await connection.all(sql);
+        return await connection.all('breaksystem', sql);
     },
 
     ExportToFileSync: async (records) => {
@@ -90,8 +90,8 @@ const DashboardModel = {
 
         const keys = Object.keys(records[0]);
         const insertSQL = `INSERT INTO archives (${keys.join(', ')}) VALUES (${keys.map(k => `@${k}`).join(', ')})`;
-        const insertStmt = connection.prepare(insertSQL);
-        const deleteStmt = connection.prepare(`DELETE FROM records WHERE DATE(date) < DATE('now')`);
+        const insertStmt = connection.prepare('breaksystem', insertSQL);
+        const deleteStmt = connection.prepare('breaksystem', `DELETE FROM records WHERE DATE(date) < DATE('now')`);
 
         const transaction = connection.transaction((rows) => {
             for (const row of rows) {

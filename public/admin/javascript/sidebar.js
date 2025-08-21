@@ -111,13 +111,6 @@ async function uploadEndorsement() {
     const endorsementMPLFileInput = document.getElementById('endorsementFileMPL');
     const messageBox16 = document.getElementById('messageBox16');
 
-    if (!endorsementMECFileInput.files.length || !endorsementMPLFileInput.files.length) {
-        messageBox16.innerText = "Please select both MEC and MPL files to upload.";
-        messageBox16.style.color = 'red';
-        messageBox16.style.display = 'block';
-        return;
-    }
-
     const formData = new FormData();
     formData.append('endorsementFileMEC', endorsementMECFileInput.files[0]);
     formData.append('endorsementFileMPL', endorsementMPLFileInput.files[0]);
