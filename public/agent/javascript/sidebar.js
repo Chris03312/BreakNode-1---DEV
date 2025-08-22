@@ -40,6 +40,9 @@ fetch('/agent/sidebar/sidebar.html')
         document.getElementById('cancelRequestLoad').addEventListener('click', () => {
             document.getElementById('requestLoadModal').style.display = 'none';
         });
+
+
+
     })
     .catch(error => {
         console.error('Error loading sidebar:', error);
@@ -173,8 +176,8 @@ async function loadRequest() {
     const AgentId = sessionStorage.getItem('UserId');
     const AgentName = sessionStorage.getItem('Name');
     const Campaign = sessionStorage.getItem('Campaign');
-    const reqloadmobile = document.getElementById('reqloadmobile');
-    const reqloadpurpose = document.getElementById('reqloadpurpose');
+    const reqloadmobile = document.getElementById('reqloadmobile').value;
+    const reqloadpurpose = document.getElementById('reqloadpurpose').value;
     const messageBox16 = document.getElementById('messageBox16');
 
     try {
@@ -192,6 +195,10 @@ async function loadRequest() {
             messageBox16.style.backgroundColor = '#d4edda';
             messageBox16.style.padding = '10px';
             messageBox16.style.borderRadius = '5px';
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
         } else {
             messageBox16.innerText = data.message;
             messageBox16.style.color = 'red';

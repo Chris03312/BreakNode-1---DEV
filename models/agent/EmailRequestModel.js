@@ -12,8 +12,8 @@ const EmailRequestModel = {
         );
     },
     InsertLoadRequests: async (AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose) => {
-        const sql = 'INSERT INTO loadrequest';
-        return await connection.run('usersystem', sql, [AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose]);
+        const sql = `INSERT INTO loadrequest (date, agentId, agentName, Campaign, mobileNumber, loadPurposes, remarks) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?)`;
+        return await connection.run('usersystem', sql, [AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose, 'Pending']);
     },
     EmailRequestData: async (AgentId, Campaign) => {
         const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND campaign = ?`;
@@ -55,6 +55,9 @@ const EmailRequestModel = {
           AND DATE(date, 'localtime') = ?
     `;
         return await connection.all('usersystem', sql, [AgentId, Campaign, TargetDate]);
+    },
+    checkExistingNumber: async () => {
+
     }
 }
 module.exports = EmailRequestModel;

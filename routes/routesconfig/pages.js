@@ -68,6 +68,12 @@ router.get('/agent/mistake', (req, res) => {
 router.get('/agent/smsinbound', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'collections', 'inbound', 'smsinbound.html'));
 });
+router.get('/agent/smsblast', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'collections', 'smsblast', 'smsblast.html'));
+});
+router.get('/agent/hardphone', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', 'public', 'agent', 'collections', 'hardphone', 'hardphone.html'));
+});
 
 
 // admin reports dd

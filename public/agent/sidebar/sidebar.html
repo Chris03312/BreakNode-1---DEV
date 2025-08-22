@@ -1,4 +1,16 @@
 <div class="sidebar">
+  <div class="sidebar-header">
+    <div id="notification" class="notification-wrapper" onclick="toggleNotificationBox()">
+      <i class="fa-solid fa-bell"></i>
+      <span id="notifBadge" class="notif-badge">3</span>
+      <div id="notificationBox" class="notification-box">
+        <p class="notif-title">Notifications</p>
+        <ul id="notificationList">
+        </ul>
+        <p class="notif-footer" onclick="markAllAsRead()">Mark all as read</p>
+      </div>
+    </div>
+  </div>
   <div class="profile-section">
     <img src="/agent/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
     <div id="AgentName"></div>
@@ -43,15 +55,15 @@
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a href="javascript:void(0)" id="requestEmailTrigger"><i class="fa-solid fa-paper-plane"></i> Request to
-                  Email</a>
+                <a href="javascript:void(0)" id="requestEmailTrigger"><i class="fa-solid fa-paper-plane"></i> Request
+                  via Email</a>
               </li>
               <li>
-                <a href="javascript:void(0)" id="requestViberTrigger"><i class="fa-brands fa-viber"></i> Request to
+                <a href="javascript:void(0)" id="requestViberTrigger"><i class="fa-brands fa-viber"></i> Request via
                   Viber</a>
               </li>
               <li>
-                <a href="javascript:void(0)" id="requestLoadTrigger"><i class="fa-brands fa-viber"></i> Request Sim
+                <a href="javascript:void(0)" id="requestLoadTrigger"><i class="fa-solid fa-sim-card"></i> Request Sim
                   Card Load</a>
               </li>
               <li>
@@ -78,13 +90,13 @@
             <a href="/agent/mistake"><i class="fa-solid fa-circle-exclamation"></i> Mistakes</a>
           </li>
           <li>
-            <a href="/agent/smsinbound"><i class="fa-solid fa-circle-exclamation"></i> Sms Inbound</a>
+            <a href="/agent/smsinbound"><i class="fa-solid fa-inbox"></i> Sms Inbound</a>
           </li>
           <li>
-            <a href="/agent/smsblast"><i class="fa-solid fa-circle-exclamation"></i> Sms Blast</a>
+            <a href="/agent/smsblast"><i class="fa-solid fa-bullhorn"></i> Sms Blast</a>
           </li>
           <li>
-            <a href="/agent/hardphone"><i class="fa-solid fa-circle-exclamation"></i> Hard Phone</a>
+            <a href="/agent/hardphone"><i class="fa-solid fa-phone"></i> Hard Phone</a>
           </li>
         </ul>
       </li>
@@ -195,14 +207,19 @@
   <div class="requestLoadModal-content">
     <div class="requestLoadModal-header">
       <h2 id="Etitle">SimCard Load Request</h2>
-      <span id="messageBox9"></span>
+      <span id="messageBox16"></span>
     </div>
     <div class="requestLoadModal-body-split">
       <div class="requestLoadModal-panel-left">
         <label for="req-mobile">Mobile Number</label>
         <input type="text" id="reqloadmobile" placeholder="Enter mobile number" />
         <label for="req-mobile">Purpose of Loading</label>
-        <input type="text" id="reqloadpurpose" placeholder="Enter mobile number" />
+        <select id="reqloadpurpose">
+          <option value="">-- Select Purpose --</option>
+          <option value="Calls">Calls</option>
+          <option value="Blast">Blast</option>
+          <option value="Calls & Blast">Calls & Blast</option>
+        </select>
       </div>
     </div>
     <div class="button-group">
