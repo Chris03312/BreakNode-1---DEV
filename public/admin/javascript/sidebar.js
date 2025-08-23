@@ -75,7 +75,7 @@ async function AgentsWithoutBreak() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    async function countNotif() {
+    async function countEmail() {
         try {
             const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/countEmailRequest`, {
                 method: 'GET',
@@ -101,8 +101,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    countNotif();
-    setInterval(countNotif, 1000);
+    async function countSim() {
+        try {
+            const res = await fetch(`http://${HOST}:${PORT}/AdminSimCardLoadingRequest/countSimRequest`, {
+                method: 'GET',
+            });
+
+            const data = await res.json();
+
+            const totalsimBadge = document.getElementById('totalsimBadge');
+            const mecsimBadge = document.getElementById('mecsimBadge');
+            const mplsimBadge = document.getElementById('mplsimBadge');
+            const smssimBadge = document.getElementById('smssimBadge');
+
+            if (data.success) {
+                totalsimBadge.innerText = data.total ?? 0;
+                mecsimBadge.innerText = data.mec ?? 0;
+                mplsimBadge.innerText = data.mpl ?? 0;
+                smssimBadge.innerText = data.sms ?? 0;
+            } else {
+                totalsimBadge.innerText = '0';
+                mecsimBadge.innerText = '0';
+                mplsimBadge.innerText = '0';
+                smssimBadge.innerText = '0';
+            }
+        } catch (error) {
+            console.error('Error Counting Email Request Count:', error);
+        }
+    }
+
+    countSim()
+    countEmail();
+    setInterval(countEmail, countSim, 1000);
 });
 
 

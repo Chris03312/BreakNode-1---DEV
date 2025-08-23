@@ -181,7 +181,7 @@ async function loadRequest() {
     const messageBox16 = document.getElementById('messageBox16');
 
     try {
-        const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/insertLoadRequest`, {
+        const res = await fetch(`http://${HOST}:${PORT}/AgentSimCardLoadingRequest/insertLoadRequest`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose })

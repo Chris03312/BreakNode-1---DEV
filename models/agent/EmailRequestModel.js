@@ -11,17 +11,9 @@ const EmailRequestModel = {
         return await connection.run('usersystem', sql, [AgentInsertData, agentName, Campaign, 'Non-Email', ClientName, MobileNumber, Amount, AccountNumber, Request, 'Pending', dpd]
         );
     },
-    InsertLoadRequests: async (AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose) => {
-        const sql = `INSERT INTO loadrequest (date, agentId, agentName, Campaign, mobileNumber, loadPurposes, remarks) VALUES (DATE('now', 'localtime'),?,?,?,?,?,?)`;
-        return await connection.run('usersystem', sql, [AgentId, AgentName, Campaign, reqloadmobile, reqloadpurpose, 'Pending']);
-    },
     EmailRequestData: async (AgentId, Campaign) => {
         const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND campaign = ?`;
         return await connection.all('usersystem', sql, [AgentId, Campaign]);
-    },
-    CheckExistingEmail: async (Reqemail) => {
-        const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
-        return await connection.all('usersystem', sql, [Reqemail]);
     },
     CheckExistingViber: async (Reqemail) => {
         const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
@@ -56,8 +48,5 @@ const EmailRequestModel = {
     `;
         return await connection.all('usersystem', sql, [AgentId, Campaign, TargetDate]);
     },
-    checkExistingNumber: async () => {
-
-    }
 }
 module.exports = EmailRequestModel;

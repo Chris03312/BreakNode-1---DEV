@@ -213,7 +213,7 @@ const EmailRequestController = {
                 error
             });
         }
-    }
+    },
 }
 
 module.exports = EmailRequestController;

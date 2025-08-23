@@ -118,7 +118,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     };
 
-
     async function AutoArchiveBroken(brokenPTP) {
         const { agentId, email, clientName, accountNumber } = brokenPTP;
 

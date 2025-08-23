@@ -124,16 +124,38 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
-                            <i class="fa-solid fa-sim-card"></i> Sim Card Loading
+                            <span class="notif-wrapper">
+                                <i class="fa-solid fa-sim-card"></i>
+                                <span id="totalsimBadge" class="notif-badge">0</span>
+                            </span>
+                            Sim Card Loading
                             <i class="fa-solid fa-caret-down caret"></i>
                         </a>
+
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/simcardloading?agents=MEC"><i class="fa-solid fa-users"></i> MEC</a>
+                            <li><a href="/admin/simcardloading?agents=MEC">
+                                    <span class="icon-badge-wrapper">
+                                        <i class="fa-solid fa-users"> <span id="mecsimBadge"
+                                                class="notif-badge">0</span></i>
+                                    </span>
+                                    MEC
+                                </a>
                             </li>
-                            <li><a href="/admin/simcardloading?agents=MPL"><i class="fa-solid fa-users"></i> MPL</a>
+                            <li>
+                                <a href="/admin/simcardloading?agents=MPL">
+                                    <span class="icon-badge-wrapper">
+                                        <i class="fa-solid fa-users"><span id="mplsimBadge"
+                                                class="notif-badge">0</span></i>
+                                    </span>
+                                    MPL
+                                </a>
                             </li>
-                            <li><a href="/admin/simcardloading?agents=SMS"><i class="fa-solid fa-users"></i> SMS
-                                    Blasters</a>
+                            <li><a href="/admin/simcardloading?agents=SMS"><span class="icon-badge-wrapper"><i
+                                            class="fa-solid fa-users"> <span id="smssimBadge"
+                                                class="notif-badge">0</span></i>
+                                    </span>
+                                    SMS Blasters
+                                </a>
                             </li>
                         </ul>
                     </li>

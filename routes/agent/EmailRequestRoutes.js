@@ -11,7 +11,6 @@ router.post('/emailRequest', EmailRequestController.GetEmailRequestData);
 router.post('/emailEditRequest', EmailRequestController.AgentEmailEditDatas);
 router.post('/emailUpdateRequest', EmailRequestController.AgentEmailUpdateDatas);
 router.post('/insertEmailRequest', AgentEmailRequestValidation, EmailRequestController.InsertAgentEmailRequest);
-router.post('/insertLoadRequest', AgentLoadRequest, EmailRequestController.InsertLoadRequest);
 router.post('/reEmailRequest', AgentReEmailRequest, EmailRequestController.ReEmailRequest);
 router.post('/insertViberRequest', EmailRequestController.InsertAgentViberRequest);
 

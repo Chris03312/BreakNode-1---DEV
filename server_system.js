@@ -29,12 +29,17 @@ app.use(pageRoutes);
 const { runArchiveSync } = require('./controllers/break/DashboardController');
 const AdminUserController = require('./controllers/admin/UserController');
 cron.schedule('0 * * * *', async () => {
-    console.log('[AUTO ARCHIVE] Running at midnight...');
+    const now = new Date();
+    const formattedDate = now.toLocaleString();
+    console.log(`[AUTO ARCHIVE] Running at: ${formattedDate}`);
     const result = await runArchiveSync();
     console.log('[ARCHIVE RESULT]', result.message);
 });
 cron.schedule('0 * * * *', async () => {
-    console.log('[AUTO ARCHIVE] Starting midnight Endorsement Archive...');
+    const now = new Date();
+    const formattedDate = now.toLocaleString();
+    console.log(`[AUTO ARCHIVE] Starting midnight Endorsement Archive... ${formattedDate}`);
+
     // Somewhere in your startup script
     await AdminUserController.runArchiveEndorsementSync().then(result => {
         console.log('📁 Startup archive result:', result.message);
