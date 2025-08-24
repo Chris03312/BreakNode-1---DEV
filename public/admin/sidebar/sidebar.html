@@ -1,4 +1,18 @@
 <div class="sidebar">
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+    <div class="sidebar-header">
+        <div id="notification" class="notification-wrapper" onclick="toggleNotificationBox()">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notifBadge" class="notif-badge">3</span>
+            <div id="notificationBox" class="notification-box">
+                <p class="notif-title">Notifications</p>
+                <ul id="notificationList">
+                </ul>
+                <p class="notif-footer" onclick="markAllAsRead()">Mark all as read</p>
+            </div>
+        </div>
+    </div>
+
     <div class="profile-section">
         <img src="/admin/assets/duck.jpeg" alt="Profile Picture" class="profile-pic" />
         <div id="AgentName"></div>

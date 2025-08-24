@@ -21,6 +21,16 @@ const SimCardLoadingController = {
                 });
             }
 
+            const Description = `Load request by Agent ${AgentId} for "${reqloadpurpose}" — Mobile Number: ${reqloadmobile}.`;
+
+            const InsertNotification = await SimCardLoadingModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: `Failed to Insert Load Notifications`
+                });
+            }
+
             return res.status(200).json({
                 success: true,
                 message: `Successfully Requested load for ${reqloadmobile}`

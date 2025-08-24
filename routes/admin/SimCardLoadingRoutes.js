@@ -2,11 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-const SimLoadingController = require('../../controllers/admin/SimLoadingController.js');
+const SimCardLoadingController = require('../../controllers/admin/SimCardLoadingController.js');
 
-router.get('/simLoadingDatas', SimLoadingController.GetSimCardDatas);
-router.get('/countSimRequest', SimLoadingController.CountSimRequest);
-router.post('/confirmLoadRequest', SimLoadingController.confirmLoadRequest);
-
+router.get('/simLoadingDatas', SimCardLoadingController.GetSimCardDatas);
+router.get('/countSimRequest', SimCardLoadingController.CountSimRequest);
+router.post('/confirmLoadRequest', SimCardLoadingController.confirmLoadRequest);
 
 module.exports = router;

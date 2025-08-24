@@ -48,6 +48,68 @@ body {
     margin-bottom: 20px;
 }
 
+.sidebar-header {
+    position: relative;
+    height: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.notification-wrapper {
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+}
+
+.notification-box {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    /* 🔁 changed from right: 0 */
+    width: 240px;
+    background: white;
+    color: #333;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    font-size: 13px;
+}
+
+.notification-box .notif-title {
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+.notification-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.notification-box ul li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-box .notif-footer {
+    text-align: center;
+    padding: 10px;
+    color: #007bff;
+    cursor: pointer;
+    border-top: 1px solid #ccc;
+}
+
+.notification-box .notif-footer:hover {
+    text-decoration: underline;
+}
+
 /* Container for both top and bottom navs */
 .nav-container {
     display: flex;
@@ -434,4 +496,21 @@ body {
 
 .EndorsementModal button:hover {
     background-color: #0056b3;
+}
+
+.toast {
+    background-color: #323232;
+    color: #fff;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transition: opacity 1s ease, transform 0.5s ease;
+    transform: translateY(0);
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateY(-20px);
 }

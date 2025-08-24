@@ -37,6 +37,10 @@ const EmailRequestModel = {
         WHERE remarks = 'Pending'
     `;
         return await connection.all('usersystem', sql);
+    },
+    Notification: async (AgentId, Description) => {
+        const sql = `INSERT INTO notification (role, AgentId, Description, status, datetime) VALUES (?,?,?,?, DATETIME('now', 'localtime'))`;
+        return await connection.run('usersystem', sql, ['Agent', AgentId, Description, 'unread']);
     }
 }
 

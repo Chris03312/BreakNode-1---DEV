@@ -67,6 +67,15 @@ const EmaiRequestController = {
                 });
             }
 
+            const Description = `Email Reqeust by Agent ${AgentId} for ${Reqdetails} — Email Address: ${Reqemail} `;
+            const InsertNotification = await EmailRequestModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.lenght === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to Email request Notification'
+                });
+            }
+
             return res.status(200).json({
                 success: true,
                 message: `Successfully requested an email for ${Reqclient}`
@@ -91,6 +100,15 @@ const EmaiRequestController = {
                 return res.status(200).json({
                     success: false,
                     message: 'Failed to insert Email Request'
+                });
+            }
+
+            const Description = `Viber Request by Agent ${AgentId} for ${vibdetails} — Client Name: ${vibclient} — Client Number: ${vibmobile}`;
+            const InsertNotification = await EmailRequestModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.lenght === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to Viber request notification'
                 });
             }
 
@@ -192,32 +210,44 @@ const EmaiRequestController = {
 
             const isNonEmail = Email === 'Non-Email';
 
-            if (!ReEmailRequests && ReEmailRequests.length > 0) {
+            if (!ReEmailRequests || ReEmailRequests.length === 0) {
                 return res.status(200).json({
                     success: false,
                     message: isNonEmail
-                        ? `Re - Requesting ${ClientName} failed`
-                        : `Re - Emailing ${Email} failed`
+                        ? `Re-vibering ${ClientName} failed`
+                        : `Re-emailing ${Email} failed`
+                });
+            }
+
+            const Description = isNonEmail
+                ? `Re - Viber request by Agent ${AgentId} for ${ClientName}.`
+                : `Re - Email request by Agent ${AgentId} — Email Address: ${Email}`;
+
+            const InsertNotification = await EmailRequestModel.Notification(AgentId, Description);
+
+            if (!InsertNotification || InsertNotification.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to insert Re-Email Request notification'
                 });
             }
 
             return res.status(200).json({
                 success: true,
                 message: isNonEmail
-                    ? `Re - Requesting ${ClientName} was successful`
-                    : `Re - Emailing ${Email} was successful`
+                    ? `Re-requesting ${ClientName} was successful`
+                    : `Re-emailing ${Email} was successful`
             });
 
         } catch (error) {
             console.warn(error);
             return res.status(400).json({
                 success: false,
-                message: 'Error in Re Request Email',
+                message: 'Error in Re-Request Email',
                 error
             });
         }
     },
-
     CountEmailRequest: async (req, res) => {
         const { AgentId, Campaign } = req.body;
         const today = new Date().toISOString().split('T')[0];

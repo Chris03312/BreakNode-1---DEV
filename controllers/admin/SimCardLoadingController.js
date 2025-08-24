@@ -1,6 +1,7 @@
-const SimCardLoadingModel = require('../../models/admin/SimCardLoadingModel.js');
+const { userSockets } = require('../../socket');
+const SimCardLoadingModel = require('../../models/admin/SimCardLoadingModel');
 
-const SimLoadingController = {
+const SimCardLoadingController = {
     GetSimCardDatas: async (req, res) => {
         try {
             const simCardData = await SimCardLoadingModel.LoadRequestData();
@@ -75,6 +76,7 @@ const SimLoadingController = {
             });
         }
     },
+
     confirmLoadRequest: async (req, res) => {
         const { AgentId, Campaign, MobileNumber } = req.body;
 
@@ -84,13 +86,30 @@ const SimLoadingController = {
             console.log('CONFIRM LOAD', confirmLoadRequest);
 
             if (!confirmLoadRequest || confirmLoadRequest.length === 0) {
-                return res.status(200).json({
-                    success: false
-                });
+                return res.status(200).json({ success: false });
             }
-            return res.status(200).json({
-                success: true
-            });
+
+            const Description = `Load confirmed for ${MobileNumber}, by Agent ${AgentId}.`;
+
+            const InsertNotification = await SimCardLoadingModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.length === 0) {
+                return res.status(200).json({ success: false });
+            }
+
+            const socket = userSockets.get(AgentId);
+            if (socket) {
+                socket.emit('new_notification', {
+                    agentId: AgentId,
+                    description: Description,
+                    status: 'unread',
+                    datetime: new Date().toLocaleString()
+                });
+                console.log(`🔔 Emitted notification to Agent ${AgentId}`);
+            } else {
+                console.log(`❌ Agent ${AgentId} not connected`);
+            }
+
+            return res.status(200).json({ success: true });
         } catch (error) {
             console.warn(error);
             return res.status(400).json({
@@ -99,9 +118,7 @@ const SimLoadingController = {
                 error
             });
         }
-
     }
-
 }
 
-module.exports = SimLoadingController;
+module.exports = SimCardLoadingController;

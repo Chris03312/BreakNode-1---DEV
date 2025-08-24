@@ -15,6 +15,10 @@ const EmailRequestModel = {
         const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND campaign = ?`;
         return await connection.all('usersystem', sql, [AgentId, Campaign]);
     },
+    CheckExistingEmail: async (Reqemail) => {
+        const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
+        return await connection.all('usersystem', sql, [Reqemail]);
+    },
     CheckExistingViber: async (Reqemail) => {
         const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
         return await connection.all('usersystem', sql, [Reqemail]);
@@ -48,5 +52,9 @@ const EmailRequestModel = {
     `;
         return await connection.all('usersystem', sql, [AgentId, Campaign, TargetDate]);
     },
+    Notification: async (AgentId, Description) => {
+        const sql = `INSERT INTO notification (role, agentId, description, status, datetime) VALUES (?,?,?,?, DATETIME('now', 'localtime'))`;
+        return await connection.run('usersystem', sql, ['Agent', AgentId, Description, 'unread']);
+    }
 }
 module.exports = EmailRequestModel;
