@@ -29,20 +29,19 @@ window.addEventListener('DOMContentLoaded', function () {
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
-            <td>${item.date || ''}</td>
-            <td>${item.agentName || ''}</td>
-            <td>${item.campaign || ''}</td>
-            <td>${item.mobileNumber || ''}</td>
-            <td>${item.loadPurposes || ''}</td>
-            <td>${item.loadAt || ''}</td>
-            <td>${item.spamAt || ''}</td>
-            <td>${item.remarks || ''}</td>
-            <td>
-                <!-- Example Action Buttons -->
-                <button onclick="confirmAmountBtn('${item.agentId}', '${item.accountNumber}', '${item.email}')">Confirm</button>
-                <button onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}', '${item.campaign}')">Send</button>
-            </td>
-        `;
+                <td>${item.date || ''}</td>
+                <td>${item.agentName || ''}</td>
+                <td>${item.campaign || ''}</td>
+                <td>${item.mobileNumber || ''}</td>
+                <td>${item.loadPurposes || ''}</td>
+                <td>${item.loadAt || ''}</td>
+                <td>${item.spamAt || ''}</td>
+                <td>${item.remarks || ''}</td>
+                <td>
+                    <!-- Example Action Buttons -->
+                    <button onclick="confirmLoadBtn('${item.agentId}', '${item.campaign}', '${item.mobileNumber}', this)">Confirm</button>
+                </td>
+            `;
             tbody.appendChild(tr);
         });
     }
@@ -126,8 +125,36 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     fetchAndPopulateTables();
-    // setInterval(fetchAndPopulateTables, 5000);
+    setInterval(fetchAndPopulateTables, 5000);
 });
+
+
+async function confirmLoadBtn(AgentId, Campaign, MobileNumber, btn) {
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/AdminSimCardLoadingRequest/confirmLoadRequest`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ AgentId, Campaign, MobileNumber })
+        });
+
+        const data = await res.json();
+
+        const row = btn.closest('tr');
+
+        if (data.success) {
+            row.classList.add('fade-out');
+            setTimeout(() => row.remove(), 600);
+        } else {
+            row.classList.add('shake');
+            setTimeout(() => row.classList.remove('shake'), 400);
+        }
+    } catch (error) {
+        console.error('Error Admin Confirm Load Request:', error);
+    }
+}
+
+
+
 
 
 let emailData = {};

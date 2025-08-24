@@ -15,15 +15,15 @@ const SimLoadingController = {
 
             // Filter data based on campaign type
             const mecUsers = simCardData.filter(user =>
-                user.campaign && user.campaign.startsWith('MEC')
+                user.campaign && user.campaign.startsWith('MEC') && !user.remarks.startsWith('Done')
             );
 
             const mplUsers = simCardData.filter(user =>
-                user.campaign && user.campaign.startsWith('MPL')
+                user.campaign && user.campaign.startsWith('MPL') && !user.remarks.startsWith('Done')
             );
 
             const smsUsers = simCardData.filter(user =>
-                user.campaign && user.campaign.startsWith('SMS')
+                user.campaign && user.campaign.startsWith('SMS') && !user.remarks.startsWith('Done')
             );
 
             return res.status(200).json({
@@ -74,6 +74,32 @@ const SimLoadingController = {
                 error
             });
         }
+    },
+    confirmLoadRequest: async (req, res) => {
+        const { AgentId, Campaign, MobileNumber } = req.body;
+
+        try {
+            const confirmLoadRequest = await SimCardLoadingModel.ConfirmLoadRequests(AgentId, Campaign, MobileNumber);
+
+            console.log('CONFIRM LOAD', confirmLoadRequest);
+
+            if (!confirmLoadRequest || confirmLoadRequest.length === 0) {
+                return res.status(200).json({
+                    success: false
+                });
+            }
+            return res.status(200).json({
+                success: true
+            });
+        } catch (error) {
+            console.warn(error);
+            return res.status(400).json({
+                success: false,
+                message: 'Error in Counting Request Email',
+                error
+            });
+        }
+
     }
 
 }
