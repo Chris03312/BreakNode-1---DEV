@@ -96,18 +96,18 @@ const SimCardLoadingController = {
                 return res.status(200).json({ success: false });
             }
 
-            const socket = userSockets.get(AgentId);
-            if (socket) {
-                socket.emit('new_notification', {
-                    agentId: AgentId,
-                    description: Description,
-                    status: 'unread',
-                    datetime: new Date().toLocaleString()
-                });
-                console.log(`🔔 Emitted notification to Agent ${AgentId}`);
-            } else {
-                console.log(`❌ Agent ${AgentId} not connected`);
-            }
+            // const socket = userSockets.get(AgentId);
+            // if (socket) {
+            //     socket.emit('new_notification', {
+            //         agentId: AgentId,
+            //         description: Description,
+            //         status: 'unread',
+            //         datetime: new Date().toLocaleString()
+            //     });
+            //     console.log(`🔔 Emitted notification to Agent ${AgentId}`);
+            // } else {
+            //     console.log(`❌ Agent ${AgentId} not connected`);
+            // }
 
             return res.status(200).json({ success: true });
         } catch (error) {

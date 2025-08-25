@@ -7,24 +7,26 @@
     <title>Agent | Unauthorized Transaction</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/agent/css/hardphone.css" />
 </head>
 
 <body>
     <div id="sidebar"></div>
 
     <div class="main-content">
-        <h1>Hardphone</h1>
-
-        <div id="graph1"></div>
-        <div id="graph2"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-        <div id="graph1"></div>
-
+        <h1 id="hardphoneTitle">
+            </h4>
+            <div id="controls-container">
+                <input type="text" id="search-input" placeholder="Search...">
+                <div id="pagination-controls"></div>
+            </div>
+            <div id="table-container"></div>
     </div>
 
+    <script src="../../../javascript/config.js"></script>
     <script src="/agent/javascript/sidebar.js"></script>
+    <script src="/agent/javascript/hardphone.js"></script>
+
 </body>
 
 </html>

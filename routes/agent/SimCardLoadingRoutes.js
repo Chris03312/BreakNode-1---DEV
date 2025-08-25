@@ -6,5 +6,6 @@ const SimCardLoadingController = require('../../controllers/agent/SimCardLoading
 const { AgentLoadRequest } = require('../../middlewares/agent/SimCardLoadingMiddleware');
 
 router.post('/insertLoadRequest', AgentLoadRequest, SimCardLoadingController.InsertLoadRequest);
+router.post('/loadRequestDatas', SimCardLoadingController.LoadRequestDatas);
 
 module.exports = router;
