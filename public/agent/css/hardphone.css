@@ -165,6 +165,11 @@ td.editable-cell:focus {
     box-shadow: 0 0 3px #6ea8ff;
 }
 
+.dropdown-select {
+    width: 380px;
+    padding: 4px;
+    font-size: 14px;
+}
 
 @keyframes spin {
     0% {

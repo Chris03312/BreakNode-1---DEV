@@ -244,7 +244,8 @@ body {
     display: none;
     position: absolute;
     top: 30px;
-    right: 0;
+    left: 30px;
+    /* 🔁 changed from right: 0 */
     width: 240px;
     background: white;
     color: #333;
@@ -284,6 +285,16 @@ body {
 .notification-box .notif-footer:hover {
     text-decoration: underline;
 }
+
+/* Container for both top and bottom navs */
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+    height: 100%;
+}
+
 
 /* Animations */
 @keyframes fadeIn {

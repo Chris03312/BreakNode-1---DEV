@@ -497,20 +497,3 @@ body {
 .EndorsementModal button:hover {
     background-color: #0056b3;
 }
-
-.toast {
-    background-color: #323232;
-    color: #fff;
-    padding: 12px 20px;
-    margin-top: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    opacity: 1;
-    transition: opacity 1s ease, transform 0.5s ease;
-    transform: translateY(0);
-}
-
-.toast.hide {
-    opacity: 0;
-    transform: translateY(-20px);
-}

@@ -1,6 +1,9 @@
-const multer = require('multer');
 const fs = require('fs');
+const fsPromises = require("fs").promises;
+const XLSX = require('xlsx');
 const path = require('path');
+const { fork } = require("child_process");
+
 
 const UsersModel = require('../../models/admin/UserModel');
 
@@ -75,45 +78,86 @@ const UsersController = {
             const mplFile = req.files['endorsementFileMPL'] ? req.files['endorsementFileMPL'][0] : null;
 
             if (!mecFile && !mplFile) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'At least one of MEC or MPL endorsement files must be uploaded.'
-                });
+                return res.status(400).json({ success: false, message: "No files uploaded." });
             }
 
-            const MECDir = path.join(__dirname, '../../endorsement/MEC/NEW');
-            const MPLDir = path.join(__dirname, '../../endorsement/MPL/NEW');
+            const filesToProcess = [];
+            if (mecFile) filesToProcess.push({ file: mecFile.path, type: "MEC", name: mecFile.originalname });
+            if (mplFile) filesToProcess.push({ file: mplFile.path, type: "MPL", name: mplFile.originalname });
 
-            fs.mkdirSync(MECDir, { recursive: true });
-            fs.mkdirSync(MPLDir, { recursive: true });
+            const convertWorker = fork(path.join(__dirname, "../worker/convertWorker.js"));
 
-            let uploadedFiles = [];
+            convertWorker.send({ files: filesToProcess });
 
-            if (mecFile) {
-                const mecDestPath = path.join(MECDir, mecFile.originalname);
-                fs.renameSync(mecFile.path, mecDestPath);
-                uploadedFiles.push('MEC');
-                console.log(`✅ MEC file uploaded: ${mecFile.originalname}`);
-            }
+            convertWorker.on("message", (msg) => {
+                console.log("✅ convertWorker finished:", msg);
+            });
 
-            if (mplFile) {
-                const mplDestPath = path.join(MPLDir, mplFile.originalname);
-                fs.renameSync(mplFile.path, mplDestPath);
-                uploadedFiles.push('MPL');
-                console.log(`✅ MPL file uploaded: ${mplFile.originalname}`);
-            }
+            convertWorker.on("exit", (code) => {
+                if (code !== 0) {
+                    console.error("❌ convertWorker exited with code", code);
+                    return;
+                }
+
+                // ✅ Once conversion is done, trigger distribution per file
+                for (const file of filesToProcess) {
+                    const distributeWorker = fork(path.join(__dirname, "../worker/distributeWorker.js"));
+                    distributeWorker.send(file); // file = { file, type, name }
+
+                    distributeWorker.on("message", (msg) => {
+                        console.log("📦 distributeWorker:", msg);
+                    });
+
+                    distributeWorker.on("exit", (exitCode) => {
+                        if (exitCode !== 0) {
+                            console.error("❌ distributeWorker exited with code", exitCode);
+                        }
+                    });
+                }
+            });
 
             return res.status(200).json({
                 success: true,
-                message: `✅ ${uploadedFiles.join(' and ')} endorsement file(s) uploaded successfully.`,
-                uploaded: uploadedFiles
+                message: "✅ Upload successful. Conversion and distribution running in background.",
+            });
+
+        } catch (err) {
+            console.error("❌ Upload Error:", err);
+            return res.status(500).json({ success: false, message: "Internal Server Error" });
+        }
+    },
+    AgentsData: async (req, res) => {
+        try {
+            const data = await UsersModel.AgentsData();
+
+            if (!data || data.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'No Available Users Data',
+                    users: []
+                });
+            }
+
+            // Match campaigns like "MEC 1 - 30", "MPL 1 - 30", etc.
+            const mecUsers = data.filter(user => user.campaign.startsWith('MEC'));
+            const mplUsers = data.filter(user => user.campaign.startsWith('MPL'));
+            const qaUsers = data.filter(user => user.campaign.startsWith('QA'));
+            const smsUsers = data.filter(user => user.campaign.startsWith('SMS'));
+
+            return res.status(200).json({
+                success: true,
+                mec: mecUsers,
+                mpl: mplUsers,
+                qa: qaUsers,
+                sms: smsUsers,
+                users: data
             });
 
         } catch (error) {
-            console.error('🔥 Error in AdminInsertEndorsement:', error);
-            return res.status(500).json({
+            console.error(error);
+            return res.status(400).json({
                 success: false,
-                message: '❌ Server error during file upload.'
+                message: 'Server error during Fetching User Datas.'
             });
         }
     },
