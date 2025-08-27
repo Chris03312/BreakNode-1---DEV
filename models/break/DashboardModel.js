@@ -102,7 +102,6 @@ const DashboardModel = {
 
         transaction(records);
     },
-
 };
 
 module.exports = DashboardModel;

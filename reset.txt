@@ -1,0 +1,48 @@
+cron.schedule('59 23 9 * *', async () => {
+    const now = new Date();
+    const formattedDate = now.toLocaleString();
+    console.log(`[AUTO RESET] Running Over Break Reset at 11:59 PM (before cycle ending on the 10th)... ${formattedDate}`);
+
+    try {
+        const result = await AdminUserController.runResetOverBreak();
+        console.log(`📁 Reset result: ${result.message}`);
+    } catch (err) {
+        console.error('❌ Reset failed:', err.message);
+    }
+});
+cron.schedule('59 23 24 * *', async () => {
+    const now = new Date();
+    const formattedDate = now.toLocaleString();
+    console.log(`[AUTO RESET] Running Over Break Reset at 11:59 PM (before cycle ending on the 25th)... ${formattedDate}`);
+
+    try {
+        const result = await AdminUserController.runResetOverBreak();
+        console.log(`📁 Reset result: ${result.message}`);
+    } catch (err) {
+        console.error('❌ Reset failed:', err.message);
+    }
+});
+
+
+controller 
+
+    runResetOverBreak: async () => {
+        const times = '0';
+        try {
+            const resetOverBreak = await DashboardModel.ResetOverBreak(times);
+            return {
+                success: true,
+                message: `${resetOverBreak.changes} . has been reset`,
+            };
+        } catch (error) {
+            return { success: false, message: 'Error during Over Break Resest: ' + err.message };
+
+        }
+    }
+
+
+Model 
+    ResetOverBreak: async (times) => {
+        const sql = 'UPDATE users SET overBreak = ?';
+        return await connection.run('usersystem', sql, [times]);
+    }

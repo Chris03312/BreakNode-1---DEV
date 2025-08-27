@@ -20,7 +20,7 @@ const DashboardController = {
         } catch (err) {
             return { success: false, message: 'Error during archive: ' + err.message };
         }
-    }
+    },
 };
 
 

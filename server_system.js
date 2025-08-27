@@ -44,8 +44,8 @@ cron.schedule('0 * * * *', async () => {
     await AdminUserController.runArchiveEndorsementSync().then(result => {
         console.log('📁 Startup archive result:', result.message);
     });
-
 });
+
 
 // Server
 const Config = {
