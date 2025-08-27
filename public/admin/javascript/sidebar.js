@@ -55,21 +55,26 @@ async function AgentsWithoutBreak() {
 
         const data = await res.json();
 
-        if (data.success) {
-            const select = document.getElementById('AgentsId');
-            select.innerHTML = '<option value="">--Select User ID--</option>';
+        const select = document.getElementById('AgentsId');
+        select.innerHTML = '<option value="">--Select Agent--</option>';
 
+        if (data.success) {
             data.data.forEach(agent => {
                 const option = document.createElement('option');
                 option.value = agent.id;
-                option.textContent = agent.id;
+                // Show both ID and Name for clarity
+                option.textContent = `${agent.id} - ${agent.name}`;
                 select.appendChild(option);
             });
         } else {
-            console.warn(data.message);
+            const option = document.createElement('option');
+            option.value = "";
+            option.textContent = "No agents available";
+            option.disabled = true;
+            select.appendChild(option);
         }
     } catch (error) {
-        console.error('Error Getting Agent without break schedule:', error);
+        console.error('Error getting agents without break schedule:', error);
     }
 }
 
