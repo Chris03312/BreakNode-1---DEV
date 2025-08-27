@@ -15,7 +15,7 @@ const DashboardModel = {
         }
 
         const sql = `SELECT date FROM records LIMIT 1`;
-        const recordsData = await connection.all(sql);
+        const recordsData = await connection.all('breaksystem', sql);
 
         const fileDate = recordsData[0]?.date || new Date().toISOString().split('T')[0];
         const filePath = path.join(archiveDir, `archive_${fileDate}.csv`);
@@ -51,6 +51,7 @@ const DashboardModel = {
                     break15: [],
                     break1hr: [],
                     break10: [],
+                    remarks: record.remarks,
                     date: formattedDate
                 };
             }
@@ -74,8 +75,7 @@ const DashboardModel = {
                 data.break15.join('; '),
                 data.break1hr.join('; '),
                 data.break10.join('; '),
-                '', // placeholder for timeDifference
-                '', // placeholder for remarks
+                data.remarks || '',
                 data.date || ''
             ];
             content += row.join(',') + '\n';
@@ -90,8 +90,8 @@ const DashboardModel = {
 
         const keys = Object.keys(records[0]);
         const insertSQL = `INSERT INTO archives (${keys.join(', ')}) VALUES (${keys.map(k => `@${k}`).join(', ')})`;
-        const insertStmt = connection.prepare('breaksystem', insertSQL);
-        const deleteStmt = connection.prepare('breaksystem', `DELETE FROM records WHERE DATE(date) < DATE('now')`);
+        const insertStmt = connection.run('breaksystem', insertSQL);
+        const deleteStmt = connection.run('breaksystem', `DELETE FROM records WHERE DATE(date, 'localtime') < DATE('now', 'localtime')`);
 
         const transaction = connection.transaction((rows) => {
             for (const row of rows) {

@@ -282,7 +282,7 @@ async function confirmAmountModalBtn() {
         const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/confirmedAmount`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, AccountNumber, ConfirmedAmount })
+            body: JSON.stringify({ AgentId, AccountNumber, ConfirmedAmount, Email })
         });
 
         const data = await res.json();

@@ -24,8 +24,8 @@ router.use('/AdminAuthentication', AdminAuthenticationRoutes);
 router.use('/AdminUsers', AdminUsersRoutes);
 router.use('/AdminSimCardLoadingRequest', AdminSimCardLoadingRequestRoutes);
 router.use('/AdminEmailRequest', AdminEmailRequestRoutes);
-router.use('/AgentUsers', AgentUsersRoutes);
 
+router.use('/AgentUsers', AgentUsersRoutes);
 router.use('/AgentAuthentication', AgentAuthenticationRoutes);
 router.use('/AgentEmailRequest', AgentEmailRequestRoutes);
 router.use('/AgentSimCardLoadingRequest', AgentSimCardLoadingRequestRoutes);

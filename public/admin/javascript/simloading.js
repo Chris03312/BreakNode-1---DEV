@@ -35,7 +35,6 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>${item.mobileNumber || ''}</td>
                 <td>${item.loadPurposes || ''}</td>
                 <td>${item.loadAt || ''}</td>
-                <td>${item.spamAt || ''}</td>
                 <td>${item.remarks || ''}</td>
                 <td>
                     <!-- Example Action Buttons -->

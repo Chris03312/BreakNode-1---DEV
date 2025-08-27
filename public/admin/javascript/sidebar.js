@@ -47,7 +47,6 @@ fetch('/admin/sidebar/sidebar.html')
 
 const { HOST, PORT } = Config;
 
-
 async function AgentsWithoutBreak() {
     try {
         const res = await fetch(`http://${HOST}:${PORT}/User/agentwithoutsched`, {
@@ -135,6 +134,31 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(countEmail, countSim, 1000);
 });
 
+let isNotificationBoxOpen = false;
+
+function toggleNotificationBox() {
+    const box = document.getElementById('notificationBox');
+    isNotificationBoxOpen = !isNotificationBoxOpen;
+    box.style.display = isNotificationBoxOpen ? 'block' : 'none';
+}
+
+function markAllAsRead(event) {
+    event.stopPropagation(); // prevent toggle when clicking footer
+    const badge = document.getElementById('notifBadge');
+    badge.style.display = 'none';
+
+    // You can also clear notifications here if you want:
+    // document.getElementById('notificationList').innerHTML = '<li>No new notifications</li>';
+}
+
+// OPTIONAL: Close box when clicking outside
+document.addEventListener('click', function (e) {
+    const notif = document.getElementById('notification');
+    if (!notif.contains(e.target)) {
+        document.getElementById('notificationBox').style.display = 'none';
+        isNotificationBoxOpen = false;
+    }
+});
 
 async function uploadEndorsement() {
     const endorsementMECFileInput = document.getElementById('endorsementFileMEC');

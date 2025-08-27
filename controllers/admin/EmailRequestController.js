@@ -143,6 +143,16 @@ const EmailRequestController = {
             // Send email   
             await transporter.sendMail(mailOptions);
 
+            const Description = `An email has been successfully sent to ${Email}. Kindly wait for a response.`;
+
+            const InsertNotification = EmailRequestModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to Sent Email Notification'
+                });
+            }
+
             return res.status(200).json({
                 success: true,
                 message: `Email successfully sent to ${Email}`
@@ -158,7 +168,7 @@ const EmailRequestController = {
     },
 
     ConfirmedAmount: async (req, res) => {
-        const { AgentId, AccountNumber, ConfirmedAmount } = req.body;
+        const { AgentId, AccountNumber, ConfirmedAmount, Email } = req.body;
 
         try {
             const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(AgentId, AccountNumber, ConfirmedAmount);
@@ -167,6 +177,16 @@ const EmailRequestController = {
                 return res.status(200).json({
                     success: false,
                     message: 'Failed to Update Confirmed Amount'
+                });
+            }
+
+            const Description = `Email request for ${Email} has been confirmed with an amount of ${ConfirmedAmount}.`;
+
+            const InsertNotification = EmailRequestModel.Notification(AgentId, Description);
+            if (!InsertNotification || InsertNotification.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Failed to Confirmed amount Notification'
                 });
             }
 
