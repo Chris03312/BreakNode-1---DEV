@@ -78,7 +78,6 @@ const UsersController = {
                         message: 'Error reading CSV file.'
                     });
                 });
-
         } catch (error) {
             console.error('🔥 Server error while reading endorsement data:', error);
             return res.status(500).json({
@@ -219,7 +218,7 @@ const UsersController = {
             const parsed = Papa.parse(csvData, { header: true, skipEmptyLines: true });
 
             const row = parsed.data.find(r =>
-                r.ACCOUNT_NUMBER?.toString().trim() === originalRow.ACCOUNT_NUMBER?.toString().trim()
+                r['Main Number']?.toString().trim() === originalRow['Main Number']?.toString().trim()
             );
 
             if (!row) {
@@ -230,7 +229,7 @@ const UsersController = {
             const newCsv = Papa.unparse(parsed.data);
             fs.writeFileSync(csvFilePath, newCsv, "utf8");
 
-            console.log(`✅ Updated ${column} for ACCOUNT_NUMBER ${originalRow.ACCOUNT_NUMBER} in ${csvFilePath}`);
+            console.log(`✅ Updated ${column} for Main Number ${originalRow['Main Number']} in ${csvFilePath}`);
 
             return res.json({ success: true, message: "CSV updated successfully.", folderDate });
 

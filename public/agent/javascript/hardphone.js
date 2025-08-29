@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (Campaign === 'MEC 61 AND UP') Hardphone = 'MEC HARDPHONE 61 AND UP';
     else if (Campaign === 'MEC 121 AND UP') Hardphone = 'MEC HARDPHONE 121 AND UP';
     else if (Campaign === 'MPL 1 - 30') Hardphone = 'MPL HARDPHONE 1 - 30';
-    else if (Campaign === '61 AND UP') Hardphone = 'MPL HARDPHONE 91 AND UP';
+    else if (Campaign === 'MPL 91 AND UP') Hardphone = 'MPL HARDPHONE 91 AND UP';
 
     const container = document.getElementById('table-container');
     const paginationControls = document.getElementById('pagination-controls');
