@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bulk SMS Sender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        input[type="file"] {
+            margin-bottom: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .log {
+            font-family: monospace;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>📨 Bulk SMS Sender</h2>
+
+    <form id="smsForm">
+        <label><strong>Message:</strong></label><br />
+        <textarea id="message" placeholder="Enter your message..." required></textarea><br />
+
+        <label><strong>Upload Phone Numbers (.txt or .csv):</strong></label><br />
+        <input type="file" id="phoneFile" accept=".txt,.csv" required /><br />
+
+        <button type="submit">Send SMS</button>
+    </form>
+
+    <div id="result">
+        <p id="status">Waiting to start...</p>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        document.getElementById('smsForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const message = document.getElementById('message').value.trim();
+            const file = document.getElementById('phoneFile').files[0];
+
+            if (!message || !file) {
+                alert("Please enter a message and upload a phone list.");
+                return;
+            }
+
+            const text = await file.text();
+            const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+
+            // Handle both CSV and TXT
+            let phoneNumbers = [];
+
+            if (file.name.endsWith('.csv')) {
+                const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+                const numberIndex = header.indexOf('number');
+
+                if (numberIndex === -1) {
+                    alert("CSV must contain a 'Number' column.");
+                    return;
+                }
+
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].split(',');
+                    const number = row[numberIndex]?.trim();
+                    if (number) phoneNumbers.push(number);
+                }
+            } else {
+                phoneNumbers = lines.map(line => line.trim()).filter(n => n.length > 0);
+            }
+
+            if (phoneNumbers.length === 0) {
+                alert("No valid phone numbers found.");
+                return;
+            }
+
+            const log = document.getElementById('log');
+            const status = document.getElementById('status');
+
+            let sent = 0, queued = 0, failed = 0;
+
+            status.textContent = `📤 Sending ${phoneNumbers.length} messages...`;
+
+            for (let i = 0; i < phoneNumbers.length; i++) {
+                const phone = phoneNumbers[i];
+                log.innerHTML += `📱 Sending to ${phone}... `;
+
+                try {
+                    const res = await fetch('/send-sms', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({ phone, message })
+                    });
+
+                    const text = await res.text();
+                    if (text.includes('✅ SMS Sent')) {
+                        sent++;
+                        log.innerHTML += `✅ Sent\n`;
+                    } else if (text.includes('⚠️ SMS Queued')) {
+                        queued++;
+                        log.innerHTML += `⏳ Queued\n`;
+                    } else {
+                        failed++;
+                        log.innerHTML += `❌ Failed\n`;
+                    }
+                } catch (err) {
+                    failed++;
+                    log.innerHTML += `❌ Error\n`;
+                }
+
+                log.scrollTop = log.scrollHeight;
+                status.textContent = `✅ Sent: ${sent} ⏳ Queued: ${queued} ❌ Failed: ${failed} / Total: ${phoneNumbers.length}`;
+            }
+
+            status.textContent = `✅ Done — Sent: ${sent}, Queued: ${queued}, Failed: ${failed}`;
+        });
+    </script>
+</body>
+
+</html>

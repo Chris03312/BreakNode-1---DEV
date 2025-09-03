@@ -2,9 +2,10 @@ const EmailRequestModel = require('../../models/agent/EmailRequestModel');
 
 async function AgentEmailRequestValidation(req, res, next) {
     const {
-        AgentId, agentName, Campaign, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails
+        AgentId, Reqemail, Reqclient, Reqmobile, Reqamount, Reqaccount, Reqdetails
     } = req.body;
 
+    // Check if all required fields are provided
     if (!Reqemail || !Reqclient || !Reqmobile || !Reqamount || !Reqaccount || !Reqdetails) {
         return res.status(200).json({
             success: false,
@@ -16,23 +17,26 @@ async function AgentEmailRequestValidation(req, res, next) {
         const existingRequests = await EmailRequestModel.CheckExistingEmail(Reqemail);
 
         if (existingRequests && existingRequests.length > 0) {
-            const { agentName, remarks } = existingRequests[0];
+            const alreadyRequestedByAgent = existingRequests.some(req => req.agentId === AgentId);
 
-            return res.status(200).json({
-                success: false,
-                message: `The email ${Reqemail} is requested by ${agentName} (status: ${remarks}).`
-            });
+            if (alreadyRequestedByAgent) {
+                return res.status(200).json({
+                    success: false,
+                    message: `You have already Confirmed or Requested for this email: ${Reqemail}.`
+                });
+            }
         }
 
         return next();
     } catch (error) {
         console.error('Validation error:', error);
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
-            message: 'Server error during Check email validation.'
+            message: 'Server error during email validation.'
         });
     }
 }
+
 
 
 async function AgentViberRequestValidation(req, res, next) {

@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         const isViberTable = tableId === 'mecViber' || tableId === 'mplViber';
-        const columnCount = isViberTable ? 10 : 11; // Adjust based on columns shown
+        const columnCount = isViberTable ? 11 : 12;
 
         tbody.innerHTML = '';
 
@@ -79,7 +79,7 @@ window.addEventListener('DOMContentLoaded', function () {
                         class="send-btn" 
                         onclick="sendBtn('${item.agentId}', '${item.email}', '${item.clientName}', '${item.amount}', '${item.accountNumber}', '${item.campaign}')"${item.remarks?.toLowerCase() === 'sent' ? 'disabled' : ''}>Send
                     </button>
-                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.agentId}', '${item.accountNumber}', '${item.email}')"
+                    <button class="confirm-btn" onclick="confirmAmountBtn('${item.email}', '${item.email}')"
                         ${item.remarks?.trim().toLowerCase() === 'pending' ? 'disabled' : ''}>
                         Confirm
                     </button>
@@ -257,8 +257,8 @@ async function confirmModalBtn() {
 
 let confirmEmail = {};
 
-async function confirmAmountBtn(AgentId, AccountNumber, Email) {
-    confirmEmail = { AgentId, AccountNumber, Email };
+async function confirmAmountBtn(AgentId, Email) {
+    confirmEmail = { AgentId, Email };
     document.getElementById('confirmAmountModal').style.display = 'flex';
     document.getElementById('confirmEmail').innerText = Email;
 
@@ -271,7 +271,7 @@ async function confirmAmountBtn(AgentId, AccountNumber, Email) {
 }
 
 async function confirmAmountModalBtn() {
-    const { AgentId, AccountNumber, Email } = confirmEmail;
+    const { AgentId, Email } = confirmEmail;
     const ConfirmedAmount = document.getElementById('ConfirmedAmount').value;
 
     const messageBox11 = document.getElementById('messageBox11');
@@ -282,7 +282,7 @@ async function confirmAmountModalBtn() {
         const res = await fetch(`http://${HOST}:${PORT}/AdminEmailRequest/confirmedAmount`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ AgentId, AccountNumber, ConfirmedAmount, Email })
+            body: JSON.stringify({ AgentId, ConfirmedAmount, Email })
         });
 
         const data = await res.json();

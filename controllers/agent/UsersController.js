@@ -38,17 +38,23 @@ const UsersController = {
             let folderPath = path.join(baseFolderPath, folderDate);
 
             if (!fs.existsSync(folderPath)) {
-                const yesterday = new Date(today);
-                yesterday.setDate(today.getDate() - 1);
-                folderDate = formatDate(yesterday);
-                folderPath = path.join(baseFolderPath, folderDate);
-                console.log(`⚠️ Today's folder not found. Using yesterday's folder: ${folderDate}`);
+                const folders = fs.readdirSync(baseFolderPath)
+                    .filter(name => {
+                        const fullPath = path.join(baseFolderPath, name);
+                        return fs.statSync(fullPath).isDirectory();
+                    })
+                    .filter(name => /^\d{4}-\d{2}-\d{2}$/.test(name))
+                    .sort((a, b) => new Date(b) - new Date(a));
+
+                if (folders.length > 0) {
+                    folderDate = folders[0];
+                    folderPath = path.join(baseFolderPath, folderDate);
+                    console.log(`⚠️ Today's folder not found. Using latest existing folder: ${folderDate}`);
+                } else {
+                    console.log(`❌ No dated folders found in: ${baseFolderPath}`);
+                }
             } else {
                 console.log(`📂 Using today's folder: ${folderDate}`);
-            }
-
-            if (!fs.existsSync(folderPath)) {
-                return res.status(200).json({ success: true, data: [], message: 'No folder found for today or yesterday.' });
             }
 
             const csvFileName = `${sheet}.csv`;
@@ -112,25 +118,17 @@ const UsersController = {
                 `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
 
             const today = new Date();
-            let folderDate = formatDate(today);
+            const folderDate = formatDate(today);
 
             const baseFolder = path.resolve(__dirname, `../../endorsement/${info.dir}`);
-            let folderPath = path.join(baseFolder, folderDate);
+            const folderPath = path.join(baseFolder, folderDate);
 
-            // fallback to yesterday if today doesn't exist
+            // Only check for today's folder
             if (!fs.existsSync(folderPath)) {
-                const yesterday = new Date(today);
-                yesterday.setDate(today.getDate() - 1);
-                folderDate = formatDate(yesterday);
-                folderPath = path.join(baseFolder, folderDate);
-                console.log(`⚠️ Today's folder not found. Using yesterday's folder: ${folderDate}`);
-            } else {
-                console.log(`📂 Using today's folder: ${folderDate}`);
+                return res.status(200).json({ success: true, data: [], message: `No folder found for today: ${folderDate}.` });
             }
 
-            if (!fs.existsSync(folderPath)) {
-                return res.status(200).json({ success: true, data: [], message: "No folder found for today or yesterday." });
-            }
+            console.log(`📂 Using today's folder: ${folderDate}`);
 
             const csvFileName = `${info.sheet}.csv`;
             const csvFilePath = path.join(folderPath, csvFileName);
@@ -154,7 +152,7 @@ const UsersController = {
                 success: true,
                 data: filteredData,
                 sheet: info.sheet,
-                endorsementStatus: `Endorsement for ${folderDate}`,
+                endorsementStatus: `Endorsement for ${info}`,
                 latestOldEndorsementDate: formattedDate
             });
 

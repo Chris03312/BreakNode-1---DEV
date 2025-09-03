@@ -9,13 +9,13 @@ const EmailRequestModel = {
         const sql = `UPDATE emailrequest SET remarks = ? WHERE agentId = ? AND campaign = ? AND accountNumber = ? AND DATE(date, 'localtime') =  DATE('now', 'localtime') AND confirmedAmount IS NULL`;
         return await connection.run('usersystem', sql, ['Sent', AgentId, Campaign, AccountNumber]);
     },
-    UpdateConfirmedEmail: async (AgentId, AccountNumber, ConfirmedAmount) => {
-        const sql = `UPDATE emailrequest SET confirmedAmount = ?, remarks = ? WHERE agentId = ? and accountNumber = ? AND DATE(date, 'localtime') =  DATE('now', 'localtime')`;
-        return await connection.run('usersystem', sql, [ConfirmedAmount, 'Confirmed', AgentId, AccountNumber]);
+    UpdateConfirmedEmail: async (ConfirmedAmount, reqemail,) => {
+        const sql = `UPDATE emailrequest SET confirmedAmount = ?, remarks = ? WHERE email = ? AND DATE(date, 'localtime') =  DATE('now', 'localtime') AND remarks != 'broken'`;
+        return await connection.run('usersystem', sql, [ConfirmedAmount, 'Confirmed', reqemail]);
     },
     UpdateBrokenPTPS: async (agentId, email, clientName, accountNumber) => {
-        const sql = `UPDATE emailrequest SET remarks = ? WHERE agentId = ? AND email = ? AND clientName = ? AND accountNumber = ? AND DATE(date, 'localtime') < DATE('now', 'localtime') AND remarks = ?`;
-        return await connection.run('usersystem', sql, ['Broken', agentId, email, clientName, accountNumber, 'Pending'])
+        const sql = `UPDATE emailrequest SET remarks = ? WHERE agentId = ? AND email = ? AND clientName = ? AND accountNumber = ? AND DATE(date, 'localtime') < DATE('now', 'localtime') AND (remarks = 'Pending' OR remarks = 'Sent')`;
+        return await connection.run('usersystem', sql, ['Broken', agentId, email, clientName, accountNumber])
     },
     CountEmailRequests: async () => {
         const sql = `

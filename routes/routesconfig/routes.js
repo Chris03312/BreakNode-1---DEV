@@ -10,6 +10,7 @@ const AgentEmailRequestRoutes = require('../agent/EmailRequestRoutes');
 const AdminSimCardLoadingRequestRoutes = require('../admin/SimCardLoadingRoutes');
 const AgentSimCardLoadingRequestRoutes = require('../agent/SimCardLoadingRoutes');
 const AgentAuthenticationRoutes = require('../agent/AuthenticationRoutes');
+const PtpMonitoringRoutes = require('../agent/PtpMonitoringRoutes');
 
 const AuthenticationRoutes = require('../break/AuthenticationRoute');
 const BreaksRoutes = require('../break/BreaksRoutes');
@@ -29,6 +30,7 @@ router.use('/AgentUsers', AgentUsersRoutes);
 router.use('/AgentAuthentication', AgentAuthenticationRoutes);
 router.use('/AgentEmailRequest', AgentEmailRequestRoutes);
 router.use('/AgentSimCardLoadingRequest', AgentSimCardLoadingRequestRoutes);
+router.use('/AgentPtp', PtpMonitoringRoutes);
 
 router.use('/Break', BreaksRoutes);
 router.use('/Archive', ArchivesRoutes);

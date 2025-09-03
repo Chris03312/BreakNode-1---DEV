@@ -171,6 +171,12 @@ td.editable-cell:focus {
     font-size: 14px;
 }
 
+.hardphonetitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

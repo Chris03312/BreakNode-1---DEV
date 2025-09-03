@@ -29,6 +29,10 @@ fetch('/agent/sidebar/sidebar.html')
             document.getElementById('requestLoadModal').style.display = 'flex';
         });
 
+        document.getElementById('addPtpTrigger').addEventListener('click', () => {
+            document.getElementById('addPtpModal').style.display = 'flex';
+        });
+
         document.getElementById('cancelRequestEmail').addEventListener('click', () => {
             document.getElementById('requestEmailModal').style.display = 'none';
         });
@@ -41,7 +45,9 @@ fetch('/agent/sidebar/sidebar.html')
             document.getElementById('requestLoadModal').style.display = 'none';
         });
 
-
+        document.getElementById('cancelPtp').addEventListener('click', () => {
+            document.getElementById('addPtpModal').style.display = 'none';
+        });
 
     })
     .catch(error => {
@@ -235,5 +241,47 @@ async function loadRequest() {
     } catch (error) {
         console.error('Error Inserting  Load Request:', error);
     }
+}
 
+async function addPtp() {
+    const ClientName = document.getElementById('ptpName').value;
+    const PtpEmail = document.getElementById('ptpEmail').value;
+    const PtpAccountNumber = document.getElementById('ptpAccountNumber').value;
+    const PtpMobileNumber = document.getElementById('ptpMobileNumber').value;
+    const PtpAmount = document.getElementById('ptpAmount').value;
+    const PtpDpd = document.getElementById('ptpDpd').value;
+    const AgentName = sessionStorage.getItem('Name');
+    const AgentId = sessionStorage.getItem('UserId');
+    const Campaign = sessionStorage.getItem('Campaign');
+    const messageBox17 = document.getElementById('messageBox17');
+
+    try {
+        const res = await fetch(`http://${HOST}:${PORT}/AgentPtp/addPtp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ClientName, PtpEmail, PtpAccountNumber, PtpMobileNumber, PtpAmount, PtpDpd, AgentName, AgentId, Campaign })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            messageBox17.innerText = data.message;
+            messageBox17.style.color = 'green';
+            messageBox17.style.backgroundColor = '#d4edda';
+            messageBox17.style.padding = '10px';
+            messageBox17.style.borderRadius = '5px';
+
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        } else {
+            messageBox17.innerText = data.message;
+            messageBox17.style.color = 'red';
+            messageBox17.style.backgroundColor = '#f8d7da';
+            messageBox17.style.padding = '10px';
+            messageBox17.style.borderRadius = '5px';
+        }
+    } catch (error) {
+        console.error('Error Inserting  PTP:', error);
+    }
 }

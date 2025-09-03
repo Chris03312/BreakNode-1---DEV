@@ -168,10 +168,10 @@ const EmailRequestController = {
     },
 
     ConfirmedAmount: async (req, res) => {
-        const { AgentId, AccountNumber, ConfirmedAmount, Email } = req.body;
+        const { AgentId, ConfirmedAmount, Email } = req.body;
 
         try {
-            const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(AgentId, AccountNumber, ConfirmedAmount);
+            const UpdateConfirmedEmail = await EmailRequestModel.UpdateConfirmedEmail(ConfirmedAmount, Email);
 
             if (!UpdateConfirmedEmail || UpdateConfirmedEmail.length === 0) {
                 return res.status(200).json({

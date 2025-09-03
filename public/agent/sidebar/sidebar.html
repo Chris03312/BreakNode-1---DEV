@@ -41,8 +41,16 @@
               <i class="fa-solid fa-file-signature"></i> Endorsement
             </a>
           </li>
-          <li>
-            <a href="/agent/ptpmonitoring"><i class="fa-solid fa-bullseye"></i> PTP Monitoring</a>
+          <li class="dropdown">
+            <a href="/agent/ptpmonitoring">
+              <i class="fa-solid fa-bullseye"></i> PTP Monitoring
+              <i class="fa-solid fa-caret-down caret"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <a href="javascript:void(0)" id="addPtpTrigger"><i class="fa-solid fa-file-signature"></i>
+                Add Promise To Pay
+              </a>
+            </ul>
           </li>
           <li>
             <a href="/agent/ptptracker"><i class="fa-solid fa-list-check"></i> PTP Tracker</a>
@@ -228,6 +236,39 @@
     <div class="button-group">
       <button class="cancel" id="cancelRequestLoad">Cancel Request</button>
       <button class="submit" onclick="loadRequest()">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<div class="addPtpModal" id="addPtpModal" style="display: none">
+  <div class="addPtpModal-content">
+    <div class="addPtpModal-header">
+      <h2 id="Etitle">SimCard Load Request</h2>
+    </div>
+    <span id="messageBox17"></span>
+    <div class="addPtpModal-body-split">
+      <div class="addPtpModal-panel-left">
+        <label for="req-mobile">Client Name</label>
+        <input type="text" id="ptpName" placeholder="Enter Client Name" />
+        <label for="req-mobile">Email Address</label>
+        <input type="email" id="ptpEmail" placeholder="Enter Email Address" />
+        <label for="req-mobile">Account Number</label>
+        <input type="text" id="ptpAccountNumber" placeholder="Enter Account Number" />
+        <label for="req-mobile">Contact Number</label>
+        <input type="text" id="ptpMobileNumber" placeholder="Enter Contact Number" />
+      </div>
+      <div class="addPtpModal-panel-left">
+        <label for="req-mobile">Amount</label>
+        <input type="text" id="ptpAmount" placeholder="Enter Amount" />
+        <label for="req-mobile">Days Past Due</label>
+        <input type="text" id="ptpDpd" placeholder="Enter Client DPD" />
+        <label for="req-mobile">PTP Date</label>
+        <input type="date" id="ptpDate" placeholder="Enter Client DPD" />
+      </div>
+    </div>
+    <div class="button-group">
+      <button class="cancel" id="cancelPtp">Cancel Request</button>
+      <button class="submit" onclick="addPtp()">Add Request</button>
     </div>
   </div>
 </div>

@@ -126,11 +126,11 @@ const EmaiRequestController = {
     },
 
     AgentEmailEditDatas: async (req, res) => {
-        const { AgentId, AccountNumber, request } = req.body;
+        const { id, AgentId, request } = req.body;
 
         if (request === 'Proof of Payment') {
             try {
-                const AgentEmailRequestData = await EmailRequestModel.EmailEditRequestData(AgentId, AccountNumber, request);
+                const AgentEmailRequestData = await EmailRequestModel.EmailEditRequestData(id, AgentId, request);
                 if (!AgentEmailRequestData || AgentEmailRequestData.length === 0) {
                     return res.status(200).json({
                         success: false,
@@ -152,7 +152,7 @@ const EmaiRequestController = {
             }
         } else if (request === 'Viber Request') {
             try {
-                const AgentEmailRequestData = await EmailRequestModel.EmailEditRequestData(AgentId, AccountNumber, request);
+                const AgentEmailRequestData = await EmailRequestModel.EmailEditRequestData(id, AgentId, request);
 
                 if (!AgentEmailRequestData || AgentEmailRequestData.length === 0) {
                     return res.status(200).json({
@@ -176,10 +176,10 @@ const EmaiRequestController = {
         }
     },
     AgentEmailUpdateDatas: async (req, res) => {
-        const { AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails } = req.body;
+        const { id, AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails } = req.body;
 
         try {
-            const AgentEmailUpdateData = await EmailRequestModel.AgentEmailUpdateDatas(AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails);
+            const AgentEmailUpdateData = await EmailRequestModel.AgentEmailUpdateDatas(id, AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails);
             if (!AgentEmailUpdateData || AgentEmailUpdateData.length === 0) {
                 return res.status(200).json({
                     success: false,

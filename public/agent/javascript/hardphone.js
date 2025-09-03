@@ -78,12 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (Campaign === 'MPL 1 - 30') Hardphone = 'MPL HARDPHONE 1 - 30';
     else if (Campaign === 'MPL 91 AND UP') Hardphone = 'MPL HARDPHONE 91 AND UP';
 
+
     const container = document.getElementById('table-container');
     const paginationControls = document.getElementById('pagination-controls');
     const searchInput = document.getElementById('search-input');
+    const title = document.getElementById('hardphoneTitle');
+
+    title.innerText = Hardphone;
 
     let currentPage = 1;
-    const pageSize = 500;
+    const pageSize = 200;
     let fullData = [];
     let filteredData = [];
 

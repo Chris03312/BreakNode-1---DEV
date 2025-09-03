@@ -1,0 +1,20 @@
+function trySend(phone, message, line) {
+    return new Promise((resolve, reject) => {
+        const goipURL = `http://192.168.3.250/default/en_US/send.html?u=admin&p=admin&l=${line}&n=${phone}&m=${encodeURIComponent(message)}`;
+        const curlCmd = `curl -s --max-time 5 "${goipURL}"`;
+
+        lockedLines.add(line);
+
+        exec(curlCmd, (err, stdout, stderr) => {
+            lockedLines.delete(line);
+
+            if (err) {
+                console.error(`❌ Curl error on line ${line}: ${err.message}`);
+                reject({ line, error: err.message });
+            } else {
+                console.log(`✅ SMS sent via Line ${line}`);
+                resolve({ line, response: stdout });
+            }
+        });
+    });
+}

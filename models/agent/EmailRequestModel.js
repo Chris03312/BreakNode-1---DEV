@@ -23,20 +23,20 @@ const EmailRequestModel = {
         const sql = `SELECT * FROM emailrequest WHERE email = ? AND (remarks = 'Pending' OR remarks = 'Sent' OR remarks = 'Confirmed') AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
         return await connection.all('usersystem', sql, [Reqemail]);
     },
-    EmailEditRequestData: async (AgentId, AccountNumber, request) => {
+    EmailEditRequestData: async (id, AgentId, request) => {
         if (request === 'Proof of Payment') {
-            const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND accountNumber = ? AND request = ? AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
-            return await connection.all('usersystem', sql, [AgentId, AccountNumber, request]);
+            const sql = `SELECT * FROM emailrequest WHERE requestid = ? AND agentId = ? AND request = ? AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
+            return await connection.all('usersystem', sql, [id, AgentId, request]);
         } else if (request === 'Viber Request') {
-            const sql = `SELECT * FROM emailrequest WHERE agentId = ? AND accountNumber = ? AND request = ? AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
-            return await connection.all('usersystem', sql, [AgentId, AccountNumber, request]);
+            const sql = `SELECT * FROM emailrequest WHERE requestid = ? AND agentId = ? AND request = ? AND DATE(date, 'localtime') = DATE('now', 'localtime')`;
+            return await connection.all('usersystem', sql, [id, AgentId, request]);
         }
     },
-    AgentEmailUpdateDatas: async (AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditaccount, reqeditdetails) => {
-        const sql = 'UPDATE emailrequest SET email = ?, clientName = ?, mobileNumber = ?, amount = ?, request = ? WHERE accountNumber = ? AND AgentId = ? AND campaign = ?';
-        return await connection.run('usersystem', sql, [reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails, reqeditaccount, AgentId, Campaign]);
+    AgentEmailUpdateDatas: async (id, AgentId, Campaign, reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails) => {
+        const sql = 'UPDATE emailrequest SET email = ?, clientName = ?, mobileNumber = ?, amount = ?, request = ? WHERE id = ? AND AgentId = ? AND campaign = ?';
+        return await connection.run('usersystem', sql, [reqeditemail, reqeditclient, reqeditmobile, reqeditamount, reqeditdetails, id, AgentId, Campaign]);
     },
-    AgentReEmailRequest: async (AgentId, Campaign, Email, Amount, Dpd, AccountNumber) => {
+    AgentReEmailRequest: async (id, AgentId, Campaign, Email, Amount, Dpd, AccountNumber) => {
         const sql = `UPDATE emailrequest SET remarks = ?, Amount = ?, dpd = ?, date = DATE('now', 'localtime') WHERE agentId = ? AND campaign = ? AND email = ? AND accountNumber = ? AND DATE(date) < DATE('now', 'localtime')`;
         return await connection.run('usersystem', sql, ['Pending', Amount, Dpd, AgentId, Campaign, Email, AccountNumber]);
     },

@@ -9,6 +9,7 @@ const setupSocket = require('./socket');
 const app = express();
 
 // Middleware
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -52,7 +53,6 @@ cron.schedule('0 * * * *', async () => {
     });
 });
 
-
 // Server
 const Config = {
     PORT: 5000,
@@ -62,4 +62,4 @@ const Config = {
 server.listen(Config.PORT, () => console.log(`Listening on http://${Config.HOST}:${Config.PORT}`));
 
 
-// Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+// Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process   

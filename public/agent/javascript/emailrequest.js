@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', function () {
         if (!data || data.length === 0) {
             const tr = document.createElement('tr');
             const td = document.createElement('td');
-            td.colSpan = tableId === 'viber' ? 10 : 11;  // adjust colspan depending on table
+            td.colSpan = tableId === 'viber' ? 11 : 12;  // adjust colspan depending on table
             td.style.textAlign = 'center';
             td.textContent = 'No data available';
             tr.appendChild(td);
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 <td>
                 ${item.remarks?.trim().toLowerCase() === 'sent'
                         ? ''
-                        : `<button type="button" onclick="requestEditModal('${item.accountNumber}', '${item.request}')">Edit</button>`}
+                        : `<button type="button" onclick="requestEditModal('${item.requestid}', '${item.request}'}')">Edit</button>`}
                 </td>
             `;
             } else {
@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', function () {
                         : (
                             ['sent', 'confirmed'].includes(item.remarks?.trim().toLowerCase())
                                 ? ''
-                                : `<button type="button" onclick="requestEditModal('${item.accountNumber}', '${item.request}')">Edit</button>`
+                                : `<button type="button" onclick="requestEditModal('${item.requestId}', '${item.request}')">Edit</button>`
                         )
                     }
                 </td>
@@ -105,9 +105,12 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
-async function requestEditModal(AccountNumber, request) {
+async function requestEditModal(id, request) {
     const AgentId = sessionStorage.getItem('UserId');
     const messageBox11 = document.getElementById('messageBox11');
+
+    console.log('EDIT REQUEST DATA', id, request);
+
     if (request === 'Viber Request') {
         const requestEditEmailModal = document.getElementById('requestEditEmailModal');
         requestEditEmailModal.style.display = 'flex';
@@ -116,13 +119,14 @@ async function requestEditModal(AccountNumber, request) {
             const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/emailEditRequest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ AgentId, AccountNumber, request })
+                body: JSON.stringify({ id, AgentId, request })
             });
 
             const data = await res.json();
 
             if (data.success) {
                 const edit = data.data;
+                document.getElementById('reqeditemid').value = edit.id;
                 document.getElementById('reqeditemail').value = edit.email;
                 document.getElementById('reqeditclient').value = edit.clientName;
                 document.getElementById('reqeditmobile').value = edit.mobileNumber;
@@ -147,13 +151,14 @@ async function requestEditModal(AccountNumber, request) {
             const res = await fetch(`http://${HOST}:${PORT}/AgentEmailRequest/emailEditRequest`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ AgentId, AccountNumber, request })
+                body: JSON.stringify({ id, AgentId, request })
             });
 
             const data = await res.json();
 
             if (data.success) {
                 const edit = data.data;
+                document.getElementById('reqeditemid').value = edit.id;
                 document.getElementById('reqeditemail').value = edit.email;
                 document.getElementById('reqeditclient').value = edit.clientName;
                 document.getElementById('reqeditmobile').value = edit.mobileNumber;
